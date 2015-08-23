@@ -1,0 +1,57 @@
+#!/bin/sh
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+FULCONDRIVER=`driver-name`
+PATH=/usr/lib64/fulcon/driver/$FULCONDRIVER:$PATH
+
+# check options
+FLG_C=0; CPU=""
+FLG_N=0; CPUSET=""
+FLG_M=0; MEM=""
+
+while getopts c:m:n: OPT
+do
+  case $OPT in
+    "c" ) FLG_C=1 ; CPU=$OPTARG ;;
+    "m" ) FLG_M=1 ; MEM=$OPTARG ;;
+    "n" ) FLG_N=1 ; CPUSET=$OPTARG ;;
+  esac
+done
+
+shift `expr $OPTIND - 1`
+
+usage() {
+	echo "usage: resource [-c CPU] [-n CPUSET] [-m MEM] NAME "
+}
+
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+if [ x"$1" == x"resource" ]; then
+	usage
+	exit -1
+fi
+
+CNAME=$1
+
+if [ $FLG_C -eq 1 ]; then
+	cpu $CNAME $CPU
+fi
+
+if [ $FLG_M -eq 1 ]; then
+	cpuset $CNAME $CPUSET
+fi
+
+if [ $FLG_M -eq 1 ]; then
+	mem $CNAME $MEM
+fi
+
+cpu $CNAME
+cpuset $CNAME
+mem $CNAME
+
+exit 0
+

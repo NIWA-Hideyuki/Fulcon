@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+DOCKERFILEDIR=/var/lib/fulcon/driver/dockerfile
+
+ls $DOCKERFILEDIR/*
+if [ $? -ne 0 ]; then
+	echo "Dockerfile is not exist"
+	exit 0
+fi
+
+cd $DOCKERFILEDIR
+for i in *
+do
+	cd $i
+	echo docker build -t fulcon/$i .
+	docker build -t fulcon/$i .
+	echo 
+	echo
+	cd ..
+done
+

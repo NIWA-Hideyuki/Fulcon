@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+# check options
+OPT_FLG=""
+FLG_F=0
+
+while getopts f OPT
+do
+  case $OPT in
+    "f" ) FLG_F=1; OPT_FLG=" " ;;
+  esac
+done
+
+shift `expr $OPTIND - 1`
+
+usage()
+{
+	echo "usage: erase [ -f ] NAME"
+}
+
+if [ $# -eq 1 ]; then
+	NAME=$1
+else
+	usage
+	sleep 5
+	exit -1
+fi
+
+docker ps -a | awk '(NR>1){ printf "%s\n",$NF }' | egrep $NAME >& /dev/null
+if [ $? -ne 0 ]; then
+	echo "error: can't find" $NAME
+	sleep 5
+	exit -1
+fi
+
+docker stop $NAME >& /dev/null
+docker rm   $NAME >& /dev/null
+echo "erased" $NAME
+
+exit 0
+
+

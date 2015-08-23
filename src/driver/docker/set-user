@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+
+# check root
+if [ ${EUID:-${UID}} != 0 ]; then
+    echo "error: Because you are not root, you cannot execute this command. "
+    exit 1
+fi
+
+usage()
+{
+	echo "usage: set-user NAME USER" 
+}
+
+if [ $# -ne 2 ]; then
+	usage
+	exit -1
+fi
+
+LXCNAME=$1
+USERNAME=$2
+docker exec -it $LXCNAME useradd -m $USERNAME
+if [ $? -ne 0 ]; then
+	echo "error: set-user is failed"
+	exit -1
+fi
+
+docker exec -it $LXCNAME mkdir -p /etc/sudoers.d
+SUDOERS_LINE="echo $USERNAME ALL\=\(ALL\) ALL  > /etc/sudoers.d/$USERNAME"
+docker exec -it $LXCNAME /bin/sh -c "$SUDOERS_LINE"
+docker exec -it $LXCNAME chmod 440 /etc/sudoers.d/$USERNAME
+docker exec -it $LXCNAME passwd $USERNAME
+
+
+
+exit 0

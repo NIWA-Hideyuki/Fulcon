@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+usage() {
+	echo "usage: update [ IMAGE [ PACKAGE ... ] ]"
+}
+
+update_ubuntu_all() {
+	NAMES=`fulcon list | egrep ubuntu | awk '{print $1}'`
+	if [ x"$NAMES" != x"" ]; then
+		for i in $NAMES
+		do
+			echo "update" $i
+			docker exec -it $i apt-get update
+			docker exec -it $i apt-get upgrade
+			echo 
+			echo
+		done
+	fi
+}
+
+update_centos_all() {
+	NAMES=`fulcon list | egrep centos | awk '{print $1}'`
+	if [ x"$NAMES" != x"" ]; then
+		for i in $NAMES
+		do
+			echo "update" $i
+			docker exec -it $i /usr/bin/yum update -y
+			echo 
+			echo
+		done
+	fi
+}
+
+update_ubuntu_all
+update_centos_all
+exit
+
+if [ $# -eq 1 ]; then
+	if [ x"$1" == x"update" ]; then
+		update_ubuntu_all
+		update_centos_all
+		exit 0
+	fi
+fi
+
+IMAGE=$1
+

@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+
+# check root
+if [ ${EUID:-${UID}} != 0 ]; then
+    echo "error: Because you are not root, you cannot execute this command. "
+    exit 1
+fi
+
+# check options
+FLG_N=0 ; NUM=""
+
+while getopts n: OPT ; do
+  case $OPT in
+  n) FLG_N=1 ; NUM=$OPTARG ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+if [ $# -ne 3 ]; then
+	echo "usage: net-route-add [ -n NUMBER ] CONTAINER_NAME NET_ADDR GATEWAY"
+	exit -1
+fi
+
+LXCNAME=$1
+NET_ADDR=$2
+LXCGATEWAY=$3
+
+brctl show  |& egrep ${LXCNAME} >& /dev/null
+if [ $? -ne 0 ]; then
+	echo "error: can't find" ${LXCNAME}
+	exit -1
+fi
+
+LXCPROC=`docker-find ${LXCNAME}`
+if [ $? -ne 0 ]; then
+	echo "error: can't find" ${LXCNAME}
+	exit -1
+fi
+
+mkdir -p /var/run/netns/
+ln -s /proc/${LXCPROC}/ns/net /var/run/netns/${LXCNAME}
+
+# setting up of gateway
+if [ x$LXCGATEWAY != x"" ]; then
+	ip netns exec ${LXCNAME} ip route add $NET_ADDR via $LXCGATEWAY dev vg${LXCNAME}${NUM}
+fi
+
+rm -f /var/run/netns/${LXCNAME}
+
+exit 0

@@ -1,0 +1,132 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+
+umask 022
+
+# function usage
+usage()
+{
+	echo "usage: net-add [ -d NETDEV ] [ -n NUMBER ] [ -g GATEWAY ] [ -b BRIDGE ] CONTAINER_NAME IPADDR/MASK "
+}
+
+# check options
+FLG_D=0 ; NETDEV=""
+FLG_N=0 ; NUM=""
+FLG_G=0 ; LXCGATEWAY=""
+FLG_B=0 ; LXCBR="fulcon-br0"
+
+while getopts d:n:g:b: OPT ; do
+  case $OPT in
+  d) FLG_D=1 ; NETDEV=$OPTARG ;;
+  n) FLG_N=1 ; NUM=$OPTARG ;;
+  g) FLG_G=1 ; LXCGATEWAY=$OPTARG ;;
+  b) FLG_B=1 ; LXCBR=$OPTARG ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+# check args
+if [ $# -ne 2 ]; then
+	usage
+	exit -1
+fi
+
+LXCNAME=$1
+LXCBRIP=`net-ipv4 -g $2`
+if [ $? -ne 0 ]; then
+	echo $2 "must be IP_address/Mask format"
+	exit -1
+fi
+
+LXCIP=`echo $2 | awk -F / '{printf "%s",$1}'`
+LXCMASK=`echo $2 | awk -F / '{printf "%s",$2}'`
+
+if [ x$LXCGATEWAY == x"" ]; then
+	LXCGATEWAY=$LXCBRIP
+fi
+
+if [ x$NETDEV != x"" ]; then
+	LXCBRIP=`ip a show $NETDEV | awk 'NR==3{print $2}' | awk -F / '{print $1}'`
+	DEVMASK=`ip a show $NETDEV | awk 'NR==3{print $2}' | awk -F / '{print $2}'`
+	if [ x$DEVMASK != x$LXCMASK ]; then
+		echo "error: netmask(/$DEVMASK) of NIC is not corresponding to netmask(/$LXCMASK) of IP address"
+		exit -1 
+	fi
+fi
+
+LXCPROC=`find-proc ${LXCNAME}`
+if [ $? -ne 0 ]; then
+	echo "error: can't find" ${LXCNAME}
+	exit -1
+fi
+
+set_ipaddr()
+{
+	mkdir -p /var/run/netns/
+	ln -s /proc/${LXCPROC}/ns/net /var/run/netns/${LXCNAME}${NUM}
+
+	ip link delete ${LXCNAME}${NUM} type veth  >& /dev/null
+
+	ip link add name ${LXCNAME}${NUM} type veth peer name vg${LXCNAME}${NUM} >& /dev/null
+	ip link set ${LXCNAME}${NUM} up
+
+	brctl show $LXCBR |& egrep 'No such device' >& /dev/null
+	if [ $? -eq 0 ]; then
+		brctl addbr $LXCBR
+		ip link set $LXCBR up
+		ip addr add ${LXCBRIP}/${LXCMASK} dev $LXCBR
+	fi
+	brctl addif $LXCBR ${LXCNAME}${NUM} >& /dev/null
+
+	# setting up of IP address
+	LXCFBROADCAST=`net-ipv4 -b "${LXCIP}/${LXCMASK}"`
+	ip link set vg${LXCNAME}${NUM} netns ${LXCNAME}${NUM} 
+
+	# Setting of network in container
+	ip netns exec ${LXCNAME}${NUM} ip link set vg${LXCNAME}${NUM} up
+	IPFLG=""
+	while [ x${IPFLG} == x"inet6" -o x${IPFLG} != x"inet" ]; 
+	do
+		IPFLG=`ip netns exec "${LXCNAME}${NUM}" ip addr show vg${LXCNAME}${NUM} | awk 'NR==3{print $1}'`
+		ip netns exec "${LXCNAME}${NUM}" ip addr add ${LXCIP}/${LXCMASK} dev vg${LXCNAME}${NUM} broadcast $LXCFBROADCAST >& /dev/null
+		OLDIPADR=`ip netns exec "${LXCNAME}${NUM}" ip addr show vg${LXCNAME}${NUM} | awk 'NR==3{print $2}'`
+		sleep 1
+	done
+	while [ x${OLDIPADR} != x${LXCIP}/${LXCMASK} ]; 
+	do 
+		OLDIPADR=`ip netns exec "${LXCNAME}${NUM}" ip addr show vg${LXCNAME}${NUM} | awk 'NR==3{print $2}'`
+		if [ x${OLDIPADR} != x${LXCIP}/${LXCMASK} ]; then
+			ip netns exec ${LXCNAME}${NUM} ip addr del ${OLDIPADR} dev vg${LXCNAME}${NUM}
+			ip netns exec ${LXCNAME}${NUM} ip addr add ${LXCIP}/${LXCMASK} dev vg${LXCNAME}${NUM} broadcast $LXCFBROADCAST >& /dev/null
+		fi
+		sleep 1
+	done
+
+	# setting up of gateway
+	if [ x$LXCGATEWAY != x"" ]; then
+		ip netns exec ${LXCNAME}${NUM} ip route delete default >& /dev/null
+		IPADDR=$LXCGATEWAY
+		IPMASK=$LXCMASK
+		ip netns exec ${LXCNAME}${NUM} ip route add default via ${IPADDR}
+	fi
+
+	rm -f /var/run/netns/${LXCNAME}${NUM}
+
+	if [ x$NETDEV != x"" ]; then
+		# setting of promiscuous mode
+		ip link set $NETDEV promisc on
+
+		brctl show $LXCBR | egrep -w $NETDEV >& /dev/null
+		if [ $? -ne 0 ]; then
+			brctl addif $LXCBR $NETDEV 
+		fi
+	fi
+}
+
+set_ipaddr
+
+echo "${LXCNAME}${NUM} ${LXCIP}/${IPMASK}"
+
+exit 0

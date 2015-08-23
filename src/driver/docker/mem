@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+
+MEMSETDIR="/sys/fs/cgroup/memory/system.slice/"
+
+if [ $# -ne 2 -a $# -ne 1 ]; then
+	echo "usage: mem CONTAINER_NAME [VALUE]"
+	exit 1
+fi
+
+if [ ! -d $MEMSETDIR ]; then
+	echo "error:" $MEMSETDIR "is not exist"
+	exit 1
+fi
+
+ARGN=$#
+
+NAME=$1
+if [ $ARGN -eq 2 ]; then
+	VAL=$2
+
+	USEDMEM=`echo $VAL | \
+		awk '{if($1 >= 0){print int($1*1024*1024*1024)}else{print "-1"}}'`
+
+	if [ $USEDMEM -lt 0 ]; then
+		echo "error: VALUE must be GB"
+		exit 1
+	fi
+fi
+
+DID=`docker-find-id $NAME`
+if [ $? -ne 0 ]; then
+	echo "error: can't find a container"
+	exit -1
+fi
+
+cd $MEMSETDIR
+ls docker-${DID}*  >& /dev/null
+if [ $? -ne 0 ]; then
+	exit 0
+fi
+
+for i in docker-${DID}*
+do
+	if [ $ARGN -eq 2 ]; then
+		echo $USEDMEM > $i/memory.limit_in_bytes
+	else
+		cat $i/memory.limit_in_bytes | \
+		awk '{if ($1 >= 1024*1024*1024*1024*1024) print "MEMORY : - GB"; else printf "MEMORY : %4.2f GB\n",$1/1024.0/1024.0/1024.0}'
+	fi
+done 
+exit 0
+

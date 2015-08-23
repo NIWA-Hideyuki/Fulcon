@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+
+# check args
+if [ $# -ne 1 ]; then
+	echo "usage: find-proc CONTAINER_NAME"
+	exit -1
+fi
+
+# get cgroup.procs path
+ARG1=$1
+CNAME=`docker ps | awk 'NR>1{n=split($0,a);print a[n],a[1]}' | grep -w "$ARG1" | awk '{print $2}'`
+if [ x"$CNAME" == x"" ]; then
+	echo "error: can't find container:" $1
+	exit -1
+fi
+
+CPATH=`ls -1 /sys/fs/cgroup/cpu/system.slice/docker-${CNAME}*.scope/cgroup.procs`
+if [ $? -ne 0 ]; then
+	echo "error: can't find container:" $CNAME
+	exit -1
+fi
+
+# get supervisord procs
+INITPROCS=`ps aux | egrep -v egrep | awk '{print $2}'`
+
+if [ x"$INITPROCS" == x"" ]; then
+	exit -1
+fi
+
+# search the /usr/bin/supervisord proc with container 
+CPROC=""
+for i in $INITPROCS
+do
+	cat $CPATH | egrep -w $i >& /dev/null
+	if [ $? -eq 0 ]; then
+		CPROC=$i
+		break
+	fi
+done
+
+if [ x$CPROC == x"" ]; then
+	exit -1
+fi
+
+echo $CPROC
+
+exit 0

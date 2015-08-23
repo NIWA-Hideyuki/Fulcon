@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+FULCONDRIVER=`driver-name`
+PATH=/usr/lib64/fulcon/driver/$FULCONDRIVER:$PATH
+
+# check options
+OPT_FLG=""
+FLG_N=0
+RNUM=0
+
+while getopts n: OPT
+do
+  case $OPT in
+    "n" ) FLG_N=1; RNUM=$OPTARG;;
+  esac
+done
+
+shift `expr $OPTIND - 1`
+
+usage()
+{
+	echo "usage: stop [-n REPEAT_NUMBER] NAME  ..."
+}
+
+if [ $FLG_N -eq 1 ]; then
+	if [ $# -ne 1 ]; then
+		usage
+		exit -1
+	fi
+	NAME=$1
+	if [ $RNUM -gt 0 -a $RNUM -lt 1000 ]; then
+		for i in `seq $RNUM`
+		do
+			N=`printf "%04d" $i`
+			stop $NAME$N
+		done;
+		exit 0
+	else
+		echo "REPEAT_NUMBER must be [1...999]"
+		exit -1
+	fi
+
+fi
+
+if [ $# -ge 1 ]; then
+	NAMES=$@
+else
+	usage
+	exit -1
+fi
+
+if [ x"$NAMES" == x"stop" ]; then
+	usage
+	exit -1
+fi
+
+for i in $NAMES
+do
+	stop $OPT_FLG $i
+done
+
+exit 0
+
+

@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+FULCONDRIVER=`driver-name`
+PATH=/usr/lib64/fulcon/driver/$FULCONDRIVER:$PATH
+
+NUMOFARGS=$#
+
+usage()
+{
+	echo "usage: list "
+}
+
+if [ $NUMOFARGS -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+if [ x"$1" == x"list" ]; then
+	list
+else
+	usage
+	exit -1
+fi
+
+exit 0
+
+

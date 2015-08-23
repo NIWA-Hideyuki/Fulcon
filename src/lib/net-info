@@ -1,0 +1,31 @@
+#!/bin/bash
+
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+usage()
+{
+	echo "net-info NAME"
+}
+
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+CNAME=$1
+
+if [ x"$CNAME" == x"net-info" ]; then
+	ls $FULCONDIR/container/*/net/* >& /dev/null
+	if [ $? -eq 0 ]; then
+		cat $FULCONDIR/container/*/net/*
+	fi
+	exit 0
+fi
+
+ls  $FULCONDIR/container/$CNAME/net/* >& /dev/null
+if [ $? -eq 0 ]; then
+	cat $FULCONDIR/container/$CNAME/net/*
+fi
+
+exit 0

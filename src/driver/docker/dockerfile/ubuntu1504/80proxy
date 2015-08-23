@@ -1,0 +1,4 @@
+Acquire::http::proxy "http://xxx";
+Acquire::https::proxy "http://xxx";
+Acquire::ftp::proxy "http://xxx";
+

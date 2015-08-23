@@ -1,0 +1,36 @@
+#!/bin/bash 
+
+# Fulcon/CS - Full Container / Cargo Ship
+# Copyright (C) 2015 NIWA Hideyuki
+
+# check root
+if [ ${EUID:-$UID} -ne 0 ] ; then
+  echo "error: Because you are not root, you cannot execute this command."
+  exit 1
+fi
+
+export PATH=/usr/lib64/fulcon/sbin:$PATH
+export FULCONDIR=/var/lib/fulcon
+
+mkdir -p /var/lib/fulcon
+if [ ! -f /var/lib/fulcon/default-image ]; then
+	echo "fulcon/centos7" > /var/lib/fulcon/default-image
+fi
+
+FLG_H=0
+
+while getopts h OPT
+do
+  case $OPT in
+    "h" ) FLG_H=1 ;;
+  esac
+done
+shift `expr $OPTIND - 1`
+
+if [ $# -eq 0 ] ; then
+	less /usr/lib64/fulcon/doc/help.txt
+else
+  . $*
+fi
+
+exit 0

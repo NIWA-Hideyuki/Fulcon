@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+FULCONDRIVER=`driver-name`
+PATH=/usr/lib64/fulcon/driver/$FULCONDRIVER:$PATH
+
+NETARGS=$@
+
+# check options
+FLG_N=0 ; NUM=""
+FLG_D=0 ; DEV=""
+
+while getopts n:d: OPT ; do
+  case $OPT in
+  n) FLG_N=1 ; NUM=$OPTARG ;;
+  d) FLG_D=1 ; DEV=$OPTARG ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+CNAME=$1
+net-del $NETARGS
+
+if [ $? -eq 0 ]; then
+	rm -f $FULCONDIR/container/$CNAME/net/$CNAME$NUM
+fi
+
+exit 0
+
+

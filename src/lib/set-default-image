@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+if [ $# -eq 1 ]; then
+	if [ x"$1" == x"set-default-image" ]; then
+		echo image catalog:
+		fulcon image-catalog
+		echo
+		read -p "image name : " NAME
+	else
+		NAME=$1
+	fi
+fi
+
+fulcon image-catalog | awk 'BEGIN{r=-1}{if ($1 == "'$NAME'") r=0}END{exit(r)}'
+if [ $? -eq 0 ]; then
+	echo "set" $NAME
+	echo "$NAME" > /var/lib/fulcon/default-image 
+else
+	echo "error: it is not an effective image:" $NAME
+	exit -1
+fi
+
+exit 0
+
+

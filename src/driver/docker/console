@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+usage() {
+	echo "usage: console NAME"
+}
+
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+NAME=$1
+
+echo Attached $NAME"."  
+echo To enter console, hit Enter.
+echo To exit  console, ^p^q is pushed. 
+
+docker attach $NAME
+
+exit 0

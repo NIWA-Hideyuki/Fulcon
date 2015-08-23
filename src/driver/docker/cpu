@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+
+CPUDIR="/sys/fs/cgroup/cpu/system.slice/"
+
+if [ $# -ne 2 -a $# -ne 1 ]; then
+	echo "usage: cpu CONTAINER_NAME [VALUE]"
+	exit 1
+fi
+
+if [ ! -d $CPUDIR ]; then
+	echo "error:" $CPUDIR "is not exist"
+	exit 1
+fi
+
+ARGN=$#
+
+NAME=$1
+if [ $ARGN -eq 2 ]; then
+	VAL=$2
+	USEDCPU=`echo $VAL | \
+		awk '{if(($1 >= 1) && ($1 <= 100)){print int($1*1000)}else{print "-1"}}'`
+
+	if [ $USEDCPU -lt 0 ]; then
+		echo "error: VALUE must be [1-100]"
+		exit 1
+	fi
+fi
+
+DID=`docker-find-id $NAME`
+if [ $? -ne 0 ]; then
+	echo "error: can't find a container"
+	exit -1
+fi
+
+cd $CPUDIR
+ls docker-${DID}*  >& /dev/null
+if [ $? -ne 0 ]; then
+	exit 0
+fi
+
+for i in docker-${DID}*
+do
+	if [ $ARGN -eq 2 ]; then
+		echo 100000 > $i/cpu.cfs_period_us
+		echo $USEDCPU > $i/cpu.cfs_quota_us
+	else
+		cat $i/cpu.cfs_quota_us | \
+		awk '{if ($1 <= 0)print "CPU    : 100 %"; else printf "CPU    : %3.1f %%\n",$1/1000}'
+	fi
+done 
+exit 0
+

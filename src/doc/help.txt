@@ -1,0 +1,45 @@
+Fulcon/CS 0.1	Copyright (C) 2015 NIWA Hideyuki
+	Apache License Version 2.0
+
+   SUB-COMMAND :
+
+	console [ -x ] [ -n REPEAT_NUMBER] NAME
+
+	dirver-name
+
+	erase NAME  ...
+	erase [-n REPEAT_NUMBER] NAME
+
+	help
+
+	image-catalog
+
+	image-name
+
+	list 
+
+	net-add [-d NIC_DEVICE] [-n VETH_NUMBER] [-g GATEWAY] [-b BRIDGE] NAME IP_ADDR/MASK
+
+	net-del [-n VETH_NUMBER] NAME
+	net-del [-d NIC_DEVICE]  NAME
+
+	net-info NAME
+
+	resource [-c CPU] [-n CPUSET] [-m MEM] NAME 
+
+	set-default-image [ IMAGE_NAME ]
+
+	set-passwd
+
+	setup
+
+	start NAME ...
+	start [-n REPEAT_NUMBER] NAME
+
+	stop NAME  ...
+	stop [-n REPEAT_NUMBER] NAME
+
+	sysgen [ -c IMAGE ] NAME NAME ...
+	sysgen [-n REPEAT_NUMBER ] [ -c IMAGE ] NAME  ...
+
+	update

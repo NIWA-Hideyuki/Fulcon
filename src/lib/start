@@ -1,0 +1,102 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+FULCONDRIVER=`driver-name`
+PATH=/usr/lib64/fulcon/driver/$FULCONDRIVER:$PATH
+
+# check options
+OPT_FLG=""
+FLG_I=0
+FLG_X=0
+FLG_N=0
+RNUM=0
+
+while getopts ixn: OPT
+do
+  case $OPT in
+    "i" ) FLG_I=1 ; OPT_FLG="-i ";; 
+    "x" ) FLG_X=1 ; FLG_I=1; OPT_FLG="-i ";; 
+    "n" ) FLG_N=1 ; RNUM=$OPTARG ;;
+  esac
+done
+
+shift `expr $OPTIND - 1`
+
+usage()
+{
+	echo "usage: start [ -i ] [ -x ]NAME NAME ..."
+	echo "       start [-n REPEAT_NUMBER] [ -x ] NAME  ..."
+}
+
+if [ $FLG_I -eq 1 -a $FLG_N -eq 1 -a $FLG_X -ne 1 ]; then
+	echo "error:  -n and -i cannot be specified at the same time."
+	exit -1
+fi
+
+if [ $FLG_N -eq 1 ]; then
+	if [ $# -ne 1 ]; then
+		usage
+		exit -1
+	fi
+	NAME=$1
+	if [ $RNUM -gt 0 -a $RNUM -lt 1000 ]; then
+		for i in `seq $RNUM`
+		do
+			N=`printf "%04d" $i`
+			if [ $FLG_X -eq 0 ]; then
+				start $OPT_FLG $NAME$N
+			else
+				gnome-terminal -e "start $OPT_FLG $NAME$N"
+			fi
+
+			NETDIR=$FULCONDIR/container/$NAME$N/net
+			ls $NETDIR/* >& /dev/null
+			if [ $? -eq 0 ]; then
+				for j in `ls -1 $NETDIR`
+				do
+					sh $NETDIR/$j
+				done
+			fi
+		done;
+		exit 0
+	else
+		echo "REPEAT_NUMBER must be [1...999]"
+		exit -1
+	fi
+
+fi
+
+if [ $# -ge 1 ]; then
+	NAMES=$@
+else
+	usage
+	exit -1
+fi
+
+if [ x"$NAMES" == x"start" ]; then
+	usage
+	exit -1
+fi
+
+for i in $NAMES
+do
+	if [ $FLG_X -eq 0 ]; then
+		start $OPT_FLG $i
+	else
+		gnome-terminal -e "start $OPT_FLG $i"
+	fi
+
+	NETDIR=$FULCONDIR/container/$i/net/
+	ls $NETDIR/* >& /dev/null
+	if [ $? -eq 0 ]; then
+		for j in `ls -1 $NETDIR`
+		do
+			sh $NETDIR/$j
+		done
+	fi
+done
+
+exit 0
+
+

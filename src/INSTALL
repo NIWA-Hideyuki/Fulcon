@@ -1,0 +1,10 @@
+Installation
+=============
+
+  1) tar xzf fulcon.tgz
+
+  2) cd fulcon
+
+  3) Type 'make install' to install the program and any data files and
+     documentation.
+
