@@ -28,6 +28,9 @@ RUN systemctl mask dev-mqueue.mount dev-hugepages.mount \
     sys-kernel-debug.mount sys-fs-fuse-connections.mount
 RUN systemctl mask display-manager.service systemd-logind.service
 
+# setup rsyslog
+RUN systemctl enable rsyslog.service
+
 # install ssh
 RUN yum -y install openssh-server initscripts openssh-clients
 
