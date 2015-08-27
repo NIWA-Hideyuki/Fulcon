@@ -1,8 +1,6 @@
 # Fulcon
 # Copyright (C) 2015 NIWA Hideyuki
 
-VERSION=0.1
-
 prefix ?= /usr
 exec_prefix ?= ${prefix}
 datarootdir ?= ${prefix}/share
@@ -85,4 +83,6 @@ uninstall :
 	rm -rf $(DESTDIR)$(libdir)/fulcon
 	rm -rf $(DESTDIR)/$(docdir)
 	rm -rf $(DESTDIR)/var/lib/fulcon
+
+clean :
 
