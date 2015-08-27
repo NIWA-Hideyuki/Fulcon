@@ -16,20 +16,13 @@ ENV DEBIAN_FRONTEND noninteractive
 # install packages
 RUN apt-get update && apt-get upgrade -y 
 RUN rm -f /lib/systemd/systemd
-RUN apt-get install --reinstall -y --force-yes systemd libpam-systemd \
-	libsystemd0 systemd-shim upstart upstart-bin sysv-rc sysvinit-utils
+RUN apt-get install --reinstall -y --force-yes systemd \
+	systemd-shim upstart upstart-bin sysv-rc sysvinit-utils
 RUN mv /sbin/initctl.distrib /sbin/initctl
 RUN apt-get install -qq -y --force-yes rsyslog apt-utils sudo vim \
 	language-pack-ja less openssh-server net-tools 
 RUN update-rc.d rsyslog defaults
 RUN update-rc.d ssh defaults
-
-# setup systemd 
-#RUN systemctl mask dev-mqueue.mount dev-hugepages.mount \
-#    systemd-remount-fs.service  \
-#    sys-kernel-debug.mount sys-fs-fuse-connections.mount
-#RUN systemctl mask systemd-logind.service graphical.target
-
 
 # setup ssh
 RUN printf "\nUseDNS=no\n" >> /etc/ssh/sshd_config
