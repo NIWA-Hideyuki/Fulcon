@@ -5,28 +5,25 @@ License:               Apache 2.0
 Name:                  fulcon
 Version:               0.1
 Release:               1%{?dist}
-Source0:               http://downloads.sourceforge.net/fulconacility/source/%{name}-%{version}.tar.gz
-URL:                   https://github.com/NIWA-Hideyuki/Fulcon.git
+Source0:               https://github.com/NIWA-Hideyuki/Fulcon.git
+URL:                   https://github.com/NIWA-Hideyuki/Fulcon
 Requires:              python-IPy
 
 %description
-fulcon efficiently makes the instance. One-instance making is a few
-minutes or less.
-The fulcon instance can dynamically change the resource of CPU, MEMORY,
-IO and NET. Even if the instance has stopped, the change in the resource
-can be changed.
-fulcon can be used by installing it on Linux on VM as well as bare metal.
+fulcon efficiently makes the container. One container making is a second 
+or less.
+The fulcon container can dynamically change the resource of CPU, MEMORY,
+IO and NET. 
+fulcon can be used as well as VM.
 fulcon can be operated stabilizing the job like a past system at a long term.
 Moreover, a lot of fulcon instances are generate in a short time. If a lot
 of fulcon instances become unnecessary, it is possible to delete it
-collectively. Such stateless instance can be operated.
+collectively. 
 
 %prep
 %setup -q
 
 %build
-CFLAGS=$RPM_OPT_FLAGS ; export CFLAGS
-LDFLAGS=$RPM_OPT_FLAGS ; export LDFLAGS
 make %{?_smp_mflags} libdir=%_libdir
 
 %install
