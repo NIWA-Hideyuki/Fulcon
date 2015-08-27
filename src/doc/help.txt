@@ -1,4 +1,4 @@
-Fulcon/CS 0.1	Copyright (C) 2015 NIWA Hideyuki
+Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 	Apache License Version 2.0
 
    SUB-COMMAND :
