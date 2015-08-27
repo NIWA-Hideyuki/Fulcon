@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 FULCON_VERSION=$(grep "^VERSION" ../../Makefile | sed -e s'/VERSION=//')
 PATH=${PWD/%package/script}:$PATH
@@ -13,16 +13,16 @@ cd ..
 git clean -xdf
 git set-file-times
 ( cd FULCON ; TZ=UTC gitlog2changelog.py )
-mv FULCON FULCON-"$FULCON_VERSION"
-tar czf FULCON-"$FULCON_VERSION".tar.gz FULCON-"$FULCON_VERSION"
-mv FULCON-"$FULCON_VERSION" FULCON
+mv Fulcon Fulcon-"$FULCON_VERSION"
+tar czf Fulcon-"$FULCON_VERSION".tar.gz Fulcon-"$FULCON_VERSION"
+mv Fulcon-"$FULCON_VERSION" FULCON
 
-cp FULCON-"$FULCON_VERSION".tar.gz package/SOURCES
+cp Fulcon-"$FULCON_VERSION".tar.gz package/SOURCES
 
 cd package/SOURCES
-tar xzf FULCON-"$FULCON_VERSION".tar.gz
+tar xzf Fulcon-"$FULCON_VERSION".tar.gz
 
 cd ..
-cp SOURCES/FULCON-*/fulcon.spec SPECS/fulcon.spec
+cp SOURCES/Fulcon-*/fulcon.spec SPECS/fulcon.spec
 
 rpmbuild -v -ba --clean SPECS/fulcon.spec
