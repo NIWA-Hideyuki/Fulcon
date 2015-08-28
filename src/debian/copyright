@@ -1,0 +1,14 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Fulcon
+Source: https://github.com/NIWA-Hideyuki/Fulcon.git
+
+Files: *
+Copyright: 2015 NIWA-Hideuki <niwa.niwa@nifty.ne.jp>
+License: Apache 2.0
+
+Files: debian/*
+Copyright: 2015 NIWA-Hideuki <niwa.niwa@nifty.ne.jp>
+License: Apache 2.0
+
+License: Apache 2.0
+

@@ -15,6 +15,7 @@ fulcon :
 install : install-cmd install-lib install-driver install-doc
 
 install-cmd :
+	mkdir -p $(DESTDIR)$(sbindir)/sbin
 	install -m 755 cmd/fulcon $(DESTDIR)$(sbindir)/fulcon
 
 install-lib : 

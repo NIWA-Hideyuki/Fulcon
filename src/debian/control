@@ -1,0 +1,18 @@
+Source: fulcon
+Section: unknown
+Priority: optional
+Maintainer: root <niwa.niwa@nifty.ne.jp>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+Homepage: https://github.com/NIWA-Hideyuki/Fulcon
+
+Package: fulcon
+Architecture: any
+Depends: python-ipy
+Description: Fulcon generates the container of full OS environment
+ Fulcon is a tool that generates full OS environment as virtual environment. 
+ - It can generate containers in a short time (in a few second each even if it is long).
+ - It can manage a lot of containers.
+ - It supports dynamic resource control of containers.
+ - To use containers for a long term (a few years or more), you can update software on each container from the host.
+
