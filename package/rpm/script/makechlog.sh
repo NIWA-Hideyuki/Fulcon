@@ -9,7 +9,7 @@ PATH=$PWD:$PATH
 
 cd ..
 git set-file-times
-cd lxcf
+cd src
 TZ=UTC gitlog2changelog.py
 
 exit 0

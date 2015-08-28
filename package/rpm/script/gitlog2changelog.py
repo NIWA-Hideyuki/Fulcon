@@ -60,7 +60,7 @@ for line in fin:
 		# The sign off line is ignored
 		elif re.search("^    Signed-off-by: ", line):
 			pass
-		# This is a special workaround for the git log of LXC Facility
+		# This is a special workaround for the git log of Fulcon
 		elif date == "2014-03-02" and re.search("^    This patch series", line):
 			messageSkip = True
 		elif date == "2014-03-02" and re.search("^    MIME-Version: ", line):

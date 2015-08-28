@@ -5,7 +5,7 @@ License:               Apache 2.0
 Name:                  fulcon
 Version:               0.1
 Release:               1%{?dist}
-Source0:               https://github.com/NIWA-Hideyuki/Fulcon.git
+Source:                fulcon-%{?version}.tar.gz
 URL:                   https://github.com/NIWA-Hideyuki/Fulcon
 Requires:              python-IPy
 
@@ -31,11 +31,9 @@ make install libdir=%_libdir DESTDIR=$RPM_BUILD_ROOT
 
 %files
 %{_sbindir}/fulcon
-%{_libdir}/fulcon/
-%{_mandir}/man1/fulcon.1.gz
-%{_defaultdocdir}/fulcon-%{version}/
-%doc README COPYING ChangeLog AUTHORS example
+%{_libdir}/fulcon
+%{_localstatedir}/lib/fulcon
 
 %changelog
-* Tue Aug 23 2015 NIWA Hideyuki <niwa.niwa@nifty.ne.jp>
+* Fri Aug 28 2015 NIWA Hideyuki <niwa.niwa@nifty.ne.jp>
 - New Build. First release 0.1
