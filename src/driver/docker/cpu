@@ -2,7 +2,7 @@
 
 # Copyright (C) 2015 NIWA Hideyuki
 
-
+LIBDIR="/var/lib/fulcon/"
 CPUDIR="/sys/fs/cgroup/cpu/system.slice/"
 
 if [ $# -ne 2 -a $# -ne 1 ]; then
@@ -18,7 +18,12 @@ fi
 ARGN=$#
 
 NAME=$1
-if [ $ARGN -eq 2 ]; then
+if [ $ARGN -eq 1 ]; then
+	if [ -f $LIBDIR/container/$NAME/resource/cpu ]; then
+		cat $LIBDIR/container/$NAME/resource/cpu | \
+			awk '{printf "CPU    : %3.1f %%\n",$1/1000}'
+	fi
+elif [ $ARGN -eq 2 ]; then
 	VAL=$2
 	USEDCPU=`echo $VAL | \
 		awk '{if(($1 >= 1) && ($1 <= 100)){print int($1*1000)}else{print "-1"}}'`
@@ -27,6 +32,15 @@ if [ $ARGN -eq 2 ]; then
 		echo "error: VALUE must be [1-100]"
 		exit 1
 	fi
+	if [ -f $LIBDIR/container/$NAME/resource/cpu ]; then
+		echo $USEDCPU > $LIBDIR/container/$NAME/resource/cpu 
+	fi
+
+fi
+
+STATUS=`fulcon list | awk '{if ($1 == "'$NAME'")print $2}'`
+if [ x"$STATUS" == x"STOPPED" ]; then
+	exit 0
 fi
 
 DID=`docker-find-id $NAME`
@@ -46,9 +60,7 @@ do
 	if [ $ARGN -eq 2 ]; then
 		echo 100000 > $i/cpu.cfs_period_us
 		echo $USEDCPU > $i/cpu.cfs_quota_us
-	else
-		cat $i/cpu.cfs_quota_us | \
-		awk '{if ($1 <= 0)print "CPU    : 100 %"; else printf "CPU    : %3.1f %%\n",$1/1000}'
+		cat $i/cpu.cfs_quota_us > $LIBDIR/container/$NAME/resource/cpu
 	fi
 done 
 exit 0

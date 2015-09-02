@@ -2,7 +2,7 @@
 
 # Copyright (C) 2015 NIWA Hideyuki
 
-
+LIBDIR="/var/lib/fulcon/"
 CPUSETDIR="/sys/fs/cgroup/cpuset/system.slice/"
 
 if [ $# -ne 2 -a $# -ne 1 ]; then
@@ -19,8 +19,21 @@ fi
 ARGN=$#
 
 NAME=$1
-if [ $ARGN -eq 2 ]; then
+if [ $ARGN -eq 1 ]; then
+	if [ -f $LIBDIR/container/$NAME/resource/cpuset ]; then
+		cat $LIBDIR/container/$NAME/resource/cpuset | \
+			awk '{printf "CPUSET : %s\n",$1}'
+	fi
+elif [ $ARGN -eq 2 ]; then
 	VAL=$2
+	if [ -f $LIBDIR/container/$NAME/resource/cpuset ]; then
+		echo $VAL > $LIBDIR/container/$NAME/resource/cpuset 
+	fi
+fi
+
+STATUS=`fulcon list | awk '{if ($1 == "'$NAME'")print $2}'`
+if [ x"$STATUS" == x"STOPPED" ]; then
+	exit 0
 fi
 
 DID=`docker-find-id $NAME`
@@ -39,8 +52,7 @@ for i in docker-${DID}*
 do
 	if [ $ARGN -eq 2 ]; then
 		echo $VAL > $i/cpuset.cpus
-	else
-		cat $i/cpuset.cpus | awk '{printf "CPUSET : %s\n",$1}'
+		cat $i/cpuset.cpus > $LIBDIR/container/$NAME/resource/cpuset 
 	fi
 done 
 exit 0
