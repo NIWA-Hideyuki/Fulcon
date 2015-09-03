@@ -49,8 +49,7 @@ echo -n "started "
 CPUSET=`cat $LIBDIR/container/$NAME/resource/cpuset`
 CPU=`cat $LIBDIR/container/$NAME/resource/cpu | \
 	awk '{printf "%3.2f",$1/1000}'`
-MEM=`cat $LIBDIR/container/$NAME/resource/mem | \
-	awk '{printf "%4.2f",$1/1024.0/1024.0/1024.0}'`
+MEM=`cat $LIBDIR/container/$NAME/resource/mem`
 
 (sleep 1; fulcon resource -c $CPU -n $CPUSET -m $MEM $NAME >& /dev/null ) &
 docker start $OPT_FLG $NAME 
