@@ -62,6 +62,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/set-passwd $(DESTDIR)$(libdir)/fulcon/driver/docker/set-passwd
 	install -m 755 driver/docker/update $(DESTDIR)$(libdir)/fulcon/driver/docker/update
 	install -m 755 driver/docker/console $(DESTDIR)$(libdir)/fulcon/driver/docker/console
+	install -m 755 driver/docker/parmchk-num-kmg $(DESTDIR)$(libdir)/fulcon/driver/docker/parmchk-num-kmg
 
 install-dockerfile :
 	mkdir -p $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile

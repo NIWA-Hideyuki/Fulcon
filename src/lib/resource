@@ -41,7 +41,7 @@ if [ $FLG_C -eq 1 ]; then
 	cpu $CNAME $CPU
 fi
 
-if [ $FLG_M -eq 1 ]; then
+if [ $FLG_N -eq 1 ]; then
 	cpuset $CNAME $CPUSET
 fi
 

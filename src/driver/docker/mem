@@ -23,20 +23,17 @@ if [ $ARGN -eq 1 ]; then
 		cat $LIBDIR/container/$NAME/resource/mem | \
 			awk '{printf "MEMORY : %4.2f GB\n",$1/1024.0/1024.0/1024.0}'
 	fi
+	USEDMEM=`cat $LIBDIR/container/$NAME/resource/mem`
+
 elif [ $ARGN -eq 2 ]; then
 	VAL=$2
 
-	USEDMEM=`echo $VAL | \
-		awk '{if($1 >= 0){print int($1)}else{print "-1"}}'`
-
-	if [ $USEDMEM -lt 0 ]; then
-		echo "error: VALUE must be GB"
-		exit 1
+	parmchk-num-kmg $VAL
+	if [ $? -ne 0 ]; then
+		echo "error: memory size must be number[kmg]"
+		exit -1
 	fi
-
-	if [ -f $LIBDIR/container/$NAME/resource/mem ]; then
-		echo $USEDMEM > $LIBDIR/container/$NAME/resource/mem
-	fi
+	USEDMEM=$VAL
 fi
 
 STATUS=`fulcon list | awk '{if ($1 == "'$NAME'")print $2}'`
