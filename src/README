@@ -11,7 +11,6 @@ the system with shutdown command. The container can be connected directly with
 the Internet by adding virtual NIC. 
 Fulcon can handle CentOS 7 and Ubuntu 15.04
 
-Docker is used for the container. However, Fulcon does not depend on Docker. 
 Docker is used by way of the driver of Fulcon. 
 Other container software might be added to the driver. 
 

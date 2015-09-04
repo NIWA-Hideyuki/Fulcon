@@ -1,6 +1,6 @@
 #!/bin/bash
 
-less /usr/lib64/fulcon/doc/help.txt
+less /usr/lib/fulcon/doc/help.txt
 
 exit 0
 

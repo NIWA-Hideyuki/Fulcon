@@ -3,7 +3,7 @@
 # Copyright (C) 2015 NIWA Hideyuki
 
 FULCONDRIVER=`driver-name`
-PATH=/usr/lib64/fulcon/driver/$FULCONDRIVER:$PATH
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
 # check options
 OPT_FLG=""

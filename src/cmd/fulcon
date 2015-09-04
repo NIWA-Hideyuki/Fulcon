@@ -9,7 +9,7 @@ if [ ${EUID:-$UID} -ne 0 ] ; then
   exit 1
 fi
 
-export PATH=/usr/lib64/fulcon/sbin:$PATH
+export PATH=/usr/lib/fulcon/sbin:$PATH
 export FULCONDIR=/var/lib/fulcon
 
 mkdir -p /var/lib/fulcon
@@ -28,7 +28,7 @@ done
 shift `expr $OPTIND - 1`
 
 if [ $# -eq 0 ] ; then
-	less /usr/lib64/fulcon/doc/help.txt
+	less /usr/lib/fulcon/doc/help.txt
 else
   . $*
 fi
