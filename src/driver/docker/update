@@ -3,17 +3,30 @@
 # Copyright (C) 2015 NIWA Hideyuki
 
 usage() {
-	echo "usage: update [ IMAGE [ PACKAGE ... ] ]"
+	echo "usage: update "
 }
 
 update_ubuntu_all() {
-	NAMES=`fulcon list | egrep ubuntu | awk '{print $1}'`
+	NAMES=`fulcon list | awk '{if (($2 == "RUNNING") && ($3~/ubuntu/)) print $1}'`
 	if [ x"$NAMES" != x"" ]; then
 		for i in $NAMES
 		do
 			echo "update" $i
 			docker exec -it $i apt-get update
-			docker exec -it $i apt-get upgrade
+			docker exec -it $i apt-get upgrade -y
+			echo 
+			echo
+		done
+	fi
+	NAMES=`fulcon list | awk '{if (($2 == "STOPPED") && ($3~/ubuntu/)) print $1}'`
+	if [ x"$NAMES" != x"" ]; then
+		for i in $NAMES
+		do
+			echo "update" $i
+			fulcon start $i
+			docker exec -it $i apt-get update
+			docker exec -it $i apt-get upgrade -y
+			fulcon stop $i
 			echo 
 			echo
 		done
@@ -21,29 +34,32 @@ update_ubuntu_all() {
 }
 
 update_centos_all() {
-	NAMES=`fulcon list | egrep centos | awk '{print $1}'`
+	NAMES=`fulcon list | awk '{if (($2 == "RUNNING") && ($3~/centos/)) print $1}'`
 	if [ x"$NAMES" != x"" ]; then
 		for i in $NAMES
 		do
 			echo "update" $i
-			docker exec -it $i /usr/bin/yum update -y
+			docker exec -it $i yum update -y
+			echo 
+			echo
+		done
+	fi
+	NAMES=`fulcon list | awk '{if (($2 == "STOPPED") && ($3~/centos/)) print $1}'`
+	if [ x"$NAMES" != x"" ]; then
+		for i in $NAMES
+		do
+			echo "update" $i
+			fulcon start $i
+			docker exec -it $i yum update -y
+			fulcon stop $i
 			echo 
 			echo
 		done
 	fi
 }
 
+
 update_ubuntu_all
 update_centos_all
-exit
 
-if [ $# -eq 1 ]; then
-	if [ x"$1" == x"update" ]; then
-		update_ubuntu_all
-		update_centos_all
-		exit 0
-	fi
-fi
-
-IMAGE=$1
-
+exit 0
