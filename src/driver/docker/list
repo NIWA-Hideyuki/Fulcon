@@ -7,12 +7,12 @@ usage()
 	echo "usage: list "
 }
 
-RUNNING=`docker ps    | egrep "fulcon/" | awk '{printf "%s:%s\n",$NF,$2}'`
-ALLCONT=`docker ps -a | egrep "fulcon/" | awk '{printf "%s:%s\n",$NF,$2}'`
+RUNNING=`docker ps --no-trunc    | egrep "fulcon/" | awk '{printf "%s;%s\n",$NF,$2}'`
+ALLCONT=`docker ps --no-trunc -a | egrep "fulcon/" | awk '{printf "%s;%s\n",$NF,$2}'`
 for i in $ALLCONT
 do
-	NAME=`echo $i | awk -F ":" '{print $1}'`
-	IMAGE=`echo $i | awk -F ":" '{print $2}'`
+	NAME=`echo $i | awk -F ";" '{print $1}'`
+	IMAGE=`echo $i | awk -F ";" '{print $2}'`
 	echo $RUNNING | egrep -w $i >& /dev/null
 	if [ $? -eq 0 ]; then
 		printf "%s\t\tRUNNING\t\t%s\n" $NAME $IMAGE
