@@ -11,37 +11,33 @@ the system with shutdown command. The container can be connected directly with
 the Internet by adding virtual NIC. 
 Fulcon can handle CentOS 7 and Ubuntu 15.04
 
-Docker is used for the container. However, Fulcon does not depend on Docker. 
-Docker is used by way of the driver of Fulcon. 
-Other container software might be added to the driver. 
-
 ### Building:
 
 ubuntu15.04
 
-/ $ sudo apt-get install docker.io
-/ $ sudo apt-get install python-ipy
-/ $ sudo apt-get install bridge-utils
+/$ sudo apt-get install docker.io
+/$ sudo apt-get install python-ipy
+/$ sudo apt-get install bridge-utils
 
-/ $ tar xzf fulcon.tgz
-/ $ cd fulcon
-/ $ sudo make install
+/$ tar xzf fulcon.tgz
+/$ cd fulcon
+/$ sudo make install
 
 CentOS 7
 
-/ $ sudo yum install docker-io
-/ $ sudo yum install python-IPy
-/ $ sudo yum install bridge-utils
+/$ sudo yum install docker-io
+/$ sudo yum install python-IPy
+/$ sudo yum install bridge-utils
 
-/ $ tar xzf fulcon.tgz
-/ $ cd fulcon
+/$ tar xzf fulcon.tgz
+/$ cd fulcon
 / $ sudo make install
 
 ### Setup:
 
 The image of CentOS 7 and Ubuntu15.04 is prepared. 
 
-/ $ sudo fulcon setup
+/$ sudo fulcon setup
 
 The image is acquired by using Dockerfile and this command is set up. 
 If it does not go well. images are generated with following Dockerfile. 
@@ -55,7 +51,7 @@ It must be builded "fulcon/centos7" and "fulcon/ubuntu1504"
 
 In the following example, the container "webap-server" is generated. 
 
-/ $ sudo fulcon sysgen webap-server1
+/$ sudo fulcon sysgen webap-server1
 
 The container of "fulcon/centos7" was generated. 
 It is optional -c, and "fulcon/ubuntu1504" can be specified. 
@@ -64,19 +60,19 @@ It is optional -c, and "fulcon/ubuntu1504" can be specified.
 
 In the following example, the user "niwa" is seted.
 
-/ $ sudo fulcon set-passwd webap-server niwa
+/$ sudo fulcon set-passwd webap-server niwa
 
 3. Virtual NIC addition
 
-/ $ sudo fulcon net-add webap-server 192.168.17.2/24
+/$ sudo fulcon net-add webap-server 192.168.17.2/24
 
 
 4. Attache console to the container, and login in the container. 
 
-/ $ sudo fulcon console webap-server
-/ Attached aa-srv.
-/ To enter console, hit Enter.
-/ To exit console, ^p^q is pushed.
+/$ sudo fulcon console webap-server
+/Attached aa-srv.
+/To enter console, hit Enter.
+/To exit console, ^p^q is pushed.
 
 5. When you login the container, yum and apt can be used. 
    You can login with ssh. 
@@ -84,17 +80,17 @@ In the following example, the user "niwa" is seted.
 
 6. Stop and start of container
 
-/ $ sudo fulcon stop webap-server
+/$ sudo fulcon stop webap-server
 
-/ $ sudo fulcon start webap-server
+/$ sudo fulcon start webap-server
 
 7. List containers
 
-/ $ sudo fulcon list 
+/$ sudo fulcon list 
 
 8. Erase of container
 
-/ $ sudo fulcon erase webap-server
+/$ sudo fulcon erase webap-server
 
 
 ### Sub command:
