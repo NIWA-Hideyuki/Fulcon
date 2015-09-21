@@ -3,6 +3,8 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 
    SUB-COMMAND :
 
+	add-user NAME USERNAME
+
 	console [ -x ] [ -n REPEAT_NUMBER] NAME
 
 	del-user NAME USERNAME
@@ -32,8 +34,6 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 	set-default-image [ IMAGE_NAME ]
 
 	set-passwd NAME USERNAME
-
-	set-user NAME USERNAME
 
 	setup
 

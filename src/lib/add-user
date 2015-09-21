@@ -6,7 +6,7 @@ FULCONDRIVER=`driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
 usage() {
-	echo "usage: set-user NAME USER"
+	echo "usage: add-user NAME USER"
 }
 
 if [ $# -ne 2 ]; then
@@ -14,12 +14,12 @@ if [ $# -ne 2 ]; then
 	exit -1
 fi
 
-if [ x"$1" == x"set-user" ]; then
+if [ x"$1" == x"add-user" ]; then
 	usage
 	exit -1
 fi
 
-. set-user $@
+. add-user $@
 
 exit 0
 

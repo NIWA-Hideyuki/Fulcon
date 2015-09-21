@@ -11,7 +11,7 @@ fi
 
 usage()
 {
-	echo "usage: set-user NAME USER" 
+	echo "usage: add-user NAME USER" 
 }
 
 if [ $# -ne 2 ]; then
@@ -23,7 +23,7 @@ LXCNAME=$1
 USERNAME=$2
 docker exec -it $LXCNAME useradd -m $USERNAME
 if [ $? -ne 0 ]; then
-	echo "error: set-user is failed"
+	echo "error: add-user is failed"
 	exit -1
 fi
 

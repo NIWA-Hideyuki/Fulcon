@@ -63,7 +63,7 @@ It is optional -c, and "fulcon/ubuntu1504" can be specified.
 
 In the following example, the user "niwa" is seted.
 
-/$ sudo fulcon set-user webap-server niwa
+/$ sudo fulcon add-user webap-server niwa
 
 3. Virtual NIC addition
 
@@ -98,6 +98,8 @@ In the following example, the user "niwa" is seted.
 
 ### Sub command:
 
+	add-user NAME USERNAME
+
 	console [ -x ] [ -n REPEAT_NUMBER] NAME
 
 	del-user NAME USERNAME
@@ -127,8 +129,6 @@ In the following example, the user "niwa" is seted.
 	set-default-image [ IMAGE_NAME ]
 
 	set-passwd NAME USERNAME
-
-	set-user NAME USERNAME
 
 	set-passwd
 
