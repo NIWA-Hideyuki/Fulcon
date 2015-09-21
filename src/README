@@ -39,6 +39,9 @@ The image of CentOS 7 and Ubuntu15.04 is prepared.
 
 /$ sudo fulcon setup
 
+It takes time until ending.
+This operation do only first once.
+
 The image is acquired by using Dockerfile and this command is set up. 
 If it does not go well. images are generated with following Dockerfile. 
 	/var/lib/fulcon/driver/dockerfile/centos7/Dockerfile
@@ -51,7 +54,7 @@ It must be builded "fulcon/centos7" and "fulcon/ubuntu1504"
 
 In the following example, the container "webap-server" is generated. 
 
-/$ sudo fulcon sysgen webap-server1
+/$ sudo fulcon sysgen webap-server
 
 The container of "fulcon/centos7" was generated. 
 It is optional -c, and "fulcon/ubuntu1504" can be specified. 
@@ -60,7 +63,7 @@ It is optional -c, and "fulcon/ubuntu1504" can be specified.
 
 In the following example, the user "niwa" is seted.
 
-/$ sudo fulcon set-passwd webap-server niwa
+/$ sudo fulcon set-user webap-server niwa
 
 3. Virtual NIC addition
 
@@ -97,6 +100,8 @@ In the following example, the user "niwa" is seted.
 
 	console [ -x ] [ -n REPEAT_NUMBER] NAME
 
+	del-user NAME USERNAME
+
 	dirver-name
 
 	erase NAME  ...
@@ -120,6 +125,10 @@ In the following example, the user "niwa" is seted.
 	resource [-c CPU] [-n CPUSET] [-m MEM] NAME 
 
 	set-default-image [ IMAGE_NAME ]
+
+	set-passwd NAME USERNAME
+
+	set-user NAME USERNAME
 
 	set-passwd
 

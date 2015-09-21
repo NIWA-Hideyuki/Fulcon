@@ -16,7 +16,6 @@ do
     "n" ) FLG_N=1; RNUM=$OPTARG;;
   esac
 done
-
 shift `expr $OPTIND - 1`
 
 usage()

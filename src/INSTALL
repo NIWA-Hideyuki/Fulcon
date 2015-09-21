@@ -1,9 +1,42 @@
 Installation
 =============
 
-  1) tar xzf fulcon.tgz
+1. Building:
 
-  2) cd fulcon/src
+ubuntu15.04
 
-  3) make install
+$ sudo apt-get install docker.io
+$ sudo apt-get install python-ipy
+$ sudo apt-get install bridge-utils
+
+$ tar xzf fulcon.tgz
+$ cd fulcon
+$ sudo make install
+
+CentOS 7
+
+$ sudo yum install docker-io
+$ sudo yum install python-IPy
+$ sudo yum install bridge-utils
+
+$ tar xzf fulcon.tgz
+$ cd fulcon
+$ sudo make install
+
+2. Setup:
+
+The image of CentOS 7 and Ubuntu15.04 is prepared.
+
+$ sudo fulcon setup
+
+It takes time until ending.
+This operation do only first once.
+
+The image is acquired by using Dockerfile and this command is set up.
+If it does not go well. images are generated with following Dockerfile.
+	/var/lib/fulcon/driver/dockerfile/centos7/Dockerfile
+	/var/lib/fulcon/driver/dockerfile/ubuntu1504/Dockerfile
+It must be builded "fulcon/centos7" and "fulcon/ubuntu1504"
+
+Let's enjoy.
 
