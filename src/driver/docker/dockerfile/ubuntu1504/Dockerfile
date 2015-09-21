@@ -14,7 +14,7 @@ ENV container docker
 ENV DEBIAN_FRONTEND noninteractive
 
 # install packages
-RUN apt-get update && apt-get upgrade -y 
+RUN apt-get update && apt-get upgrade -y && apt-get update
 RUN rm -f /lib/systemd/systemd
 RUN apt-get install --reinstall -y --force-yes systemd \
 	systemd-shim upstart upstart-bin sysv-rc sysvinit-utils
