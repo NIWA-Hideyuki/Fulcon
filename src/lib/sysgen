@@ -7,11 +7,10 @@ PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
 # check options
 OPT_FLG=""
+FLG_I=0;
 FLG_N=0; RNUM=0
 FLG_C=0; IMAGENAME=`image-name`
-FLG_I=0;
 FLG_X=0;
-FLG_P=0;
 
 while getopts in:c:x OPT
 do
@@ -28,7 +27,7 @@ shift `expr $OPTIND - 1`
 usage()
 {
 	echo "usage: sysgen [ -i ] [ -c IMAGE ] NAME NAME ..."
-	echo "       sysgen [-n REPEAT_NUMBER ] [ -c IMAGE ] NAME  ..."
+	echo "       sysgen [-n REPEAT_NUMBER ] [ -c IMAGE ] NAME"
 }
 
 if [ $FLG_I -eq 1 -a $FLG_N -eq 1 -a $FLG_X -ne 1 ]; then
