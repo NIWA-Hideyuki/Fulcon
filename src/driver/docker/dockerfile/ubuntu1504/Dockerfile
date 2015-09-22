@@ -20,7 +20,7 @@ RUN apt-get install --reinstall -y --force-yes systemd \
 	systemd-shim upstart upstart-bin sysv-rc sysvinit-utils
 RUN mv /sbin/initctl.distrib /sbin/initctl
 RUN apt-get install -qq -y --force-yes rsyslog apt-utils sudo vim \
-	language-pack-ja less openssh-server net-tools 
+	language-pack-ja less openssh-server net-tools tar
 RUN update-rc.d rsyslog defaults
 RUN update-rc.d ssh defaults
 

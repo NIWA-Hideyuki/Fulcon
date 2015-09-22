@@ -24,6 +24,7 @@ install-lib :
 	install -m 755 lib/driver-name $(DESTDIR)$(libdir)/fulcon/sbin/driver-name
 	install -m 755 lib/list $(DESTDIR)$(libdir)/fulcon/sbin/list
 	install -m 755 lib/sysgen $(DESTDIR)$(libdir)/fulcon/sbin/sysgen
+	install -m 755 lib/clone $(DESTDIR)$(libdir)/fulcon/sbin/clone
 	install -m 755 lib/erase $(DESTDIR)$(libdir)/fulcon/sbin/erase
 	install -m 755 lib/start $(DESTDIR)$(libdir)/fulcon/sbin/start
 	install -m 755 lib/stop $(DESTDIR)$(libdir)/fulcon/sbin/stop
@@ -58,6 +59,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/start $(DESTDIR)$(libdir)/fulcon/driver/docker/start
 	install -m 755 driver/docker/stop $(DESTDIR)$(libdir)/fulcon/driver/docker/stop
 	install -m 755 driver/docker/sysgen $(DESTDIR)$(libdir)/fulcon/driver/docker/sysgen
+	install -m 755 driver/docker/clone $(DESTDIR)$(libdir)/fulcon/driver/docker/clone
 	install -m 755 driver/docker/setup $(DESTDIR)$(libdir)/fulcon/driver/docker/setup
 	install -m 755 driver/docker/add-user $(DESTDIR)$(libdir)/fulcon/driver/docker/add-user
 	install -m 755 driver/docker/del-user $(DESTDIR)$(libdir)/fulcon/driver/docker/del-user

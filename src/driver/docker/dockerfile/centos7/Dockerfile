@@ -20,7 +20,7 @@ RUN yum -y update glibc-common
 RUN yum -y reinstall glibc-common
 
 # install packages
-RUN yum -y install net-tools yum-langpacks system-config-language perl sudo rsyslog
+RUN yum -y install net-tools yum-langpacks system-config-language perl sudo rsyslog tar
 
 # unused services
 RUN systemctl mask dev-mqueue.mount dev-hugepages.mount \

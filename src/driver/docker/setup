@@ -15,9 +15,11 @@ for i in *
 do
 	cd $i
 	echo docker build -t fulcon/$i .
-	docker build -t fulcon/$i .
+	docker build --no-cache -t fulcon/$i .
 	echo 
 	echo
 	cd ..
 done
+
+exit 0
 

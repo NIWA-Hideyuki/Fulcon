@@ -44,6 +44,6 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 	stop [-n REPEAT_NUMBER] NAME
 
 	sysgen [ -c IMAGE ] NAME NAME ...
-	sysgen [-n REPEAT_NUMBER ] [ -c IMAGE ] NAME  ...
+	sysgen [-n REPEAT_NUMBER ] [ -c IMAGE ] NAME
 
 	update
