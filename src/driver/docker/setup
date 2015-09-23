@@ -21,5 +21,8 @@ do
 	cd ..
 done
 
+(docker rmi `docker images | grep '<none>' | awk '{print$3}'`) >& /dev/null
+echo 
+
 exit 0
 
