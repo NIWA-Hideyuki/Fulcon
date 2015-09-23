@@ -60,6 +60,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/stop $(DESTDIR)$(libdir)/fulcon/driver/docker/stop
 	install -m 755 driver/docker/sysgen $(DESTDIR)$(libdir)/fulcon/driver/docker/sysgen
 	install -m 755 driver/docker/clone $(DESTDIR)$(libdir)/fulcon/driver/docker/clone
+	install -m 755 driver/docker/clone-newimage $(DESTDIR)$(libdir)/fulcon/driver/docker/clone-newimage
 	install -m 755 driver/docker/setup $(DESTDIR)$(libdir)/fulcon/driver/docker/setup
 	install -m 755 driver/docker/add-user $(DESTDIR)$(libdir)/fulcon/driver/docker/add-user
 	install -m 755 driver/docker/del-user $(DESTDIR)$(libdir)/fulcon/driver/docker/del-user

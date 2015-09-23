@@ -40,6 +40,7 @@ if [ $FLG_N -eq 1 ]; then
 	fi
 	BASENAME=$1
 	NAME=$2
+	clone-newimage $BASENAME $NAME
 	if [ $RNUM -gt 0 -a $RNUM -lt 1000 ]; then
 		for i in `seq $RNUM`
 		do
@@ -68,8 +69,10 @@ else
 	exit -1
 fi
 
+
 for i in $NAMES
 do
+	clone-newimage $BASENAME $i
 	mkdir -p $FULCONDIR/container/$i
 	if [ $FLG_X -eq 0 ]; then
 		clone $OPT_FLG $BASENAME $i

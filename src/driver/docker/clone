@@ -49,10 +49,6 @@ OPTCPUSET=`docker run --help | egrep '\-\-cpuset' | egrep -v mem | awk '{print $
 
 IMAGE=`docker ps -a | awk '(NR>1){if($NF=="'$BASENAME'"){split($2,ar,":");printf "%s",ar[1] }}'`
 
-# create a new image
-#docker export  $BASENAME | docker import - $IMAGE-$BASENAME  >& /dev/null
-docker commit $BASENAME $IMAGE-$BASENAME  >& /dev/null
-
 start_docker() {
 	docker run -it ${OPTCPUSET}=${CPUSET} -c 100 -m 512m \
 	--name $NAME --hostname $NAME \
@@ -114,7 +110,7 @@ fi
 (docker rmi `docker images | grep '<none>' | awk '{print$3}' ` ) >& /dev/null
 
 # Reset of tty
-echo " " | cat
+printf " \n\n" | cat
 stty sane
 
 exit 0
