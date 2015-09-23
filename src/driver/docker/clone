@@ -92,7 +92,7 @@ start_docker() {
 	--cap-add=SYSLOG \
 	--cap-add=WAKE_ALARM \
 	--privileged \
-	$IMAGE-$BASENAME /sbin/init
+	$IMAGE-$NAME /sbin/init
 	mkdir -p $LIBDIR/container/$NAME/resource
 	echo $CPUSET > $LIBDIR/container/$NAME/resource/cpuset
 	echo "100000" > $LIBDIR/container/$NAME/resource/cpu

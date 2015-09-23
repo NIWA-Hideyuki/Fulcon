@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # Copyright (C) 2015 NIWA Hideyuki
 
@@ -18,7 +18,8 @@ else
 	exit -1
 fi
 
-IMAGE=`docker ps -a | awk '(NR>1){if($NF=="'$BASENAME'"){split($2,ar,":");printf "%s",ar[1] }}'`
+IMAGE=`docker ps -a | awk '(NR>1){if($NF=="'$BASENAME'"){split($2,ar,":");\
+	split(ar[1], ar2, "-"); printf "%s",ar2[1] }}'`
 
 # create a new image
 #docker export  $BASENAME | docker import - $IMAGE-$NAME  >& /dev/null
