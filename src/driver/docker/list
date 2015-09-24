@@ -7,8 +7,8 @@ usage()
 	echo "usage: list "
 }
 
-RUNNING=`docker ps --no-trunc    | awk '{printf "%s;%s\n",$NF,$2}'`
-ALLCONT=`docker ps --no-trunc -a | awk '{printf "%s;%s\n",$NF,$2}'`
+RUNNING=`docker ps --no-trunc    | awk 'NR>1{printf "%s;%s\n",$NF,$2}'`
+ALLCONT=`docker ps --no-trunc -a | awk 'NR>1{printf "%s;%s\n",$NF,$2}'`
 for i in $ALLCONT
 do
 	NAME=`echo $i | awk -F ";" '{print $1}'`
