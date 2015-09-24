@@ -100,6 +100,9 @@ In the following example, the user "niwa" is seted.
 
 	add-user NAME USERNAME
 
+	clone BASENAME NAME ...
+	clone -n REPEAT_NUMBER  BASENAME NAME
+
 	console [ -x ] [ -n REPEAT_NUMBER] NAME
 
 	del-user NAME USERNAME
@@ -107,7 +110,7 @@ In the following example, the user "niwa" is seted.
 	dirver-name
 
 	erase NAME  ...
-	erase [-n REPEAT_NUMBER] NAME
+	erase -n REPEAT_NUMBER NAME
 
 	help
 
@@ -135,13 +138,13 @@ In the following example, the user "niwa" is seted.
 	setup
 
 	start NAME ...
-	start [-n REPEAT_NUMBER] NAME
+	start -n REPEAT_NUMBER NAME
 
 	stop NAME  ...
-	stop [-n REPEAT_NUMBER] NAME
+	stop -n REPEAT_NUMBER NAME
 
 	sysgen [ -c IMAGE ] NAME NAME ...
-	sysgen [-n REPEAT_NUMBER ] [ -c IMAGE ] NAME  ...
+	sysgen -n REPEAT_NUMBER  [ -c IMAGE ] NAME  ...
 
 	update
 

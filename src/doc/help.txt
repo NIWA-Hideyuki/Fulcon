@@ -5,6 +5,9 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 
 	add-user NAME USERNAME
 
+	clone BASENAME NAME ...
+	clone -n REPEAT_NUMBER  BASENAME NAME
+
 	console [ -x ] [ -n REPEAT_NUMBER] NAME
 
 	del-user NAME USERNAME
@@ -12,7 +15,7 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 	dirver-name
 
 	erase NAME  ...
-	erase [-n REPEAT_NUMBER] NAME
+	erase -n REPEAT_NUMBER NAME
 
 	help
 
@@ -38,12 +41,12 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 	setup
 
 	start NAME ...
-	start [-n REPEAT_NUMBER] NAME
+	start -n REPEAT_NUMBER NAME
 
 	stop NAME  ...
-	stop [-n REPEAT_NUMBER] NAME
+	stop -n REPEAT_NUMBER NAME
 
 	sysgen [ -c IMAGE ] NAME NAME ...
-	sysgen [-n REPEAT_NUMBER ] [ -c IMAGE ] NAME
+	sysgen -n REPEAT_NUMBER  [ -c IMAGE ] NAME
 
 	update
