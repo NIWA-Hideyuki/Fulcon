@@ -30,14 +30,14 @@ else
 	exit -1
 fi
 
-docker ps | awk '(NR>1){ printf "%s\n",$NF }' | egrep $NAME >& /dev/null
+docker ps --no-trunc | awk '(NR>1){ printf "%s\n",$NF }' | egrep $NAME
 if [ $? -eq 0 ]; then
 	echo "error: already started" $NAME 
 	sleep 5
 	exit -1
 fi
 
-docker ps -a | awk '(NR>1){ printf "%s\n",$NF }' | egrep $NAME >& /dev/null
+docker ps -a --no-trunc | awk '(NR>1){ printf "%s\n",$NF }' | egrep $NAME
 if [ $? -eq 0 ]; then
 	echo "error: already existed" $NAME 
 	sleep 5
@@ -47,7 +47,8 @@ fi
 CPUSET=`cat /sys/fs/cgroup/cpuset/cpuset.cpus`
 OPTCPUSET=`docker run --help | egrep '\-\-cpuset' | egrep -v mem | awk '{print $1}' | awk -F '=' '{print $1}'`
 
-IMAGE=`docker ps -a | awk '(NR>1){if($NF=="'$BASENAME'"){split($2,ar,":");printf "%s",ar[1] }}'`
+IMAGE=`docker ps -a --no-trunc | awk '(NR>1){if($NF=="'$BASENAME'"){split($2,ar,":");\
+	split(ar[1], ar2, "-"); printf "%s",ar2[1] }}'`
 
 start_docker() {
 	docker run -it ${OPTCPUSET}=${CPUSET} -c 100 -m 512m \
@@ -108,9 +109,7 @@ else
 fi
 
 (docker rmi `docker images | grep '<none>' | awk '{print$3}' ` ) >& /dev/null
-
-# Reset of tty
-printf " \n\n" | cat
+printf "\0"
 stty sane
 
 exit 0

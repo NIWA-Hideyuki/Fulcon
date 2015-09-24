@@ -43,8 +43,8 @@ if [ $FLG_N -eq 1 ]; then
 	if [ $RNUM -gt 0 -a $RNUM -lt 1000 ]; then
 		for i in `seq $RNUM`
 		do
-			clone-newimage $BASENAME $NAME$N
 			N=`printf "%04d" $i`
+			clone-newimage $BASENAME $NAME$N
 			if [ $FLG_X -eq 0 ]; then
 				clone $OPT_FLG $BASENAME $NAME$N
 			else
