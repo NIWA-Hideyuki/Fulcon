@@ -30,7 +30,11 @@ shift `expr $OPTIND - 1`
 if [ $# -eq 0 ] ; then
 	less /usr/lib/fulcon/doc/help.txt
 else
-  . /usr/lib/fulcon/sbin/$*
+  if [ -f /usr/lib/fulcon/sbin/$1 ]; then
+    . /usr/lib/fulcon/sbin/$*
+  else
+    echo "error: unknown commad:" $1
+  fi
 fi
 
 exit 0
