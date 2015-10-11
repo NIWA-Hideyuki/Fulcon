@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+FULCONDRIVER=`driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+
+usage()
+{
+	echo "usage: rename NAME NEW_NAME"
+}
+
+if [ $# -eq 2 ]; then
+	NAMES=$@
+else
+	usage
+	exit -1
+fi
+
+. rename $NAMES
+
+exit 0
+

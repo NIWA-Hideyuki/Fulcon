@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+LIBDIR="/var/lib/fulcon/"
+
+usage()
+{
+	echo "usage: rename NAME NEW_NAME"
+}
+
+if [ $# -eq 2 ]; then
+	NAME=$1
+	NEWNAME=$2
+else
+	usage
+	exit -1
+fi
+
+docker rename $NAME $NEWNAME
+mv $LIBDIR/container/$NAME $LIBDIR/container/$NEWNAME
+
+exit 0

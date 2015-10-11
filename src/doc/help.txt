@@ -32,6 +32,8 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 
 	net-info NAME
 
+	rename   NAME NEW_NAME
+
 	resource [-c CPU] [-n CPUSET] [-m MEM] NAME 
 
 	set-default-image [ IMAGE_NAME ]

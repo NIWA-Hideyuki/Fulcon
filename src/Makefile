@@ -28,6 +28,7 @@ install-lib :
 	install -m 755 lib/erase $(DESTDIR)$(libdir)/fulcon/sbin/erase
 	install -m 755 lib/start $(DESTDIR)$(libdir)/fulcon/sbin/start
 	install -m 755 lib/stop $(DESTDIR)$(libdir)/fulcon/sbin/stop
+	install -m 755 lib/rename $(DESTDIR)$(libdir)/fulcon/sbin/rename
 	install -m 755 lib/net-add $(DESTDIR)$(libdir)/fulcon/sbin/net-add
 	install -m 755 lib/net-del $(DESTDIR)$(libdir)/fulcon/sbin/net-del
 	install -m 755 lib/net-info $(DESTDIR)$(libdir)/fulcon/sbin/net-info
@@ -58,6 +59,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/net-ipv4 $(DESTDIR)$(libdir)/fulcon/driver/docker/net-ipv4
 	install -m 755 driver/docker/start $(DESTDIR)$(libdir)/fulcon/driver/docker/start
 	install -m 755 driver/docker/stop $(DESTDIR)$(libdir)/fulcon/driver/docker/stop
+	install -m 755 driver/docker/rename $(DESTDIR)$(libdir)/fulcon/driver/docker/rename
 	install -m 755 driver/docker/sysgen $(DESTDIR)$(libdir)/fulcon/driver/docker/sysgen
 	install -m 755 driver/docker/clone $(DESTDIR)$(libdir)/fulcon/driver/docker/clone
 	install -m 755 driver/docker/clone-newimage $(DESTDIR)$(libdir)/fulcon/driver/docker/clone-newimage
