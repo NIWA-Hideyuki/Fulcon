@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+LIBDIR="/var/lib/fulcon/"
+
+usage()
+{
+	echo "usage: resume NAME"
+}
+
+if [ $# -eq 1 ]; then
+	NAME=$1
+else
+	usage
+	exit -1
+fi
+
+docker unpause $NAME
+
+exit 0

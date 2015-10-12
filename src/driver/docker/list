@@ -7,7 +7,8 @@ usage()
 	echo "usage: list "
 }
 
-RUNNING=`docker ps --no-trunc    | awk 'NR>1{printf "%s;%s\n",$NF,$2}'`
+RUNNING=`docker ps --no-trunc    | awk 'NR>1{if($(NF-1) != "(Paused)") printf "%s;%s\n",$NF,$2}'`
+PAUSED=`docker ps --no-trunc    | awk 'NR>1{if($(NF-1) == "(Paused)") printf "%s;%s\n",$NF,$2}'`
 ALLCONT=`docker ps --no-trunc -a | awk 'NR>1{printf "%s;%s\n",$NF,$2}'`
 for i in $ALLCONT
 do
@@ -16,8 +17,13 @@ do
 	echo $RUNNING | egrep -w $i >& /dev/null
 	if [ $? -eq 0 ]; then
 		printf "%s\t\tRUNNING\t\t%s\n" $NAME $IMAGE
-	else
-		printf "%s\t\tSTOPPED\t\t%s\n" $NAME $IMAGE
+	else 
+		echo $PAUSED | egrep -w $i >& /dev/null
+		if [ $? -eq 0 ]; then
+			printf "%s\t\tPAUSED\t\t%s\n" $NAME $IMAGE
+		else 
+			printf "%s\t\tSTOPPED\t\t%s\n" $NAME $IMAGE
+		fi
 	fi
 done | sort
 
