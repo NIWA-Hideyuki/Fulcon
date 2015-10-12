@@ -36,6 +36,8 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 
 	resource [-c CPU] [-n CPUSET] [-m MEM] NAME 
 
+	resume   NAME
+
 	set-default-image [ IMAGE_NAME ]
 
 	set-passwd NAME USERNAME
@@ -47,6 +49,8 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 
 	stop NAME  ...
 	stop -n REPEAT_NUMBER NAME
+
+	suspend   NAME
 
 	sysgen [ -c IMAGE ] NAME NAME ...
 	sysgen -n REPEAT_NUMBER  [ -c IMAGE ] NAME
