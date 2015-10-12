@@ -93,6 +93,7 @@ start_docker() {
 	--privileged \
 	$IMAGE /sbin/init 
 	mkdir -p $LIBDIR/container/$NAME/resource
+	echo $IMAGE >  $LIBDIR/container/$NAME/imagename
 	echo $CPUSET > $LIBDIR/container/$NAME/resource/cpuset
 	echo "100000" > $LIBDIR/container/$NAME/resource/cpu
 	echo "512m" > $LIBDIR/container/$NAME/resource/mem

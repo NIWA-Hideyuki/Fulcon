@@ -95,9 +95,7 @@ start_docker() {
 	--privileged \
 	$IMAGE-$NAME /sbin/init
 	mkdir -p $LIBDIR/container/$NAME/resource
-	echo $CPUSET > $LIBDIR/container/$NAME/resource/cpuset
-	echo "100000" > $LIBDIR/container/$NAME/resource/cpu
-	echo "512m" > $LIBDIR/container/$NAME/resource/mem
+	cp -pr $LIBDIR/container/$BASENAME/* $LIBDIR/container/$NAME/.
 }
 
 if [ $FLG_I -eq 1 ]; then

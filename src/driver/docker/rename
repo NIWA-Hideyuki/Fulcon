@@ -17,6 +17,7 @@ else
 	exit -1
 fi
 
+echo $NAME "->" $NEWNAME
 docker rename $NAME $NEWNAME
 mv $LIBDIR/container/$NAME $LIBDIR/container/$NEWNAME
 
