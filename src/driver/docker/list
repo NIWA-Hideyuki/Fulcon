@@ -13,16 +13,18 @@ ALLCONT=`docker ps --no-trunc -a | awk 'NR>1{printf "%s\n",$NF}'`
 for i in $ALLCONT
 do
 	NAME=$i
-	IMAGE=`cat /var/lib/fulcon/container/$i/imagename`
-	echo $RUNNING | egrep -w $i >& /dev/null
-	if [ $? -eq 0 ]; then
-		printf "%s\t\tRUNNING\t\t%s\n" $NAME $IMAGE
-	else 
-		echo $PAUSED | egrep -w $i >& /dev/null
+	if [ -f /var/lib/fulcon/container/$i/imagename ]; then
+		IMAGE=`cat /var/lib/fulcon/container/$i/imagename`
+		echo $RUNNING | egrep -w $i >& /dev/null
 		if [ $? -eq 0 ]; then
-			printf "%s\t\tPAUSED\t\t%s\n" $NAME $IMAGE
-		else 
-			printf "%s\t\tSTOPPED\t\t%s\n" $NAME $IMAGE
+			printf "%s\t\tRUNNING\t\t%s\n" $NAME $IMAGE
+		else
+			echo $PAUSED | egrep -w $i >& /dev/null
+			if [ $? -eq 0 ]; then
+				printf "%s\t\tPAUSED\t\t%s\n" $NAME $IMAGE
+			else
+				printf "%s\t\tSTOPPED\t\t%s\n" $NAME $IMAGE
+			fi
 		fi
 	fi
 done | sort
