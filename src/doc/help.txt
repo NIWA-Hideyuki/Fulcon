@@ -42,7 +42,7 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 
 	set-passwd NAME USERNAME
 
-	setup
+	setup [ -p ]
 
 	start NAME ...
 	start -n REPEAT_NUMBER NAME

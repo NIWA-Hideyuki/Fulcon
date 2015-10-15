@@ -1,4 +1,4 @@
-FROM centos:centos7
+FROM centos
 MAINTAINER NIWA Hideyuki 
 
 # setup proxy
@@ -13,14 +13,14 @@ ENV container docker
 
 # setup systemd
 RUN yum -y update; yum clean all
-RUN yum -y swap -- remove fakesystemd -- install systemd systemd-libs
+RUN yum -y swap -- remove fakesystemd -- install systemd systemd-libs sh
 
 # enable localedef
 RUN yum -y update glibc-common
 RUN yum -y reinstall glibc-common
 
 # install packages
-RUN yum -y install net-tools yum-langpacks system-config-language perl sudo rsyslog tar
+RUN yum -y install net-tools yum-langpacks system-config-language perl sudo rsyslog
 
 # unused services
 RUN systemctl mask dev-mqueue.mount dev-hugepages.mount \

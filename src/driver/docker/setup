@@ -4,16 +4,71 @@
 
 DOCKERFILEDIR=/var/lib/fulcon/driver/dockerfile
 
+# check options
+FLG_P=0
+
+while getopts p OPT
+do
+  case $OPT in
+    "p" ) FLG_P=1 ;;
+  esac
+done
+
+shift `expr $OPTIND - 1`
+
 ls $DOCKERFILEDIR/*
 if [ $? -ne 0 ]; then
 	echo "Dockerfile is not exist"
 	exit 0
 fi
 
+if [ $FLG_P -ne 0 ]; then
+	echo "update proxy settings"
+	HTTPPROXY=`env | egrep http_proxy | awk -F "=" '{print $2}'`
+	HTTPSPROXY=`env | egrep https_proxy | awk -F "=" '{print $2}'`
+	FTPPROXY=`env | egrep ftp_proxy | awk -F "=" '{print $2}'`
+else
+	HTTPPROXY=""
+	HTTPSPROXY=""
+	FTPPROXY=""
+fi
+
 cd $DOCKERFILEDIR
 for i in *
 do
 	cd $i
+	if [ $FLG_P -ne 0 ]; then
+		# set environmet variable of proxy
+		if [ x"$HTTPPROXY" != x"" ]; then
+			echo "setup http proxy :" $HTTPPROXY
+			sed -i "s%#ENV http_proxy http://xxx%ENV http_proxy "$HTTPPROXY"%" Dockerfile
+		fi
+		if [ x"$HTTPSPROXY" != x"" ]; then
+			echo "setup https proxy :" $HTTPSPROXY
+			sed -i "s%#ENV https_proxy http://xxx%ENV https_proxy "$HTTPSPROXY"%" Dockerfile
+		fi
+		if [ x"$FTPPROXY" != x"" ]; then
+			echo "setup ftp proxy :" $FTPPROXY
+			sed -i "s%#ENV ftp_proxy http://xxx%ENV ftp_proxy "$FTPPROXY"%" Dockerfile
+		fi
+		# for centos
+		if [ x"$HTTPPROXY" != x"" ]; then
+			sed -i 's%#RUN echo "proxy=http://xxx"%RUN echo "proxy='$HTTPPROXY'"%' Dockerfile
+		fi
+		# for ubuntu
+		sed -i 's/#ADD 80proxy/ADD 80proxy/' Dockerfile
+		if [ -f 80proxy ]; then
+			if [ x"$HTTPPROXY" != x"" ]; then
+				sed -i 's%Acquire::http::proxy "http://xxx";%Acquire::http::proxy "'$HTTPPROXY'";%' 80proxy
+			fi
+			if [ x"$HTTPSPROXY" != x"" ]; then
+				sed -i 's%Acquire::https::proxy "http://xxx";%Acquire::http::proxy "'$HTTPSPROXY'";%' 80proxy
+			fi
+			if [ x"$FTPPROXY" != x"" ]; then
+				sed -i 's%Acquire::ftp::proxy "http://xxx";%Acquire::http::proxy "'$FTPPROXY'";%' 80proxy
+			fi
+		fi
+	fi
 	echo docker build -t fulcon/$i .
 	docker build --no-cache -t fulcon/$i .
 	echo 

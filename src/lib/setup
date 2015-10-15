@@ -5,20 +5,6 @@
 FULCONDRIVER=`driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
-usage() {
-	echo "usage: setup"
-}
-
-if [ $# -ne 1 ]; then
-	usage
-	exit -1
-fi
-
-if [ x"$1" != x"setup" ]; then
-	usage
-	exit -1
-fi
-
 . setup $@
 
 exit 0
