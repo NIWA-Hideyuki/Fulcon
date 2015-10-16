@@ -52,7 +52,7 @@ start_docker() {
 	docker run -it ${OPTCPUSET}=${CPUSET} -c 100 -m 512m \
 	--name $NAME --hostname $NAME \
 	-v /sys/fs/cgroup:/sys/fs/cgroup:ro \
-	--cap-add=ALL \
+        --cap-add=ALL \
 	--privileged \
 	$IMAGE /sbin/init 
 	mkdir -p $LIBDIR/container/$NAME/resource

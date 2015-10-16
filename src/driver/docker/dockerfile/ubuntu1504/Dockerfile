@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:15.04
 MAINTAINER NIWA Hideyuki
 
 # setup proxy
@@ -14,15 +14,15 @@ ENV container docker
 ENV DEBIAN_FRONTEND noninteractive
 
 # install packages
-RUN apt-get update && apt-get upgrade -y
-RUN rm -f /lib/systemd/systemd
-RUN apt-get install --reinstall -y --force-yes systemd-services \
-	systemd-shim systemd-sysv upstart  sysv-rc sysvinit-utils
+RUN apt-get update 
+RUN apt-get install --reinstall -y --force-yes upstart sysvinit-utils
 RUN mv /sbin/initctl.distrib /sbin/initctl
-RUN apt-get install -qq -y --force-yes rsyslog apt-utils sudo vim \
+RUN apt-get install -qq -y --force-yes rsyslog initscripts apt-utils sudo vim \
 	language-pack-ja less openssh-server net-tools
 RUN update-rc.d rsyslog defaults
 RUN update-rc.d ssh defaults
+RUN rm -f /etc/apt/apt.conf.d/docker*
+RUN systemctl enable systemd-vconsole-setup.service
 
 # setup ssh
 RUN printf "\nUseDNS=no\n" >> /etc/ssh/sshd_config
