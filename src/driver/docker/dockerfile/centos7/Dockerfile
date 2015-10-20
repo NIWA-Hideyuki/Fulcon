@@ -1,4 +1,4 @@
-FROM centos:7
+FROM centos
 MAINTAINER NIWA Hideyuki 
 
 # setup proxy
@@ -7,7 +7,7 @@ MAINTAINER NIWA Hideyuki
 #ENV http_proxy http://xxx
 #ENV https_proxy http://xxx
 #ENV ftp_proxy http://xxx
-#RUN echo "proxy=http://xxx" >> /etc/yum.conf
+#RUN /usr/bin/echo "proxy=http://xxx" >> /etc/yum.conf
 
 ENV container docker
 
@@ -50,7 +50,7 @@ RUN systemctl disable network.service; \
     systemctl mask rhel-dmesg.service; \
     true
 
-# setup passwd
+# setup root passwd
 RUN passwd -l root
 
 VOLUME ["/sys/fs/cgroup"]

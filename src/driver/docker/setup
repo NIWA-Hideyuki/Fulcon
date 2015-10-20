@@ -34,6 +34,7 @@ else
 fi
 
 cd $DOCKERFILEDIR
+BUILDRESULT=""
 for i in *
 do
 	cd $i
@@ -53,7 +54,7 @@ do
 		fi
 		# for centos
 		if [ x"$HTTPPROXY" != x"" ]; then
-			sed -i 's%#RUN echo "proxy=http://xxx"%RUN echo "proxy='$HTTPPROXY'"%' Dockerfile
+			sed -i 's%#RUN /usr/bin/echo "proxy=http://xxx"%RUN /usr/bin/echo "proxy='$HTTPPROXY'"%' Dockerfile
 		fi
 		# for ubuntu
 		sed -i 's/#ADD 80proxy/ADD 80proxy/' Dockerfile
@@ -71,12 +72,19 @@ do
 	fi
 	echo docker build -t fulcon/$i .
 	docker build --no-cache -t fulcon/$i .
+	if [ $? -eq 0 ]; then
+		RESULT="success"
+	else
+		RESULT="failed"
+	fi
+	BUILDRESULT=`printf "%s*built fulcon/%s : %s" "$BUILDRESULT" "$i" "$RESULT"`
 	echo 
 	echo
 	cd ..
 done
 
 (docker rmi `docker images | grep '<none>' | awk '{print$3}'`) >& /dev/null
+echo $BUILDRESULT | awk '{split($0,a,"*");for (i in a) print a[i]}'
 echo 
 
 exit 0
