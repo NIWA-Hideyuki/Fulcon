@@ -7,14 +7,16 @@ PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
 
 # check options
+OPT_FLG=""
 FLG_X=0
-FLG_N=0
-RNUM=0
+FLG_N=0;RNUM=0
+FLG_E=0
 
-while getopts xn: OPT
+while getopts xen: OPT
 do
   case $OPT in
-    "x" ) FLG_X=1 ; FLG_I=1;;
+    "x" ) FLG_X=1 ;;
+    "e" ) FLG_E=1 ; OPT_FLG="-e" ;;
     "n" ) FLG_N=1 ; RNUM=$OPTARG ;;
   esac
 done
@@ -22,7 +24,7 @@ done
 shift `expr $OPTIND - 1`
 
 usage() {
-	echo "usage: console [ -x ] [ -n REPEAT_NUMBER] NAME"
+	echo "usage: console [ -e ] [ -x ] [ -n REPEAT_NUMBER] NAME"
 }
 
 if [ $FLG_N -eq 1 ]; then
@@ -39,7 +41,7 @@ if [ $FLG_N -eq 1 ]; then
 			if [ x"$ST" != x"0" ]; then
 				echo $NAME$N "is not running"
 			else	
-				gnome-terminal -e "console $NAME$N"
+				gnome-terminal -e "console $OPT_FLG $NAME$N"
 			fi
 		done;
 		exit 0
@@ -68,9 +70,10 @@ do
 	if [ x"$ST" != x"0" ]; then
 		echo $i "is not running"
 	elif [ $FLG_X -eq 0 ]; then
-		console $i
+		console $OPT_FLG $i
 	else
-		gnome-terminal -e "console $i"
+		gnome-terminal -e "console $OPT_FLG $i"
+		gnome-terminal -e "console $OPT_FLG $i"
 	fi
 done
 

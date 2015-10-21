@@ -2,8 +2,20 @@
 
 # Copyright (C) 2015 NIWA Hideyuki
 
+# check options
+FLG_E=0
+
+while getopts e OPT
+do
+  case $OPT in
+    "e" ) FLG_E=1 ;;
+  esac
+done
+
+shift `expr $OPTIND - 1`
+
 usage() {
-	echo "usage: console NAME"
+	echo "usage: console [ -e ] NAME"
 }
 
 if [ $# -ne 1 ]; then
@@ -13,10 +25,14 @@ fi
 
 NAME=$1
 
-echo Attached $NAME"."  
-echo To enter console, hit Enter.
-echo To exit  console, ^p^q is pushed. 
+if [ $FLG_E -ne 0 ]; then
+	docker exec -it $NAME /bin/bash
+else
+	echo Attached $NAME"."  
+	echo To enter console, hit Enter.
+	echo To exit  console, ^p^q is pushed. 
 
-docker attach $NAME
+	docker attach $NAME
+fi
 
 exit 0
