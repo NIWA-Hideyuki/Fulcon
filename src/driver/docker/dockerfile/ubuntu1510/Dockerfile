@@ -24,6 +24,8 @@ RUN update-rc.d ssh defaults
 RUN rm -f /etc/apt/apt.conf.d/docker*
 RUN rm -f /etc/systemd/system/getty.target.wants/*
 RUN systemctl enable systemd-vconsole-setup.service
+RUN systemctl disable remote-fs.service gdm.service 
+RUN systemctl set-default multi-user.target
 
 # setup ssh
 RUN printf "\nUseDNS=no\n" >> /etc/ssh/sshd_config

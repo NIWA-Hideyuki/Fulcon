@@ -26,7 +26,8 @@ RUN yum -y install net-tools yum-langpacks system-config-language perl sudo rsys
 RUN systemctl mask dev-mqueue.mount dev-hugepages.mount \
     systemd-remount-fs.service sys-kernel-config.mount \
     sys-kernel-debug.mount sys-fs-fuse-connections.mount
-RUN systemctl mask display-manager.service systemd-logind.service
+RUN systemctl disable remote-fs.service gdm.service
+RUN systemctl set-default multi-user.target
 
 # setup rsyslog
 RUN systemctl enable rsyslog.service
