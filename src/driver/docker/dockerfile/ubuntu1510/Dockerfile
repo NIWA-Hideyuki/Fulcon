@@ -24,6 +24,7 @@ RUN update-rc.d ssh defaults
 RUN rm -f /etc/apt/apt.conf.d/docker*
 RUN rm -f /etc/systemd/system/getty.target.wants/*
 RUN systemctl enable systemd-vconsole-setup.service
+RUN systemctl mask systemd-logind.service
 RUN systemctl disable remote-fs.service gdm.service 
 RUN systemctl set-default multi-user.target
 

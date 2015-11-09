@@ -27,6 +27,7 @@ RUN systemctl mask dev-mqueue.mount dev-hugepages.mount \
     systemd-remount-fs.service sys-kernel-config.mount \
     sys-kernel-debug.mount sys-fs-fuse-connections.mount
 RUN systemctl disable remote-fs.service gdm.service
+RUN systemctl mask systemd-logind.service
 RUN systemctl set-default multi-user.target
 
 # setup rsyslog
