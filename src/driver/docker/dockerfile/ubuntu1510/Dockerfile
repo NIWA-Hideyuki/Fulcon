@@ -15,10 +15,11 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # install packages
 RUN apt-get update 
-RUN apt-get install --reinstall -y --force-yes upstart sysvinit-utils
+RUN apt-get install --reinstall -y --force-yes upstart
+RUN apt-get install --reinstall -y --force-yes sysvinit-utils || true
 RUN mv /sbin/initctl.distrib /sbin/initctl
 RUN apt-get install -qq -y --force-yes rsyslog initscripts apt-utils sudo vim \
-	language-pack-ja less openssh-server net-tools
+	less openssh-server net-tools
 RUN update-rc.d rsyslog defaults
 RUN update-rc.d ssh defaults
 RUN rm -f /etc/apt/apt.conf.d/docker*
