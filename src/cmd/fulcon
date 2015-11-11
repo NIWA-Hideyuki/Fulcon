@@ -33,7 +33,7 @@ else
   if [ -f /usr/lib/fulcon/sbin/$1 ]; then
     . /usr/lib/fulcon/sbin/$*
   else
-    echo "error: unknown commad:" $1
+    echo "error: unknown command:" $1
   fi
 fi
 
