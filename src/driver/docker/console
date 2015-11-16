@@ -5,17 +5,8 @@
 # check options
 FLG_E=0
 
-while getopts e OPT
-do
-  case $OPT in
-    "e" ) FLG_E=1 ;;
-  esac
-done
-
-shift `expr $OPTIND - 1`
-
 usage() {
-	echo "usage: console [ -e ] NAME"
+	echo "usage: console NAME"
 }
 
 if [ $# -ne 1 ]; then
@@ -25,14 +16,6 @@ fi
 
 NAME=$1
 
-if [ $FLG_E -ne 0 ]; then
-	docker exec -it $NAME /bin/bash
-else
-	echo Attached $NAME"."  
-	echo To enter console, hit Enter.
-	echo To exit  console, ^p^q is pushed. 
-
-	docker attach $NAME
-fi
+docker exec -it $NAME /bin/bash
 
 exit 0

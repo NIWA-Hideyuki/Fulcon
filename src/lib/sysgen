@@ -7,18 +7,14 @@ PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
 # check options
 OPT_FLG=""
-FLG_I=0;
 FLG_N=0; RNUM=0
 FLG_C=0; IMAGENAME=`image-name`
-FLG_X=0;
 
-while getopts in:c:x OPT
+while getopts n:c: OPT
 do
   case $OPT in
-    "i" ) FLG_I=1; OPT_FLG="-i ";;
     "n" ) FLG_N=1; RNUM=$OPTARG;;
     "c" ) FLG_C=1; IMAGENAME=$OPTARG;;
-    "x" ) FLG_X=1; FLG_I=1; OPT_FLG="-i ";; 
   esac
 done
 
@@ -26,14 +22,9 @@ shift `expr $OPTIND - 1`
 
 usage()
 {
-	echo "usage: sysgen [ -i ] [ -c IMAGE ] NAME NAME ..."
+	echo "usage: sysgen [ -c IMAGE ] NAME NAME ..."
 	echo "       sysgen [-n REPEAT_NUMBER ] [ -c IMAGE ] NAME"
 }
-
-if [ $FLG_I -eq 1 -a $FLG_N -eq 1 -a $FLG_X -ne 1 ]; then
-	echo "error: -n and -i cannot be specified at the same time."
-	exit -1
-fi
 
 fulcon image-catalog | awk 'BEGIN{r=-1}{if ($1 == "'$IMAGENAME'") r=0}END{exit r}'
 if [ $? -ne 0 ]; then
@@ -51,11 +42,7 @@ if [ $FLG_N -eq 1 ]; then
 		for i in `seq $RNUM`
 		do
 			N=`printf "%04d" $i`
-			if [ $FLG_X -eq 0 ]; then
-				sysgen $OPT_FLG $NAME$N $IMAGENAME 
-			else
-				gnome-terminal -e "sysgen $OPT_FLG $NAME$N $IMAGENAME"
-			fi
+			sysgen $OPT_FLG $NAME$N $IMAGENAME
 			mkdir -p $FULCONDIR/container/$NAME$N
 		done;
 		exit 0
@@ -81,11 +68,7 @@ fi
 for i in $NAMES
 do
 	mkdir -p $FULCONDIR/container/$i
-	if [ $FLG_X -eq 0 ]; then
-		sysgen $OPT_FLG $i $IMAGENAME 
-	else
-		gnome-terminal -e "sysgen $OPT_FLG $i $IMAGENAME"
-	fi
+	sysgen $OPT_FLG $i $IMAGENAME
 done
 
 exit 0

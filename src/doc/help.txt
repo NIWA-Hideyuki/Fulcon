@@ -8,7 +8,7 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 	clone BASENAME NAME ...
 	clone -n REPEAT_NUMBER  BASENAME NAME
 
-	console [ -e ] [ -x ] [ -n REPEAT_NUMBER] NAME
+	console [ -x ] [ -n REPEAT_NUMBER] NAME
 
 	del-user NAME USERNAME
 

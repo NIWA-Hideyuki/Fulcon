@@ -4,28 +4,15 @@
 
 LIBDIR="/var/lib/fulcon/"
 
-# check options
-FLG_I=0
-
-while getopts i OPT
-do
-  case $OPT in
-    "i" ) FLG_I=1;;
-  esac
-done
-
-shift `expr $OPTIND - 1`
-
 usage()
 {
-	echo "usage: sysgen [ -i ] NAME IMAGE"
+	echo "usage: sysgen NAME IMAGE"
 }
 
 if [ $# -eq 2 ]; then
 	NAME=$1
 else
 	usage
-	sleep 5
 	exit -1
 fi
 
@@ -34,14 +21,12 @@ IMAGE=$2
 docker ps | awk '(NR>1){ if ($NF == "'$NAME'"){exit -1} }'
 if [ $? -ne 0 ]; then
 	echo "error: already started" $NAME 
-	sleep 5
 	exit -1
 fi
 
 docker ps -a | awk '(NR>1){ if ($NF == "'$NAME'"){exit -1} }'
 if [ $? -ne 0 ]; then
 	echo "error: already existed" $NAME 
-	sleep 5
 	exit -1
 fi
 
@@ -49,7 +34,7 @@ CPUSET=`cat /sys/fs/cgroup/cpuset/cpuset.cpus`
 OPTCPUSET=`docker run --help | egrep '\-\-cpuset' | egrep -v mem | awk '{print $1}' | awk -F '=' '{print $1}'`
 
 start_docker() {
-	docker run -it ${OPTCPUSET}=${CPUSET} -c 100 -m 512m \
+	docker run -d ${OPTCPUSET}=${CPUSET} -c 100 -m 512m \
 	--name $NAME --hostname $NAME \
 	-v /sys/fs/cgroup:/sys/fs/cgroup:ro \
         --cap-add=ALL \
@@ -62,18 +47,14 @@ start_docker() {
 	echo "512m" > $LIBDIR/container/$NAME/resource/mem
 }
 
-if [ $FLG_I -eq 1 ]; then
-	start_docker
+MSG=`start_docker < /dev/tty 2>&1 ` & 
+if [ $? -eq 0 ]; then
+	stty sane;
+	echo "sysgened:" $NAME;
 else
-	MSG=`start_docker < /dev/tty 2>&1 ` & 
-	if [ $? -eq 0 ]; then
-		stty sane;
-		echo "sysgened:" $NAME;
-	else
-		stty sane;
-		echo "error: can't sysgened" $NAME
-		echo $MSG
-	fi
+	stty sane;
+	echo "error: can't sysgened" $NAME
+	echo $MSG
 fi
 
 exit 0

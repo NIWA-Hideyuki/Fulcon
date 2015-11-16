@@ -7,16 +7,12 @@ PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
 # check options
 OPT_FLG=""
-FLG_I=0
-FLG_X=0
 FLG_N=0
 RNUM=0
 
-while getopts ixn: OPT
+while getopts n: OPT
 do
   case $OPT in
-    "i" ) FLG_I=1 ; OPT_FLG="-i ";; 
-    "x" ) FLG_X=1 ; FLG_I=1; OPT_FLG="-i ";; 
     "n" ) FLG_N=1 ; RNUM=$OPTARG ;;
   esac
 done
@@ -25,14 +21,10 @@ shift `expr $OPTIND - 1`
 
 usage()
 {
-	echo "usage: start [ -i ] [ -x ]NAME NAME ..."
-	echo "       start [-n REPEAT_NUMBER] [ -x ] NAME  ..."
+	echo "usage: start NAME NAME ..."
+	echo "       start [-n REPEAT_NUMBER] NAME  ..."
 }
 
-if [ $FLG_I -eq 1 -a $FLG_N -eq 1 -a $FLG_X -ne 1 ]; then
-	echo "error:  -n and -i cannot be specified at the same time."
-	exit -1
-fi
 
 if [ $FLG_N -eq 1 ]; then
 	if [ $# -ne 1 ]; then
@@ -44,11 +36,7 @@ if [ $FLG_N -eq 1 ]; then
 		for i in `seq $RNUM`
 		do
 			N=`printf "%04d" $i`
-			if [ $FLG_X -eq 0 ]; then
-				start $OPT_FLG $NAME$N
-			else
-				gnome-terminal -e "start $OPT_FLG $NAME$N"
-			fi
+			start $OPT_FLG $NAME$N
 
 			NETDIR=$FULCONDIR/container/$NAME$N/net
 			ls $NETDIR/* >& /dev/null
@@ -81,11 +69,7 @@ fi
 
 for i in $NAMES
 do
-	if [ $FLG_X -eq 0 ]; then
-		start $OPT_FLG $i
-	else
-		gnome-terminal -e "start $OPT_FLG $i"
-	fi
+	start $OPT_FLG $i
 
 	NETDIR=$FULCONDIR/container/$i/net/
 	ls $NETDIR/* >& /dev/null
