@@ -16,7 +16,30 @@ done
 
 shift `expr $OPTIND - 1`
 
-ls $DOCKERFILEDIR/*
+usage()
+{
+	cd $DOCKERFILEDIR
+	echo "usage: setup [ -p ] IMAGENAME"
+	echo "Effective IMAGENAME:"
+	for i in *
+	do
+		echo "   " $i
+	done
+} 
+
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+if [ x"$1" == x"setup" ]; then
+	usage
+	exit -1
+fi
+
+IMAGENAME=$1
+
+ls $DOCKERFILEDIR/* >& /dev/null
 if [ $? -ne 0 ]; then
 	echo "Dockerfile is not exist"
 	exit 0
@@ -33,10 +56,11 @@ else
 	FTPPROXY=""
 fi
 
-cd $DOCKERFILEDIR
 BUILDRESULT=""
-for i in *
-do
+
+setup_image()
+{
+	i=$1
 	cd $i
 	if [ $FLG_P -ne 0 ]; then
 		# set environmet variable of proxy
@@ -81,9 +105,25 @@ do
 	echo 
 	echo
 	cd ..
+}
+
+cd $DOCKERFILEDIR
+BUILDRESULT=""
+MATCHFLG=0
+for i in *
+do
+	if [ x"$IMAGENAME" == x"$i" ]; then
+		MATCHFLG=1
+		setup_image $i
+	fi
 done
 
-(docker rmi `docker images | grep '<none>' | awk '{print$3}'`) >& /dev/null
+if [ $MATCHFLG -eq 0 ]; then
+	usage
+	exit -1
+fi
+
+(docker rmi `docker images | grep '<none>' | awk '{print $3}'`) >& /dev/null
 echo $BUILDRESULT | awk '{split($0,a,"*");for (i in a) print a[i]}'
 echo 
 
