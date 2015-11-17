@@ -22,8 +22,7 @@ RUN apt-get install -qq -y --force-yes rsyslog initscripts apt-utils sudo vim \
 RUN update-rc.d rsyslog defaults
 RUN update-rc.d ssh defaults
 RUN rm -f /etc/apt/apt.conf.d/docker*
-RUN rm -f /etc/systemd/system/getty.target.wants/*
-RUN systemctl enable systemd-vconsole-setup.service
+RUN rm -rf /etc/systemd/system/*
 RUN systemctl mask systemd-logind.service
 RUN systemctl disable remote-fs.service gdm.service 
 RUN systemctl set-default multi-user.target

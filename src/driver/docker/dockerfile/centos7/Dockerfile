@@ -24,6 +24,7 @@ RUN yum -y install net-tools yum-langpacks system-config-language perl sudo \
 	rsyslog cronie crontabs cronie-anacron
 
 # unused services
+RUN rm -rf /etc/systemd/system/*
 RUN systemctl mask dev-mqueue.mount dev-hugepages.mount \
     systemd-remount-fs.service sys-kernel-config.mount \
     sys-kernel-debug.mount sys-fs-fuse-connections.mount
@@ -47,10 +48,6 @@ RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''
 RUN mkdir /var/run/sshd && chown root /var/run/sshd
 
 RUN yum -y remove avahi avahi-libs avahi-glib
-RUN systemctl unmask console-getty.service ; \
-	systemctl enable console-getty.service ; \
-	systemctl unmask getty.target ; \
-	true
 
 RUN systemctl disable network.service; \
     systemctl mask rhel-dmesg.service; \
