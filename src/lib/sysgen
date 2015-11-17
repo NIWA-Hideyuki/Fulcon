@@ -5,6 +5,12 @@
 FULCONDRIVER=`driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
+usage()
+{
+	echo "usage: sysgen [ -c IMAGE ] NAME NAME ..."
+	echo "       sysgen [-n REPEAT_NUMBER ] [ -c IMAGE ] NAME"
+}
+
 # check options
 OPT_FLG=""
 FLG_N=0; RNUM=0
@@ -15,16 +21,11 @@ do
   case $OPT in
     "n" ) FLG_N=1; RNUM=$OPTARG;;
     "c" ) FLG_C=1; IMAGENAME=$OPTARG;;
+    \?  ) usage; exit -1;;
   esac
 done
 
 shift `expr $OPTIND - 1`
-
-usage()
-{
-	echo "usage: sysgen [ -c IMAGE ] NAME NAME ..."
-	echo "       sysgen [-n REPEAT_NUMBER ] [ -c IMAGE ] NAME"
-}
 
 fulcon image-catalog | awk 'BEGIN{r=-1}{if ($1 == "'$IMAGENAME'") r=0}END{exit r}'
 if [ $? -ne 0 ]; then

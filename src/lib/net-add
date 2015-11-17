@@ -19,6 +19,7 @@ while getopts d:n:g:b: OPT ; do
   n) FLG_N=1 ; NUM=$OPTARG ;;
   g) FLG_G=1 ; LXCGATEWAY=$OPTARG ;;
   b) FLG_B=1 ; LXCBR=$OPTARG ;;
+  \? ) exit -1;;
   esac
 done
 shift $((OPTIND - 1))  

@@ -10,19 +10,20 @@ OPT_FLG=""
 FLG_N=0
 RNUM=0
 
-while getopts n: OPT
-do
-  case $OPT in
-    "n" ) FLG_N=1; RNUM=$OPTARG;;
-  esac
-done
-shift `expr $OPTIND - 1`
-
 usage()
 {
 	echo "usage: erase NAME  ..."
 	echo "usage: erase [-n REPEAT_NUMBER] NAME"
 }
+
+while getopts n: OPT
+do
+  case $OPT in
+    "n" ) FLG_N=1; RNUM=$OPTARG;;
+    \?  ) usage; exit -1;;
+  esac
+done
+shift `expr $OPTIND - 1`
 
 if [ $FLG_N -eq 1 ]; then
 	if [ $# -ne 1 ]; then

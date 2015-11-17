@@ -9,18 +9,24 @@ if [ ${EUID:-${UID}} != 0 ]; then
     exit 1
 fi
 
+usage()
+{
+	echo "usage: net-route-add [ -n NUMBER ] CONTAINER_NAME NET_ADDR GATEWAY"
+}
+
 # check options
 FLG_N=0 ; NUM=""
 
 while getopts n: OPT ; do
   case $OPT in
   n) FLG_N=1 ; NUM=$OPTARG ;;
+  \? ) usage; exit -1;;
   esac
 done
 shift $((OPTIND - 1))
 
 if [ $# -ne 3 ]; then
-	echo "usage: net-route-add [ -n NUMBER ] CONTAINER_NAME NET_ADDR GATEWAY"
+	usage
 	exit -1
 fi
 

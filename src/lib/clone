@@ -5,6 +5,12 @@
 FULCONDRIVER=`driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
+usage()
+{
+	echo "usage: clone [ -i ] BASE_NAME NAME ..."
+	echo "       clone [-n REPEAT_NUMBER ] BASE_NAME "
+}
+
 # check options
 OPT_FLG=""
 FLG_I=0;
@@ -17,16 +23,11 @@ do
     "i" ) FLG_I=1; OPT_FLG="-i ";;
     "n" ) FLG_N=1; RNUM=$OPTARG;;
     "x" ) FLG_X=1; FLG_I=1; OPT_FLG="-i ";; 
+    \?  ) usage; exit -1;;
   esac
 done
 
 shift `expr $OPTIND - 1`
-
-usage()
-{
-	echo "usage: clone [ -i ] BASE_NAME NAME ..."
-	echo "       clone [-n REPEAT_NUMBER ] BASE_NAME "
-}
 
 if [ $FLG_I -eq 1 -a $FLG_N -eq 1 -a $FLG_X -ne 1 ]; then
 	echo "error: -n and -i cannot be specified at the same time."

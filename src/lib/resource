@@ -5,6 +5,10 @@
 FULCONDRIVER=`driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
+usage() {
+	echo "usage: resource [-c CPU] [-n CPUSET] [-m MEM] NAME "
+}
+
 # check options
 FLG_C=0; CPU=""
 FLG_N=0; CPUSET=""
@@ -16,14 +20,11 @@ do
     "c" ) FLG_C=1 ; CPU=$OPTARG ;;
     "m" ) FLG_M=1 ; MEM=$OPTARG ;;
     "n" ) FLG_N=1 ; CPUSET=$OPTARG ;;
+    \?  ) usage; exit -1;;
   esac
 done
 
 shift `expr $OPTIND - 1`
-
-usage() {
-	echo "usage: resource [-c CPU] [-n CPUSET] [-m MEM] NAME "
-}
 
 if [ $# -ne 1 ]; then
 	usage

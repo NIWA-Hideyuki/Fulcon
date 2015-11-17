@@ -2,12 +2,17 @@
 
 # Copyright (C) 2015 NIWA Hideyuki
 
-
 # check root
 if [ ${EUID:-${UID}} != 0 ]; then
     echo "error: Because you are not root, you cannot execute this command. "
     exit 1
 fi
+
+usage()
+{
+	echo "usage: net-del [ -n NUMBER ] CONTAINER_NAME"
+	echo "usage: net-del [ -d DEVICE ] "
+}
 
 # check options
 FLG_N=0 ; NUM=""
@@ -17,15 +22,10 @@ while getopts n:d: OPT ; do
   case $OPT in
   n) FLG_N=1 ; NUM=$OPTARG ;;
   d) FLG_D=1 ; DEV=$OPTARG ;;
+  \? ) usage; exit -1;;
   esac
 done
 shift $((OPTIND - 1))
-
-usage()
-{
-	echo "usage: net-del [ -n NUMBER ] CONTAINER_NAME"
-	echo "usage: net-del [ -d DEVICE ] "
-}
 
 # check args
 if [ $FLG_D -eq 1 -a $# -ne 0 ]; then

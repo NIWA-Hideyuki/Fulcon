@@ -4,6 +4,11 @@
 
 LIBDIR="/var/lib/fulcon/"
 
+usage()
+{
+	echo "usage: clone [ -i ] BASENAME NAME "
+}
+
 # check options
 FLG_I=0
 
@@ -11,15 +16,11 @@ while getopts i OPT
 do
   case $OPT in
     "i" ) FLG_I=1;;
+    \?  ) usage; exit -1;;
   esac
 done
 
 shift `expr $OPTIND - 1`
-
-usage()
-{
-	echo "usage: clone [ -i ] BASENAME NAME "
-}
 
 if [ $# -eq 2 ]; then
 	BASENAME=$1

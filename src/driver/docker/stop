@@ -2,6 +2,11 @@
 
 # Copyright (C) 2015 NIWA Hideyuki
 
+usage()
+{
+	echo "usage: stop [ -f ] NAME"
+}
+
 # check options
 OPT_FLG=""
 FLG_F=0
@@ -10,15 +15,11 @@ while getopts f OPT
 do
   case $OPT in
     "f" ) FLG_F=1; OPT_FLG=" " ;;
+    \?  ) usage; exit -1;;
   esac
 done
 
 shift `expr $OPTIND - 1`
-
-usage()
-{
-	echo "usage: stop [ -f ] NAME"
-}
 
 if [ $# -eq 1 ]; then
 	NAME=$1

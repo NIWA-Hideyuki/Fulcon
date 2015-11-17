@@ -15,6 +15,7 @@ while getopts n:d: OPT ; do
   case $OPT in
   n) FLG_N=1 ; NUM=$OPTARG ;;
   d) FLG_D=1 ; DEV=$OPTARG ;;
+  \? ) exit -1;;
   esac
 done
 shift $((OPTIND - 1))
