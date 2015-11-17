@@ -20,13 +20,12 @@ RUN apt-get install --reinstall -y --force-yes sysvinit-utils || true
 RUN mv /sbin/initctl.distrib /sbin/initctl
 RUN apt-get install -qq -y --force-yes rsyslog initscripts apt-utils sudo vim \
 	less openssh-server net-tools
-RUN update-rc.d rsyslog defaults
-RUN update-rc.d ssh defaults
 RUN rm -f /etc/apt/apt.conf.d/docker*
 RUN rm -rf /etc/systemd/system/*
 RUN systemctl mask systemd-logind.service
 RUN systemctl disable remote-fs.service gdm.service 
 RUN systemctl set-default multi-user.target
+RUN systemctl enable rsyslog ssh
 
 # setup ssh
 RUN printf "\nUseDNS=no\n" >> /etc/ssh/sshd_config
