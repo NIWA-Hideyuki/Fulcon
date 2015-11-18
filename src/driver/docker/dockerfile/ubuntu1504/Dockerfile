@@ -41,5 +41,5 @@ RUN passwd -l root
 VOLUME ["/sys/fs/cgroup"]
 VOLUME ["/run"]
 
-ENTRYPOINT ["/sbin/init"]
+CMD ["/sbin/init"]
 

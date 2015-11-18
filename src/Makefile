@@ -36,6 +36,10 @@ install-lib :
 	install -m 755 lib/net-info $(DESTDIR)$(libdir)/fulcon/sbin/net-info
 	install -m 755 lib/resource $(DESTDIR)$(libdir)/fulcon/sbin/resource
 	install -m 755 lib/setup $(DESTDIR)$(libdir)/fulcon/sbin/setup
+	install -m 755 lib/load-ocf $(DESTDIR)$(libdir)/fulcon/sbin/load-ocf
+	install -m 755 lib/save-ocf $(DESTDIR)$(libdir)/fulcon/sbin/save-ocf
+	install -m 755 lib/ls-ocf $(DESTDIR)$(libdir)/fulcon/sbin/ls-ocf
+	install -m 755 lib/del-ocf $(DESTDIR)$(libdir)/fulcon/sbin/del-ocf
 	install -m 755 lib/add-user $(DESTDIR)$(libdir)/fulcon/sbin/add-user
 	install -m 755 lib/del-user $(DESTDIR)$(libdir)/fulcon/sbin/del-user
 	install -m 755 lib/set-passwd $(DESTDIR)$(libdir)/fulcon/sbin/set-passwd
@@ -68,6 +72,8 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/clone $(DESTDIR)$(libdir)/fulcon/driver/docker/clone
 	install -m 755 driver/docker/clone-newimage $(DESTDIR)$(libdir)/fulcon/driver/docker/clone-newimage
 	install -m 755 driver/docker/setup $(DESTDIR)$(libdir)/fulcon/driver/docker/setup
+	install -m 755 driver/docker/load-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/load-ocf
+	install -m 755 driver/docker/save-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/save-ocf
 	install -m 755 driver/docker/add-user $(DESTDIR)$(libdir)/fulcon/driver/docker/add-user
 	install -m 755 driver/docker/del-user $(DESTDIR)$(libdir)/fulcon/driver/docker/del-user
 	install -m 755 driver/docker/set-passwd $(DESTDIR)$(libdir)/fulcon/driver/docker/set-passwd

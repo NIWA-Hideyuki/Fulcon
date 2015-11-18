@@ -59,4 +59,4 @@ RUN passwd -l root
 VOLUME ["/sys/fs/cgroup"]
 VOLUME ["/run"]
 
-CMD  ["/usr/lib/systemd/systemd"]
+CMD ["/sbin/init"]

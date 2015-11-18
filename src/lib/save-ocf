@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+FULCONDRIVER=`driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+
+usage()
+{
+	echo "usage: save-ocf IMAGENAME"
+}
+
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+if [ x"$1" != x"save-ocf" ]; then
+	save-ocf $@
+else
+	usage
+	exit -1
+fi
+
+exit 0
+
+

@@ -10,6 +10,8 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 
 	console [ -x ] [ -n REPEAT_NUMBER] NAME
 
+	del-ocf IMAGE_NAME
+
 	del-user NAME USERNAME
 
 	dirver-name
@@ -25,6 +27,10 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 
 	list 
 
+	load-ocf IMAGE_NAME
+
+	ls-ocf
+
 	net-add [-d NIC_DEVICE] [-n VETH_NUMBER] [-g GATEWAY] [-b BRIDGE] NAME IP_ADDR/MASK
 
 	net-del [-n VETH_NUMBER] NAME
@@ -37,6 +43,8 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 	resource [-c CPU] [-n CPUSET] [-m MEM] NAME 
 
 	resume   NAME
+
+	save-ocf IMAGE_NAME
 
 	set-default-image [ IMAGE_NAME ]
 

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+OCFDIR=/var/lib/fulcon/OCF
+
+usage()
+{
+	echo "usage: save-ocf IMAGENAME"
+}
+
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+if [ x"$1" == x"save-ocf" ]; then
+	usage
+	exit -1
+fi
+
+IMAGENAME=`basename $1`
+
+echo "OCF image" fulcon/$IMAGENAME "is saving"
+mkdir -p $OCFDIR/$IMAGENAME 
+
+ID=`docker run -d fulcon/$IMAGENAME /bin/true`
+docker export $ID | gzip -c > $OCFDIR/$IMAGENAME/$IMAGENAME.tgz
+docker rm $ID
+
+echo $IMAGENAME "is saveed"
+echo fulcon/$IMAGENAME "is converted OCF image:" $IMAGENAME
+
+exit 0
+
