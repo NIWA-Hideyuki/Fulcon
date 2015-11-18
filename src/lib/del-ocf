@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+FULCONDRIVER=`driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+OCFDIR=/var/lib/fulcon/OCF
+
+usage()
+{
+	echo "usage: del-ocf IMAGENAME"
+}
+
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+IMAGENAME=`basename $1`
+
+if [ x"$1" != x"del-ocf" ]; then
+	cd $OCFDIR
+	if [ -e $IMAGENAME ]; then
+		rm -r $IMAGENAME
+	else
+		echo "error: can't find image:" $IMAGENAME
+		exit -1
+	fi
+else
+	usage
+	exit -1
+fi
+
+exit 0
+
+

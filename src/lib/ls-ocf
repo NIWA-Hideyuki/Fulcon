@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+FULCONDRIVER=`driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+OCFDIR=/var/lib/fulcon/OCF
+
+usage()
+{
+	echo "usage: ls-ocf"
+}
+
+if [ $# -ne 1 -a x"$1" != x"ls-ocf" ]; then
+	usage
+	exit -1
+fi
+
+cd $OCFDIR
+echo "OCF images:"
+ls -1 | awk '{printf "\t%s\n",$1}'
+
+
+exit 0
+
+
