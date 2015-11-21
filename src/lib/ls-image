@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+FULCONDRIVER=`driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+
+usage()
+{
+	echo "usage: ls-image"
+}
+
+. ls-image $@
+
+exit 0
+

@@ -27,7 +27,7 @@ done
 
 shift `expr $OPTIND - 1`
 
-fulcon image-catalog | awk 'BEGIN{r=-1}{if ($1 == "'$IMAGENAME'") r=0}END{exit r}'
+fulcon ls-image | awk 'BEGIN{r=-1}{if ($1 == "'$IMAGENAME'") r=0}END{exit r}'
 if [ $? -ne 0 ]; then
 	echo "error: can't find" $IMAGENAME
 	exit -1

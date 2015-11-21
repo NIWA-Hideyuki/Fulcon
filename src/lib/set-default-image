@@ -4,8 +4,7 @@
 
 if [ $# -eq 1 ]; then
 	if [ x"$1" == x"set-default-image" ]; then
-		echo image catalog:
-		fulcon image-catalog
+		fulcon ls-image
 		echo
 		read -p "image name : " NAME
 	else
@@ -13,7 +12,7 @@ if [ $# -eq 1 ]; then
 	fi
 fi
 
-fulcon image-catalog | awk 'BEGIN{r=-1}{if ($1 == "'$NAME'") r=0}END{exit(r)}'
+fulcon ls-image | awk 'BEGIN{r=-1}{if ($1 == "'$NAME'") r=0}END{exit(r)}'
 if [ $? -eq 0 ]; then
 	echo "set" $NAME
 	echo "$NAME" > /var/lib/fulcon/default-image 

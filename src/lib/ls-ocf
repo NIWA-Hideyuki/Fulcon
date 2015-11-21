@@ -16,6 +16,7 @@ if [ $# -ne 1 -a x"$1" != x"ls-ocf" ]; then
 	exit -1
 fi
 
+mkdir -p $OCFDIR
 cd $OCFDIR
 echo "OCF images:"
 ls -1 | awk '{printf "\t%s\n",$1}'

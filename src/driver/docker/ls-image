@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+usage()
+{
+	echo "usage: ls-image"
+}
+
+if [ $# -ne 1 -a x"$1" == x"ls-image" ]; then
+	usage
+	exit -1
+fi
+
+echo "fulcon images:"
+docker images --no-trunc | awk '($1~/fulcon\//){printf "\t%s\n",$1}'
+
+
+exit 0
+
+
