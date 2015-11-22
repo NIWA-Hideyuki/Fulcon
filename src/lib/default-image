@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+IMAGENAME=`cat /var/lib/fulcon/default-image`
+
+if [ x"$IMAGENAME" == x"" ]; then
+	for i in `fulcon ls-image | awk '(NR>1){print}'`
+	do
+		IMAGENAME=$i
+		fulcon set-default-image $IMAGENAME >& /dev/null
+		break
+	done
+fi
+
+if [ x"$IMAGENAME" == x"" ]; then
+	echo "error: can't find Image"
+	exit -1 
+fi
+
+echo $IMAGENAME
+
+exit 0
