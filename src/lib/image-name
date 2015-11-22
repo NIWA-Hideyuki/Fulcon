@@ -1,7 +1,0 @@
-#!/bin/bash
-
-# Copyright (C) 2015 NIWA Hideyuki
-
-cat /var/lib/fulcon/default-image
-
-exit 0

@@ -23,7 +23,7 @@ do
 done
 
 if [ $FLG -eq 1 ]; then
-	docker rmi $NAME
+	docker rmi -f $NAME
 	if [ $? -ne 0 ]; then
 		exit -1
 	fi

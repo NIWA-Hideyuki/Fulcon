@@ -20,7 +20,7 @@ install-cmd :
 
 install-lib : 
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/sbin
-	install -m 755 lib/image-name $(DESTDIR)$(libdir)/fulcon/sbin/image-name
+	install -m 755 lib/default-image $(DESTDIR)$(libdir)/fulcon/sbin/default-image
 	install -m 755 lib/driver-name $(DESTDIR)$(libdir)/fulcon/sbin/driver-name
 	install -m 755 lib/list $(DESTDIR)$(libdir)/fulcon/sbin/list
 	install -m 755 lib/sysgen $(DESTDIR)$(libdir)/fulcon/sbin/sysgen
