@@ -6,82 +6,26 @@ LIBDIR="/var/lib/fulcon/"
 
 usage()
 {
-	echo "usage: clone [ -i ] BASENAME NAME "
+	echo "usage: clone CONTAINER_NAME NEW_IMAGENAME "
 }
 
-# check options
-FLG_I=0
-
-while getopts i OPT
-do
-  case $OPT in
-    "i" ) FLG_I=1;;
-    \?  ) usage; exit -1;;
-  esac
-done
-
-shift `expr $OPTIND - 1`
-
-if [ $# -eq 2 ]; then
-	BASENAME=$1
-	NAME=$2
-else
+if [ $# -ne 2 ]; then
 	usage
 	exit -1
 fi
 
-docker ps | awk '(NR>1){ if ($NF == "'$NAME'"){exit -1} }'
-if [ $? -ne 0 ]; then
-	echo "error: already started" $NAME 
-	exit -1
-fi
+CONTAINER=$1
+IMAGENAME=`basename $2`
 
-docker ps -a | awk '(NR>1){ if ($NF == "'$NAME'"){exit -1} }'
-if [ $? -ne 0 ]; then
-	echo "error: already existed" $NAME 
-	exit -1
-fi
+echo $1 $2
+#docker commit $CONTNAME fulcon/$IMAGENAME
 
-docker ps -a | awk '(NR>1){ if ($NF == "'$BASENAME'"){exit -1} }'
 if [ $? -eq 0 ]; then
-	echo "error: can't find" $BASENAME 
+	echo "cloned new image:" $IMAGENAME
+else
+	echo "error: clone is failed"
 	exit -1
 fi
-
-CPUSET=`cat /sys/fs/cgroup/cpuset/cpuset.cpus`
-OPTCPUSET=`docker run --help | egrep '\-\-cpuset' | egrep -v mem | awk '{print $1}' | awk -F '=' '{print $1}'`
-
-IMAGE=`docker ps -a --no-trunc | awk '(NR>1){if($NF=="'$BASENAME'"){split($2,ar,":");\
-	split(ar[1], ar2, "-"); printf "%s",ar2[1] }}'`
-
-start_docker() {
-	docker run -it ${OPTCPUSET}=${CPUSET} -c 100 -m 512m \
-	--name $NAME --hostname $NAME \
-	-v /sys/fs/cgroup:/sys/fs/cgroup:ro \
-	--cap-add=ALL \
-	--privileged \
-	$IMAGE-$NAME /sbin/init
-	mkdir -p $LIBDIR/container/$NAME/resource
-	cp -pr $LIBDIR/container/$BASENAME/* $LIBDIR/container/$NAME/.
-}
-
-if [ $FLG_I -eq 1 ]; then
-	start_docker
-else
-	MSG=`start_docker < /dev/tty 2>&1 ` & 
-	if [ $? -eq 0 ]; then
-		stty sane;
-		echo "cloned:" $NAME
-	else
-		stty sane;
-		echo "error: can't cloned" $NAME
-		echo $MSG
-	fi
-fi
-
-(docker rmi `docker images | grep '<none>' | awk '{print$3}' ` ) >& /dev/null
-printf "\0"
-stty sane
 
 exit 0
 

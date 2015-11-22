@@ -2,85 +2,20 @@
 
 # Copyright (C) 2015 NIWA Hideyuki
 
-FULCONDRIVER=`driver-name`
+FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
 usage()
 {
-	echo "usage: clone [ -i ] BASE_NAME NAME ..."
-	echo "       clone [-n REPEAT_NUMBER ] BASE_NAME "
+	echo "usage: clone CONTAINER_NAME NEW_IMAGENAME"
 }
 
-# check options
-OPT_FLG=""
-FLG_I=0;
-FLG_N=0; RNUM=0
-FLG_X=0;
-
-while getopts in:x OPT
-do
-  case $OPT in
-    "i" ) FLG_I=1; OPT_FLG="-i ";;
-    "n" ) FLG_N=1; RNUM=$OPTARG;;
-    "x" ) FLG_X=1; FLG_I=1; OPT_FLG="-i ";; 
-    \?  ) usage; exit -1;;
-  esac
-done
-
-shift `expr $OPTIND - 1`
-
-if [ $FLG_I -eq 1 -a $FLG_N -eq 1 -a $FLG_X -ne 1 ]; then
-	echo "error: -n and -i cannot be specified at the same time."
-	exit -1
-fi
-
-if [ $FLG_N -eq 1 ]; then
-	if [ $# -ne 2 ]; then
-		usage
-		exit -1
-	fi
-	BASENAME=$1
-	NAME=$2
-	if [ $RNUM -gt 0 -a $RNUM -lt 1000 ]; then
-		for i in `seq $RNUM`
-		do
-			N=`printf "%04d" $i`
-			clone-newimage $BASENAME $NAME$N
-			if [ $FLG_X -eq 0 ]; then
-				clone $OPT_FLG $BASENAME $NAME$N
-			else
-				gnome-terminal -e "clone $OPT_FLG $BASENAME $NAME$N"
-			fi
-			mkdir -p $FULCONDIR/container/$NAME$N
-		done;
-		exit 0
-	else
-		echo "REPEAT_NUMBER must be [1...999]"
-		exit -1
-	fi
-
-fi
-
-if [ $# -ge 2 ]; then
-	BASENAME=$1
-	shift
-	NAMES=$@
-else
+if [ $# -ne 2 ]; then
 	usage
 	exit -1
 fi
 
-
-for i in $NAMES
-do
-	clone-newimage $BASENAME $i
-	mkdir -p $FULCONDIR/container/$i
-	if [ $FLG_X -eq 0 ]; then
-		clone $OPT_FLG $BASENAME $i
-	else
-		gnome-terminal -e "clone $OPT_FLG $BASENAME $i"
-	fi
-done
+. clone $@
 
 exit 0
 
