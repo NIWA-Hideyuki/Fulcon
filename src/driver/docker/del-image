@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+usage()
+{
+	echo "usage: del-image IMAGENAME"
+}
+
+if [ $# -ne 1 -o x"$1" != x"del-image" ]; then
+	NAME=$1
+else
+	usage
+	exit -1
+fi
+
+FLG=0
+for i in `fulcon ls-image | awk '(NR>1){print $1}'`
+do
+	if [ x"$i" == x"$NAME" ]; then
+		FLG=1
+	fi
+done
+
+if [ $FLG -eq 1 ]; then
+	docker rmi $NAME
+	if [ $? -ne 0 ]; then
+		exit -1
+	fi
+else
+	echo "error: can't find image:" $NAME
+	exit -1
+fi
+
+echo "deleted image:" $NAME
+exit 0
+
+

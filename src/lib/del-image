@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+FULCONDRIVER=`driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+
+usage()
+{
+	echo "usage: del-image IMAGE_NAME ..."
+}
+
+. del-image $@
+
+exit 0
+
