@@ -6,6 +6,6 @@
 FULCONDRIVER=`driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
-. net-br-show $@
+. net-br-info $@
 
 exit 0
