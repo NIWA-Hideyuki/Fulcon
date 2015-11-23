@@ -18,7 +18,13 @@ CNAME=$1
 if [ x"$CNAME" == x"net-info" ]; then
 	ls $FULCONDIR/container/*/net/* >& /dev/null
 	if [ $? -eq 0 ]; then
-		cat $FULCONDIR/container/*/net/*
+		cd  $FULCONDIR/container
+		for i in `fulcon list | awk '{printf "%s",$1}'`
+		do
+			echo $i
+			cat $i/net/* | awk '{printf "\t%s\n",$0}'
+			echo
+		done
 	fi
 	exit 0
 fi
