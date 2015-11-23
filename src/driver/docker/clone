@@ -17,15 +17,17 @@ fi
 CONTAINER=$1
 IMAGENAME=`basename $2`
 
-echo $1 $2
-#docker commit $CONTNAME fulcon/$IMAGENAME
+docker commit $CONTAINER fulcon/$IMAGENAME
 
 if [ $? -eq 0 ]; then
-	echo "cloned new image:" $IMAGENAME
+	echo "cloned new image:" fulcon/$IMAGENAME
 else
 	echo "error: clone is failed"
 	exit -1
 fi
+
+docker rmi `docker images | egrep none | awk '{printf "%s ",$3}'` >& /dev/null
+
 
 exit 0
 
