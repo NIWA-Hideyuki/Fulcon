@@ -2,20 +2,22 @@
 
 # Copyright (C) 2015 NIWA Hideyuki
 
-
+FULCONDIR=/var/lib/fulcon
 umask 022
 
 # function usage
 usage()
 {
-	echo "usage: net-add [ -d NETDEV ] [ -n NUMBER ] [ -g GATEWAY ] [ -b BRIDGE ] CONTAINER_NAME IPADDR/MASK "
+	echo "usage: net-add [ -d NETDEV ] [ -n NUMBER ] [ -g GATEWAY ] [ -b BRIDGE_NUMBER ] CONTAINER_NAME IPADDR/MASK "
 }
+
+NETARGS=$@
 
 # check options
 FLG_D=0 ; NETDEV=""
 FLG_N=0 ; NUM=""
 FLG_G=0 ; LXCGATEWAY=""
-FLG_B=0 ; LXCBR="fulcon-br0"
+FLG_B=0 ; LXCBR="0"
 
 while getopts d:n:g:b: OPT ; do
   case $OPT in
@@ -33,6 +35,14 @@ if [ $# -ne 2 ]; then
 	usage
 	exit -1
 fi
+
+# check a BRIDGE_NUMBER
+expr "$LXCBR" + 1 >& /dev/null
+if [ $? -gt 1 ]; then
+	echo "error: BRIDGE_NUMBER is not a integer"
+	exit -1
+fi
+LXCBR="fulcon"$LXCBR
 
 LXCNAME=$1
 LXCBRIP=`net-ipv4 -g $2`
@@ -129,5 +139,10 @@ set_ipaddr()
 set_ipaddr
 
 echo "${LXCNAME}${NUM} ${LXCIP}/${IPMASK}"
+
+# setup container address
+mkdir -p $FULCONDIR/container/$LXCNAME/net
+echo "net-add" $NETARGS > $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM
+chmod 755 $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM
 
 exit 0

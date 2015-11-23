@@ -5,7 +5,7 @@
 
 usage()
 {
-	echo "net-info NAME"
+	echo "usage: net-info NAME"
 }
 
 if [ $# -ne 1 ]; then

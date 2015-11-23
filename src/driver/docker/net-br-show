@@ -1,0 +1,29 @@
+#!/bin/bash
+
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+usage()
+{
+	echo "usage: net-br-show"
+}
+
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+if [ $# -eq 1 -a x"$1" != x"net-br-show" ]; then
+	usage
+	exit -1
+fi
+
+for i in `brctl show | egrep fulcon | awk '{print $1}' `
+do
+	ip a show $i
+	echo
+	brctl show $i
+	echo
+done
+
+exit 0

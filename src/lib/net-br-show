@@ -1,11 +1,11 @@
 #!/bin/bash
 
+
 # Copyright (C) 2015 NIWA Hideyuki
 
 FULCONDRIVER=`driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
-NETARGS=$@
-net-add $NETARGS
+. net-br-show $@
 
 exit 0

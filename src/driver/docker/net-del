@@ -2,6 +2,8 @@
 
 # Copyright (C) 2015 NIWA Hideyuki
 
+FULCONDIR=/var/lib/fulcon
+
 # check root
 if [ ${EUID:-${UID}} != 0 ]; then
     echo "error: Because you are not root, you cannot execute this command. "
@@ -57,5 +59,15 @@ else
 	ip link delete ${LXCNAME}${NUM} type veth 
 	echo "deleted" ${LXCNAME}${NUM}
 fi
+
+# delete a IP address for container
+rm -f $FULCONDIR/container/${LXCNAME}/net/${LXCNAME}${NUM}
+
+# check bridges
+for i in `brctl show | egrep fulcon | awk '(NF==3){print $1}'`
+do
+	ip link set $i down
+	brctl delbr $i
+done
 
 exit 0
