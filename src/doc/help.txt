@@ -5,10 +5,13 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 
 	add-user NAME USERNAME
 
-	clone BASENAME NAME ...
-	clone -n REPEAT_NUMBER  BASENAME NAME
+	clone CONTAINER_NAME NEW_IMAGENAME
 
 	console [ -x ] [ -n REPEAT_NUMBER] NAME
+
+	default-image
+
+	del-image IMAGE_NAME ...
 
 	del-ocf IMAGE_NAME
 
@@ -23,15 +26,18 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 
 	image-catalog
 
-	image-name
 
 	list 
 
 	load-ocf IMAGE_NAME
 
+	ls-image
+
 	ls-ocf
 
-	net-add [-d NIC_DEVICE] [-n VETH_NUMBER] [-g GATEWAY] [-b BRIDGE] NAME IP_ADDR/MASK
+	net-add [-d NIC_DEVICE] [-n VETH_NUMBER] [-g GATEWAY] [-b BRIDGE_NUMBER ] NAME IP_ADDR/MASK
+
+	net-br-info
 
 	net-del [-n VETH_NUMBER] NAME
 	net-del [-d NIC_DEVICE]  NAME
@@ -50,7 +56,7 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 
 	set-passwd NAME USERNAME
 
-	setup [ -p ]
+	setup [ -p ] IMAGE_NAME
 
 	start NAME ...
 	start -n REPEAT_NUMBER NAME
