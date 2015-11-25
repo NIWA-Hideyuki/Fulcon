@@ -42,6 +42,15 @@ fi
 
 docker stop $NAME >& /dev/null
 
+for i in `brctl show | egrep fulcon | awk '{print $1}' `
+do
+	N=`brctl show $i | awk '($1=="'$i'"){print NF}'`
+	if [ $N -eq 3 ]; then
+		ip link set $i down
+		brctl delbr $i
+	fi
+done
+
 echo "stopped" $NAME
 exit 0
 
