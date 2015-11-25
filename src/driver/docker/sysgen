@@ -32,9 +32,15 @@ fi
 
 CPUSET=`cat /sys/fs/cgroup/cpuset/cpuset.cpus`
 OPTCPUSET=`docker run --help | egrep '\-\-cpuset' | egrep -v mem | awk '{print $1}' | awk -F '=' '{print $1}'`
+OPTCPUSHARE=`docker run --help | egrep '\-\-cpu-shares'`
+if [ $? -eq 0 ]; then
+	OPTCPUSHARE="--cpu-shares"
+else
+	OPTCPUSHARE="-c"
+fi
 
 start_docker() {
-	docker run -d ${OPTCPUSET}=${CPUSET} -c 100 -m 512m \
+	docker run -d ${OPTCPUSET}=${CPUSET} ${OPTCPUSHARE} 100 -m 512m \
 	--name $NAME --hostname $NAME \
 	-v /sys/fs/cgroup:/sys/fs/cgroup:ro \
 	--privileged \
