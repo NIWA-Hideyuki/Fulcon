@@ -3,7 +3,13 @@
 # Copyright (C) 2015 NIWA Hideyuki
 
 LIBDIR="/var/lib/fulcon/"
-MEMSETDIR="/sys/fs/cgroup/memory/system.slice/"
+MEMSETDIR="/sys/fs/cgroup/memory/system.slice"
+if [ -x $MEMSETDIR/docker.service/docker ]; then
+	MEMSETDIR="$MEMSETDIR/docker.service/docker/"
+	MEMSETSUFFIX=""
+else
+	MEMSETSUFFIX="docker-"
+fi
 
 if [ $# -ne 2 -a $# -ne 1 ]; then
 	echo "usage: mem CONTAINER_NAME [VALUE]"
@@ -49,12 +55,12 @@ if [ $? -ne 0 ]; then
 fi
 
 cd $MEMSETDIR
-ls docker-${DID}*  >& /dev/null
+ls ${MEMSETSUFFIX}${DID}*  >& /dev/null
 if [ $? -ne 0 ]; then
 	exit 0
 fi
 
-for i in docker-${DID}*
+for i in ${MEMSETSUFFIX}${DID}*
 do
 	if [ $ARGN -eq 2 ]; then
 		echo $USEDMEM > $i/memory.limit_in_bytes

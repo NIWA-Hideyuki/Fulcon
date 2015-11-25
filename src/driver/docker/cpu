@@ -3,7 +3,13 @@
 # Copyright (C) 2015 NIWA Hideyuki
 
 LIBDIR="/var/lib/fulcon/"
-CPUDIR="/sys/fs/cgroup/cpu/system.slice/"
+CPUDIR="/sys/fs/cgroup/cpu/system.slice"
+if [ -x $CPUDIR/docker.service/docker ]; then
+	CPUDIR=$CPUDIR/docker.service/docker
+	CPUSUFFIX=""
+else
+	CPUSUFFIX="docker-"
+fi
 
 if [ $# -ne 2 -a $# -ne 1 ]; then
 	echo "usage: cpu CONTAINER_NAME [VALUE]"
@@ -50,12 +56,12 @@ if [ $? -ne 0 ]; then
 fi
 
 cd $CPUDIR
-ls docker-${DID}*  >& /dev/null
+ls ${CPUSUFFIX}${DID}*  >& /dev/null
 if [ $? -ne 0 ]; then
 	exit 0
 fi
 
-for i in docker-${DID}*
+for i in ${CPUSUFFIX}${DID}*
 do
 	if [ $ARGN -eq 2 ]; then
 		echo 100000 > $i/cpu.cfs_period_us

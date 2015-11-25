@@ -3,7 +3,13 @@
 # Copyright (C) 2015 NIWA Hideyuki
 
 LIBDIR="/var/lib/fulcon/"
-CPUSETDIR="/sys/fs/cgroup/cpuset/system.slice/"
+CPUSETDIR="/sys/fs/cgroup/cpuset/system.slice"
+if [ -x $CPUSETDIR/docker.service/docker ]; then
+	CPUSETDIR=$CPUSETDIR/docker.service/docker
+	CPUSETSUFFIX=""
+else
+	CPUSETSUFFIX="docker-"
+fi
 
 if [ $# -ne 2 -a $# -ne 1 ]; then
 	echo "usage: cpuset CONTAINER_NAME [VALUE]"
@@ -43,12 +49,12 @@ if [ $? -ne 0 ]; then
 fi
 
 cd $CPUSETDIR
-ls docker-${DID}*  >& /dev/null
+ls ${CPUSUFFIX}${DID}*  >& /dev/null
 if [ $? -ne 0 ]; then
 	exit 0
 fi
 
-for i in docker-${DID}*
+for i in ${CPUSUFFIX}${DID}*
 do
 	if [ $ARGN -eq 2 ]; then
 		echo $VAL > $i/cpuset.cpus

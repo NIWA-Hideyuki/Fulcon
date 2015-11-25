@@ -2,6 +2,13 @@
 
 # Copyright (C) 2015 NIWA Hideyuki
 
+CPUDIR="/sys/fs/cgroup/cpu/system.slice"
+if [ -x $CPUDIR/docker.service/docker ]; then
+	CPUDIR=$CPUDIR/docker.service/docker
+	CPUSUFFIX=""
+else
+	CPUSUFFIX="docker-"
+fi
 
 # check args
 if [ $# -ne 1 ]; then
@@ -17,7 +24,7 @@ if [ x"$CNAME" == x"" ]; then
 	exit -1
 fi
 
-CPATH=`ls -1 /sys/fs/cgroup/cpu/system.slice/docker-${CNAME}*.scope/cgroup.procs`
+CPATH=`ls -1 $CPUDIR/${CPUSUFFIX}${CNAME}*/cgroup.procs`
 if [ $? -ne 0 ]; then
 	echo "error: can't find container:" $CNAME
 	exit -1
