@@ -38,6 +38,9 @@ if [ $FLG_N -eq 1 ]; then
 		do
 			N=`printf "%04d" $i`
 			start $OPT_FLG $NAME$N
+			if [ $? -ne 0 ]; then
+				continue
+			fi
 
 			NETDIR=$FULCONDIR/container/$NAME$N/net
 			ls $NETDIR/* >& /dev/null
@@ -71,6 +74,9 @@ fi
 for i in $NAMES
 do
 	start $OPT_FLG $i
+	if [ $? -ne 0 ]; then
+		continue
+	fi
 
 	NETDIR=$FULCONDIR/container/$i/net/
 	ls $NETDIR/* >& /dev/null
