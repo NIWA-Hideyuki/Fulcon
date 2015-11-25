@@ -133,7 +133,7 @@ if [ $MATCHFLG -eq 0 ]; then
 	exit -1
 fi
 
-(docker rmi `docker images | grep '<none>' | awk '{print $3}'`) >& /dev/null
+(docker rmi `docker images | grep '<none>' | awk '{printf "%s ",$3}'`) >& /dev/null
 echo $BUILDRESULT | awk '{split($0,a,"*");for (i in a) print a[i]}'
 echo 
 
