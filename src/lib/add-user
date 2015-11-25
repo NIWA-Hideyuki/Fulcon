@@ -6,20 +6,43 @@ FULCONDRIVER=`driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
 usage() {
-	echo "usage: add-user NAME USER"
+	echo "usage: add-user [ -n REAT_NUMBER ] NAME USER [PASSWORD ]"
 }
 
-if [ $# -ne 2 ]; then
+# check options
+FLG_N=0; RNUM=0
+
+while getopts n: OPT
+do
+  case $OPT in
+    "n" ) FLG_N=1; RNUM=$OPTARG;;
+    \?  ) usage; exit -1;;
+  esac
+done
+
+shift `expr $OPTIND - 1`
+
+if [ $# -ne 2 -a $# -ne 3 ]; then
 	usage
 	exit -1
 fi
 
-if [ x"$1" == x"add-user" ]; then
-	usage
-	exit -1
+NAME=$1
+UNAME=$2
+PASSWORD=""
+if [ $# -eq 3 ]; then
+	PASSWORD=$3
 fi
 
-. add-user $@
+if [ $FLG_N -gt 0 ]; then
+	for i in `seq $RNUM`
+	do
+		NAME_N=`printf "%s%04d" $NAME $i`
+		add-user $NAME_N $UNAME $PASSWORD
+	done
+else
+	add-user $NAME $UNAME $PASSWORD
+fi
 
 exit 0
 

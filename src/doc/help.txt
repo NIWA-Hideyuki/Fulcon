@@ -3,7 +3,7 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 
    SUB-COMMAND :
 
-	add-user NAME USERNAME
+	add-user [ -n REAT_NUMBER ] NAME USER [PASSWORD ]
 
 	clone CONTAINER_NAME NEW_IMAGENAME
 
@@ -25,7 +25,6 @@ Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 	help
 
 	image-catalog
-
 
 	list 
 
