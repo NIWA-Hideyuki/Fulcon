@@ -40,6 +40,12 @@ if [ $? -ne 0 ]; then
 	exit -1
 fi
 
+STAT=`fulcon list | awk '($1=="'$NAME'"){print $2}'`
+if [ x"$STAT" != x"RUNNING" ]; then
+	echo "error: not RUNNING" 
+	exit -1
+fi
+
 docker stop $NAME >& /dev/null
 
 for i in `brctl show | egrep fulcon | awk '{print $1}' `

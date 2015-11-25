@@ -16,6 +16,12 @@ else
 	exit -1
 fi
 
+STAT=`fulcon list | awk '($1=="'$NAME'"){print $2}'`
+if [ x"$STAT" != x"RUNNING" ]; then
+	echo "error: not RUNNING" 
+	exit -1
+fi
+
 docker pause $NAME
 
 exit 0

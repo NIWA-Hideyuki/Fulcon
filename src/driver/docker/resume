@@ -16,6 +16,12 @@ else
 	exit -1
 fi
 
+STAT=`fulcon list | awk '($1=="'$NAME'"){print $2}'`
+if [ x"$STAT" != x"PAUSED" ]; then
+	echo "error: not PAUSED" 
+	exit -1
+fi
+
 docker unpause $NAME
 
 exit 0
