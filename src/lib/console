@@ -5,25 +5,23 @@
 FULCONDRIVER=`driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
+usage() {
+	echo "usage: console [ -n REPEAT_NUMBER ] NAME"
+}
 
 # check options
 OPT_FLG=""
-FLG_X=0
 FLG_N=0;RNUM=0
 
-while getopts xn: OPT
+while getopts n: OPT
 do
   case $OPT in
-    "x" ) FLG_X=1 ;;
     "n" ) FLG_N=1 ; RNUM=$OPTARG ;;
+    \?  ) usage; exit -1;;
   esac
 done
 
 shift `expr $OPTIND - 1`
-
-usage() {
-	echo "usage: console [ -x ] [ -n REPEAT_NUMBER] NAME"
-}
 
 if [ $FLG_N -eq 1 ]; then
 	if [ $# -ne 1 ]; then
