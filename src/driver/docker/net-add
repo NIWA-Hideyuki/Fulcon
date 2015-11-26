@@ -36,6 +36,13 @@ if [ $# -ne 2 ]; then
 	exit -1
 fi
 
+# check bridges
+for i in `brctl show | egrep fulcon | awk '(NF==3){print $1}'`
+do
+	ip link set $i down
+	brctl delbr $i
+done
+
 # check a BRIDGE_NUMBER
 expr "$LXCBR" + 1 >& /dev/null
 if [ $? -gt 1 ]; then
