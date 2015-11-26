@@ -67,11 +67,9 @@ do
 	ST=`fulcon list | awk '{if ($1 == "'$i'") {if ($2 == "RUNNING"){print 0} else {print 1}}}'`
 	if [ x"$ST" != x"0" ]; then
 		echo $i "is not running"
-	elif [ $FLG_X -eq 0 ]; then
-		console $OPT_FLG $i
+
 	else
-		gnome-terminal -e "console $OPT_FLG $i"
-		gnome-terminal -e "console $OPT_FLG $i"
+		console $OPT_FLG $i
 	fi
 done
 

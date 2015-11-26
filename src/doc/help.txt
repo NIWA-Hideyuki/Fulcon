@@ -1,71 +1,156 @@
 Fulcon 0.1	Copyright (C) 2015 NIWA Hideyuki
 	Apache License Version 2.0
 
-   SUB-COMMAND :
+### ALL Sub command:
 
-	add-user [ -n REAT_NUMBER ] NAME USER [PASSWORD ]
+add-user [ -n REAT_NUMBER ] CONTAINER_NAME USER [PASSWORD ]
+	A new user is registered in OS of the container.
+	The password is set with PASSWORD.
+	The password is interactively set when there is no PASSWORD.
+	-n REAT_NUMBER
+		"User and password" is set to the container of
+		the name that NAME and the figure combined.
+		ex) "AB" and 3 : AB0001, AB0002, AB0003
 
-	clone CONTAINER_NAME NEW_IMAGENAME
+clone CONTAINER_NAME NEW_IMAGENAME
+	A new image is made from the container.
+	New containers of the same content can be made from a new image.
 
-	console [ -x ] [ -n REPEAT_NUMBER] NAME
+console [ -n REPEAT_NUMBER ] CONTAINER_NAME
+	It enters the container with the console. 
+	-n REAT_NUMBER
+		"User and password" is set to the container of
+		the name that NAME and the figure combined.
+		ex) "AB" and 3 : AB0001, AB0002, AB0003
 
-	default-image
+default-image
+	The default image that generates the container is displayed.
 
-	del-image IMAGE_NAME ...
+del-image IMAGE_NAME ...
+	The specified image is deleted. 
 
-	del-ocf IMAGE_NAME
+del-ocf IMAGE_NAME
+	The specified OCF image is deleted. 
+	(The OCF image becomes basic that generates the container.)
 
-	del-user NAME USERNAME
+del-user CONTAINER_NAME USERNAME
+	The user specified in the container is deleted.
 
-	dirver-name
+dirver-name
+	The container system that uses it as a driver of fulcon is displayed.
 
-	erase NAME  ...
-	erase -n REPEAT_NUMBER NAME
+erase CONTAINER_NAME  ...
+erase -n REPEAT_NUMBER CONTAINER_NAME
+	The specified container is deleted. 
+	-n REAT_NUMBER
+		"User and password" is set to the container of
+		the name that NAME and the figure combined.
+		ex) "AB" and 3 : AB0001, AB0002, AB0003
 
-	help
+help
+	Use is displayed.
 
-	image-catalog
+image-catalog
+	The list of the registered image is displayed. 
 
-	list 
+list
+	The list of the made container is displayed.
 
-	load-ocf IMAGE_NAME
+load-ocf IMAGE_NAME
+	The OCF image is loaded as an image used for the container.
 
-	ls-image
+ls-image
+	The list of the image is displayed.
 
-	ls-ocf
+ls-ocf
+	The list of the OCF image is displayed.
 
-	net-add [-d NIC_DEVICE] [-n VETH_NUMBER] [-g GATEWAY] [-b BRIDGE_NUMBER ] NAME IP_ADDR/MASK
+net-add [-d NIC_DEVICE] [-n VETH_NUMBER] [-g GATEWAY] [-b BRIDGE_NUMBER ] CONTAINER_NAME IP_ADDR/MASK
+	NIC is added to the container. 
+	-d NIC_DEVICE
+		The device to connect it to an external network is specified. 
+	-n VETH_NUMBER
+		NIC that combines "Container name and specified number" is added.
+		ex) VETH_NUMBER is 1 and container is "abc" -> nic "abc1"
 
-	net-br-info
+net-br-info
+	Information on the bridge where NIC that adds it is connected is displayed.
 
-	net-del [-n VETH_NUMBER] NAME
-	net-del [-d NIC_DEVICE]  NAME
+net-del [-n VETH_NUMBER] NAME
+net-del [-d NIC_DEVICE]  NAME
+	NIC and the device are deleted from the container. 
+	-d NIC_DEVICE
+		The device to connect it to an external network is specified. 
+	-n VETH_NUMBER
+		NIC that combines "Container name and specified number" is added.
+		ex) VETH_NUMBER is 1 and container is "abc" -> nic "abc1"
 
-	net-info NAME
+net-info NAME
+	Information on the network where NIC that adds it is connected is displayed.
 
-	rename   NAME NEW_NAME
+rename   CONTAINER_NAME NEW_NAME
+	The container name is renamed.
 
-	resource [-c CPU] [-n CPUSET] [-m MEM] NAME 
+resource [-c CPU] [-n CPUSET] [-m MEM] NAME 
+	The resource allocated in the container is displayed if there is no "-c, -n, -m" option.
+	-c CPU
+		The ratio of allocated CPU is % specified. 
+	-n CPUSET
+		The allocated CPU number is specified.
+	-m MEM
+		The allocated memory size are specified.
+		"M" and "G" can be used for the unit.
 
-	resume   NAME
+resume   NAME
+	Resume does the container in the state of PAUSED by suspend.
 
-	save-ocf IMAGE_NAME
+save-ocf IMAGE_NAME
+	The OCF image is saved as an image used for the container.
 
-	set-default-image [ IMAGE_NAME ]
+set-default-image [ IMAGE_NAME ]
+	Default image is set.
+	The default image that generates the container is displayed.
 
-	set-passwd NAME USERNAME
+set-passwd NAME USERNAME
+	User's password in the container is set.
 
-	setup [ -p ] IMAGE_NAME
+setup [ -p ] IMAGE_NAME
+	The image is newly made.
+	-p
+		Proxy is set.
+		The value of the environment variable "Http_proxy, https_proxy, and ftp_proxy" is used.
 
-	start NAME ...
-	start -n REPEAT_NUMBER NAME
+start CONTAINER_NAME ...
+start -n REPEAT_NUMBER CONTAINER_NAME
+	The container of the specified name is started. 
+	-n REAT_NUMBER
+		"User and password" is set to the container of
+		the name that NAME and the figure combined.
+		ex) "AB" and 3 : AB0001, AB0002, AB0003
 
-	stop NAME  ...
-	stop -n REPEAT_NUMBER NAME
+stop NAME  ...
+stop -n REPEAT_NUMBER NAME
+	The container of the specified name is stopped. 
+	-n REAT_NUMBER
+		"User and password" is set to the container of
+		the name that NAME and the figure combined.
+		ex) "AB" and 3 : AB0001, AB0002, AB0003
 
-	suspend   NAME
+suspend   CONTAINER_NAME
+	The container of the specified name is suspended. 
 
-	sysgen [ -c IMAGE ] NAME NAME ...
-	sysgen -n REPEAT_NUMBER  [ -c IMAGE ] NAME
+sysgen [ -c IMAGE ] NAME NAME ...
+sysgen -n REPEAT_NUMBER  [ -c IMAGE ] NAME
+	The container of the specified name is generated.
+	-n REAT_NUMBER
+		"User and password" is set to the container of
+		the name that NAME and the figure combined.
+		ex) "AB" and 3 : AB0001, AB0002, AB0003
 
-	update
+update
+	All containers are renewed. 
+	"Yum update" is done in centos. In ubuntu, 
+	"Apt-get update" and "Apt-get upgrade" are done. 
+
+
+
