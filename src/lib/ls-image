@@ -2,7 +2,7 @@
 
 # Copyright (C) 2015 NIWA Hideyuki
 
-FULCONDRIVER=`driver-name`
+FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
 usage()
