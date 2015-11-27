@@ -37,7 +37,10 @@ if [ $FLG_N -eq 1 ]; then
 			if [ x"$ST" != x"0" ]; then
 				echo $NAME$N "is not running"
 			else	
-				gnome-terminal -e "console $OPT_FLG $NAME$N"
+				gnome-terminal -e "console $OPT_FLG $NAME$N" >& /dev/null
+				if [ $? -ne 0 ]; then
+					echo "error: can't open new gnome-terminal:" $NAME$N
+				fi
 			fi
 		done;
 		exit 0
