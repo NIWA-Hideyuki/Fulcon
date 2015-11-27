@@ -113,17 +113,17 @@ Information of network is able to be taken  by "fulcon net-info".
 /$ sudo fulcon erase webap-server  
   
 
-```
 
 ### ALL Sub command:  
+```
   
 add-user [ -n REAT_NUMBER ] CONTAINER_NAME USER [PASSWORD ]  
      A new user is registered in OS of the container.  
      The password is set with PASSWORD.  
      The password is interactively set when there is no PASSWORD.  
      -n REAT_NUMBER  
-          "User and password" is set to the container of  
-          the name that NAME and the figure combined.  
+          It is specified to the container name that CONTAINER_NAME and 
+          the number combined.
           ex) "AB" and 3 : AB0001, AB0002, AB0003  
   
 clone CONTAINER_NAME NEW_IMAGENAME  
@@ -133,8 +133,8 @@ clone CONTAINER_NAME NEW_IMAGENAME
 console [ -n REPEAT_NUMBER ] CONTAINER_NAME  
      It enters the container with the console.   
      -n REAT_NUMBER  
-          "User and password" is set to the container of  
-          the name that NAME and the figure combined.  
+          It is specified to the container name that CONTAINER_NAME and 
+          the number combined.
           ex) "AB" and 3 : AB0001, AB0002, AB0003  
   
 default-image  
@@ -157,8 +157,8 @@ erase CONTAINER_NAME  ...
 erase -n REPEAT_NUMBER CONTAINER_NAME  
      The specified container is deleted.   
      -n REAT_NUMBER  
-          "User and password" is set to the container of  
-          the name that NAME and the figure combined.  
+          It is specified to the container name that CONTAINER_NAME and 
+          the number combined.
           ex) "AB" and 3 : AB0001, AB0002, AB0003  
   
 help  
