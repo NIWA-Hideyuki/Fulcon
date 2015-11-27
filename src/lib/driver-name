@@ -1,4 +1,16 @@
 #!/bin/bash
 
+# Copyright (C) 2015 NIWA Hideyuki
+
+usage()
+{
+	echo "usage: driver-name"
+}
+
+if [ $# -ne 1 -o x"$1" != x"driver-name" ]; then
+	usage
+	exit -1
+fi
+
 echo "docker"
 

@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# Copyright (C) 2015 NIWA Hideyuki
+
+usage()
+{
+	echo "usage: help"
+}
+
+if [ $# -ne 1 -o x"$1" != x"help" ]; then
+	usage
+	exit -1
+fi
+
 less /usr/lib/fulcon/doc/help.txt
 
 exit 0

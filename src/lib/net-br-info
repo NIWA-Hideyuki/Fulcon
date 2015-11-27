@@ -1,10 +1,19 @@
 #!/bin/bash
 
-
 # Copyright (C) 2015 NIWA Hideyuki
 
 FULCONDRIVER=`driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+
+usage()
+{
+	echo "usage: net-br-info"
+}
+
+if [ $# -ne 1 -o x"$1" != x"net-br-info" ]; then
+	usage
+	exit -1
+fi
 
 . net-br-info $@
 

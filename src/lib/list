@@ -9,7 +9,7 @@ NUMOFARGS=$#
 
 usage()
 {
-	echo "usage: list "
+	echo "usage: list"
 }
 
 if [ $NUMOFARGS -ne 1 ]; then

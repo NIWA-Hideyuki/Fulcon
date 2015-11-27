@@ -10,6 +10,11 @@ usage()
 	echo "usage: ls-image"
 }
 
+if [ $# -ne 1 -o x"$1" != x"ls-image" ]; then
+	usage
+	exit -1
+fi
+
 . ls-image $@
 
 exit 0
