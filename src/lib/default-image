@@ -2,6 +2,16 @@
 
 # Copyright (C) 2015 NIWA Hideyuki
 
+usage()
+{
+	echo "usage: default-image"
+}
+
+if [ $# -ne 1 -o x"$1" != x"default-image" ]; then
+	usage
+	exit -1
+fi
+
 IMAGENAME=`cat /var/lib/fulcon/default-image`
 
 if [ x"$IMAGENAME" == x"" ]; then
