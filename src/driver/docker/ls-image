@@ -13,9 +13,11 @@ if [ $# -ne 1 -o x"$1" != x"ls-image" ]; then
 fi
 
 echo "fulcon images:"
-docker images --no-trunc | awk '($1~/fulcon\//){printf "\t%s\n",$1}'
+IMAGES=`docker images --no-trunc | awk '($1~/fulcon\//){printf "\t%s\n",$1}'`
 
-
-exit 0
-
-
+if [ x"$IMAGES" == x"" ]; then
+	exit -1
+else
+	echo IMAGES
+	exit 0
+fi

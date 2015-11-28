@@ -19,9 +19,14 @@ fi
 mkdir -p $OCFDIR
 cd $OCFDIR
 echo "OCF images:"
-ls -1 | awk '{printf "\t%s\n",$1}'
+OCFIMAGES=`ls -1 | awk '{printf "\t%s\n",$1}'`
 
+if [ x"$OCFIMAGES" == x"" ]; then
+	exit -1
+else
+	echo $OCFIMAGES
+	exit 0
+fi
 
-exit 0
 
 

@@ -17,5 +17,4 @@ fi
 
 . ls-image $@
 
-exit 0
 

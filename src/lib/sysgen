@@ -27,12 +27,13 @@ done
 
 shift `expr $OPTIND - 1`
 
-fulcon ls-image | awk 'BEGIN{r=-1}{if ($1 == "'$IMAGENAME'") r=0}END{exit r}'
+fulcon ls-image >& /dev/null
 if [ $? -ne 0 ]; then
-	echo "error: can't find" $IMAGENAME
+	echo "error: can't find image:" $IMAGENAME
 	exit -1
 fi
 
+fulcon ls-image | awk 'BEGIN{r=-1}{if ($1 == "'$IMAGENAME'") r=0}END{exit r}'
 if [ $FLG_N -eq 1 ]; then
 	if [ $# -ne 1 ]; then
 		usage
