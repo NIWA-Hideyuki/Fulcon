@@ -14,7 +14,7 @@ usage()
 # check options
 OPT_FLG=""
 FLG_N=0; RNUM=0
-FLG_C=0; IMAGENAME=`default-image`
+FLG_C=0; IMAGENAME=`fulcon default-image`
 
 while getopts n:c: OPT
 do
