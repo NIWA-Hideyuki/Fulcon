@@ -18,6 +18,6 @@ IMAGES=`docker images --no-trunc | awk '($1~/fulcon\//){printf "\t%s\n",$1}'`
 if [ x"$IMAGES" == x"" ]; then
 	exit -1
 else
-	echo IMAGES
+	echo $IMAGES
 	exit 0
 fi

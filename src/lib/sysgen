@@ -27,6 +27,17 @@ done
 
 shift `expr $OPTIND - 1`
 
+if [ x"$IMAGENAME" == x"" ]; then
+	echo "error: can't find image:" $IMAGENAME
+	exit -1
+fi
+
+IMAGE1=`echo $IMAGENAME | awk '{print $1}'`
+if [ x"$IMAGE1" == x"usage:" ]; then
+	usage
+	exit -1
+fi
+
 fulcon ls-image >& /dev/null
 if [ $? -ne 0 ]; then
 	echo "error: can't find image:" $IMAGENAME
