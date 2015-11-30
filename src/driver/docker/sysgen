@@ -56,7 +56,7 @@ start_docker() {
 	return $RT
 }
 
-MSG=`start_docker`
+MSG=`start_docker >& /dev/null`
 if [ $? -eq 0 ]; then
 	stty sane;
 	echo "sysgened:" $NAME;
