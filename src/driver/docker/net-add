@@ -85,8 +85,6 @@ set_ipaddr()
 	mkdir -p /var/run/netns/
 	ln -s /proc/${LXCPROC}/ns/net /var/run/netns/${LXCNAME}${NUM}
 
-	ip link delete ${LXCNAME}${NUM} type veth  >& /dev/null
-
 	ip link add name ${LXCNAME}${NUM} type veth peer name vg${LXCNAME}${NUM} >& /dev/null
 	ip link set ${LXCNAME}${NUM} up
 
