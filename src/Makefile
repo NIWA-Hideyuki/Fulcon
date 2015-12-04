@@ -31,7 +31,9 @@ install-lib :
 	install -m 755 lib/suspend $(DESTDIR)$(libdir)/fulcon/sbin/suspend
 	install -m 755 lib/resume $(DESTDIR)$(libdir)/fulcon/sbin/resume
 	install -m 755 lib/rename $(DESTDIR)$(libdir)/fulcon/sbin/rename
-	install -m 755 lib/net-br-info $(DESTDIR)$(libdir)/fulcon/sbin/net-br-info
+	install -m 755 lib/br-info $(DESTDIR)$(libdir)/fulcon/sbin/br-info
+	install -m 755 lib/br-add $(DESTDIR)$(libdir)/fulcon/sbin/br-add
+	install -m 755 lib/br-del $(DESTDIR)$(libdir)/fulcon/sbin/br-del
 	install -m 755 lib/net-add $(DESTDIR)$(libdir)/fulcon/sbin/net-add
 	install -m 755 lib/net-del $(DESTDIR)$(libdir)/fulcon/sbin/net-del
 	install -m 755 lib/net-info $(DESTDIR)$(libdir)/fulcon/sbin/net-info
@@ -63,7 +65,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/find-proc $(DESTDIR)$(libdir)/fulcon/driver/docker/find-proc
 	install -m 755 driver/docker/list $(DESTDIR)$(libdir)/fulcon/driver/docker/list
 	install -m 755 driver/docker/mem $(DESTDIR)$(libdir)/fulcon/driver/docker/mem
-	install -m 755 driver/docker/net-br-info $(DESTDIR)$(libdir)/fulcon/driver/docker/net-br-info
+	install -m 755 driver/docker/br-info $(DESTDIR)$(libdir)/fulcon/driver/docker/br-info
 	install -m 755 driver/docker/net-add $(DESTDIR)$(libdir)/fulcon/driver/docker/net-add
 	install -m 755 driver/docker/net-del $(DESTDIR)$(libdir)/fulcon/driver/docker/net-del
 	install -m 755 driver/docker/net-ipv4 $(DESTDIR)$(libdir)/fulcon/driver/docker/net-ipv4

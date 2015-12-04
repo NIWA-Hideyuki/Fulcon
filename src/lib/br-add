@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+
+usage()
+{
+	echo "usage: br-add BRIDGE_NUMBER ( IPADDR/MASK | NET_DEVICE )"
+}
+
+if [ $# -ne 2 ]; then
+	usage
+	exit -1
+fi
+
+BRNO=$1
+net-ipv4 $2 >& /dev/null
+if [ $? -eq 0 ]; then
+	NETDEV=""
+	IPMASK=$2
+else
+	NETDEV=$2
+	ip a show $NETDEV >& /dev/null
+	if [ $? -ne 0 ]; then
+		echo "error: can't" $NETDEV "does not exist"
+		exit -1
+	fi
+	IPMASK=`ip a show $NETDEV | awk 'NR==3{print $2}'`
+fi
+
+# check a BRIDGE_NUMBER
+expr "$BRNO" + 1 >& /dev/null
+if [ $? -gt 1 ]; then
+	echo "error: BRIDGE_NUMBER is not a integer"
+	exit -1
+fi
+
+# check a device name
+if [ x"$NETDEV" != x"" ]; then
+	ip a show $NETDEV >& /dev/null
+	if [ $? -ne 0 ]; then
+		echo "can't find a NET_DEVICE:" $NETDEV
+		exit -1
+	fi
+fi
+
+# check a exist bridge
+brctl show | grep fulcon${BRNO} >& /dev/null
+if [ $? -eq 1 ]; then
+	brctl addbr fulcon$BRNO
+	ip link set fulcon$BRNO up
+	echo "generated new BRIDGE : fulcon"$BRNO
+else
+	echo "error: already exists same bridge:" fulcon$BRNO
+fi
+
+# set ip address for bridge, add interface to net_device
+ip addr add $IPMASK dev fulcon$BRNO
+if [ x"$NETDEV" != x"" ]; then
+	brctl addif fulcon$BRNO $NETDEV
+
+	# set promisc mode to net_device
+	ip addr del $IPMASK dev $NETDEV
+	ip addr add 0.0.0.0 dev $NETDEV
+fi
+

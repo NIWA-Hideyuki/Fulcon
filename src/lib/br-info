@@ -7,14 +7,14 @@ PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
 usage()
 {
-	echo "usage: net-br-info"
+	echo "usage: br-info"
 }
 
-if [ $# -ne 1 -o x"$1" != x"net-br-info" ]; then
+if [ $# -ne 1 -o x"$1" != x"br-info" ]; then
 	usage
 	exit -1
 fi
 
-. net-br-info $@
+. br-info $@
 
 exit 0
