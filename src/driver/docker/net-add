@@ -68,7 +68,11 @@ fi
 if [ x$NETDEV != x"" ]; then
 	LXCBRIP=`ip a show $NETDEV | awk 'NR==3{print $2}' | awk -F / '{print $1}'`
 	DEVMASK=`ip a show $NETDEV | awk 'NR==3{print $2}' | awk -F / '{print $2}'`
-	if [ x$DEVMASK != x$LXCMASK ]; then
+	if [ x"$LXCBRIP" == x"" ]; then
+		LXCBRIP=`ip a show $LXCBR | awk 'NR==3{print $2}' | awk -F / '{print $1}'`
+		DEVMASK=`ip a show $LXCBR | awk 'NR==3{print $2}' | awk -F / '{print $2}'`
+	fi
+	if [ x"$DEVMASK" != x"$LXCMASK" ]; then
 		echo "error: netmask(/$DEVMASK) of NIC is not corresponding to netmask(/$LXCMASK) of IP address"
 		exit -1 
 	fi
@@ -92,7 +96,9 @@ set_ipaddr()
 	if [ $? -eq 0 ]; then
 		brctl addbr $LXCBR
 		ip link set $LXCBR up
+		BR_BRCAST=`net-ipv4 ${LXCBRIP}/${LXCMASK}`
 		ip addr add ${LXCBRIP}/${LXCMASK} dev $LXCBR
+		ip link set $LXCBR promisc on
 	fi
 	brctl addif $LXCBR ${LXCNAME}${NUM} >& /dev/null
 
@@ -132,9 +138,9 @@ set_ipaddr()
 
 	if [ x$NETDEV != x"" ]; then
 		# setting of promiscuous mode
+		ip addr del $LXCBRIP dev $NETDEV >& /dev/null
+		ip addr add 0.0.0.0 dev $NETDEV >& /dev/null
 		ip link set $NETDEV promisc on
-		ip addr del $LXCBRIP dev $NETDEV
-		ip addr add 0.0.0.0 dev $NETDEV
 
 		brctl show $LXCBR | egrep -w $NETDEV >& /dev/null
 		if [ $? -ne 0 ]; then
