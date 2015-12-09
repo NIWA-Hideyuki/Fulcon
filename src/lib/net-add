@@ -11,7 +11,7 @@ umask 022
 # function usage
 usage()
 {
-	echo "usage: net-add [ -d NETDEV ] [ -n NUMBER ] [ -g GATEWAY ] [ -b BRIDGE_NUMBER ] CONTAINER_NAME IPADDR/MASK [ MAC1 MAC2 ]"
+	echo "usage: net-add -n NUMBER  [ -d NETDEV ] [ -g GATEWAY ] [ -b BRIDGE_NUMBER ] CONTAINER_NAME IPADDR/MASK [ MAC1 MAC2 ]"
 }
 
 NETARGS=$@
@@ -36,6 +36,13 @@ shift $((OPTIND - 1))
 # check args
 if [ $# -ne 2 -a $# -ne 4 ]; then
 	usage
+	exit -1
+fi
+
+# check number
+if [ $FLG_N -ne 1 ]; then
+	usage
+	echo 'error: It is necessary to specify "-n NUMBER"'
 	exit -1
 fi
 

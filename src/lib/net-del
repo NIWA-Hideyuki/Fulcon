@@ -15,52 +15,41 @@ fi
 
 usage()
 {
-	echo "usage: net-del [ -n NUMBER ] CONTAINER_NAME"
+	echo "usage: net-del -n NUMBER CONTAINER_NAME"
 }
 
 # check options
 FLG_N=0 ; NUM=""
-FLG_D=0 ; DEV=""
 
-while getopts n:d: OPT ; do
+while getopts n: OPT ; do
   case $OPT in
   n) FLG_N=1 ; NUM=$OPTARG ;;
-  d) FLG_D=1 ; DEV=$OPTARG ;;
   \? ) usage; exit -1;;
   esac
 done
 shift $((OPTIND - 1))
 
 # check args
-if [ $FLG_D -eq 1 -a $# -ne 0 ]; then
-	usage
-	exit -1
-fi
-if [ $FLG_D -ne 1 -a $# -ne 1 ]; then
-	usage
-	exit -1
-
-fi
-
-if [ $FLG_D -eq 1 -a $FLG_N -eq 1 ]; then
+if [ $# -ne 1 ]; then
 	usage
 	exit -1
 fi
 
-
-if [ $FLG_D -eq 1 ]; then
-	ip link delete $DEV type veth 
-	echo "deleted" $DEV
-else
-	LXCNAME=$1
-	brctl show  |& egrep ${LXCNAME}${NUM} >& /dev/null
-	if [ $? -ne 0 ]; then
-		echo "error: can't find" ${LXCNAME}${NUM}
-		exit -1
-	fi
-	ip link delete ${LXCNAME}${NUM} type veth 
-	echo "deleted" ${LXCNAME}${NUM}
+# check number
+if [ $FLG_N -ne 1 ]; then
+	usage
+	echo 'error: It is necessary to specify "-n NUMBER"'
+	exit -1
 fi
+
+LXCNAME=$1
+brctl show  |& egrep ${LXCNAME}${NUM} >& /dev/null
+if [ $? -ne 0 ]; then
+	echo "error: can't find" ${LXCNAME}${NUM}
+	exit -1
+fi
+ip link delete ${LXCNAME}${NUM} type veth 
+echo "deleted" ${LXCNAME}${NUM}
 
 # delete a IP address for container
 rm -f $FULCONDIR/container/${LXCNAME}/net/${LXCNAME}${NUM}
