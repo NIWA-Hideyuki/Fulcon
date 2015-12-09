@@ -65,7 +65,6 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/find-proc $(DESTDIR)$(libdir)/fulcon/driver/docker/find-proc
 	install -m 755 driver/docker/list $(DESTDIR)$(libdir)/fulcon/driver/docker/list
 	install -m 755 driver/docker/mem $(DESTDIR)$(libdir)/fulcon/driver/docker/mem
-	install -m 755 driver/docker/br-info $(DESTDIR)$(libdir)/fulcon/driver/docker/br-info
 	install -m 755 driver/docker/start $(DESTDIR)$(libdir)/fulcon/driver/docker/start
 	install -m 755 driver/docker/stop $(DESTDIR)$(libdir)/fulcon/driver/docker/stop
 	install -m 755 driver/docker/suspend $(DESTDIR)$(libdir)/fulcon/driver/docker/suspend
