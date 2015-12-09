@@ -52,7 +52,7 @@ else
 	LXCNAME=$1
 	brctl show  |& egrep ${LXCNAME}${NUM} >& /dev/null
 	if [ $? -ne 0 ]; then
-		echo "error: can't find" vh${LXCNAME}${NUM}
+		echo "error: can't find" ${LXCNAME}${NUM}
 		exit -1
 	fi
 	ip link delete ${LXCNAME}${NUM} type veth 
