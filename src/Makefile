@@ -104,6 +104,7 @@ install-doc :
 	install -m 644 README $(DESTDIR)$(libdir)/fulcon/doc/README
 	mkdir -p $(DESTDIR)$(localstatedir)/lib/fulcon
 	install -m 644 doc/default-image $(DESTDIR)$(localstatedir)/lib/fulcon/default-image
+	install -m 644 doc/default-driver $(DESTDIR)$(localstatedir)/lib/fulcon/default-driver
 
 
 uninstall : 
