@@ -66,9 +66,6 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/list $(DESTDIR)$(libdir)/fulcon/driver/docker/list
 	install -m 755 driver/docker/mem $(DESTDIR)$(libdir)/fulcon/driver/docker/mem
 	install -m 755 driver/docker/br-info $(DESTDIR)$(libdir)/fulcon/driver/docker/br-info
-	install -m 755 driver/docker/net-add $(DESTDIR)$(libdir)/fulcon/driver/docker/net-add
-	install -m 755 driver/docker/net-del $(DESTDIR)$(libdir)/fulcon/driver/docker/net-del
-	install -m 755 driver/docker/net-ipv4 $(DESTDIR)$(libdir)/fulcon/driver/docker/net-ipv4
 	install -m 755 driver/docker/start $(DESTDIR)$(libdir)/fulcon/driver/docker/start
 	install -m 755 driver/docker/stop $(DESTDIR)$(libdir)/fulcon/driver/docker/stop
 	install -m 755 driver/docker/suspend $(DESTDIR)$(libdir)/fulcon/driver/docker/suspend
@@ -87,6 +84,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/del-image $(DESTDIR)$(libdir)/fulcon/driver/docker/del-image
 	install -m 755 driver/docker/update $(DESTDIR)$(libdir)/fulcon/driver/docker/update
 	install -m 755 driver/docker/console $(DESTDIR)$(libdir)/fulcon/driver/docker/console
+	install -m 755 driver/docker/net-ipv4 $(DESTDIR)$(libdir)/fulcon/driver/docker/net-ipv4
 	install -m 755 driver/docker/parmchk-num-kmg $(DESTDIR)$(libdir)/fulcon/driver/docker/parmchk-num-kmg
 
 install-dockerfile :
