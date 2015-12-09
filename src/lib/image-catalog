@@ -2,11 +2,11 @@
 
 # Copyright (C) 2015 NIWA Hideyuki
 
-ls /var/lib/fulcon/driver/dockerfile/* >& /dev/null
-if [ $? -ne 0 ]; then 
-	echo "there is not a image"
-	exit -1
-fi
+FULCONDIR=/var/lib/fulcon
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+umask 022
 
 usage() {
 	echo "usage: image-catalog"
@@ -22,12 +22,4 @@ if [ x"$1" != x"image-catalog" ]; then
 	exit -1
 fi
 
-cd /var/lib/fulcon/driver/dockerfile
-
-for i in *
-do
-	echo "fulcon/"$i
-done
-
-exit 0
-
+. image-catalog $@
