@@ -124,7 +124,7 @@ brctl show $LXCBR |& egrep 'No such device' >& /dev/null
 if [ $? -eq 0 ]; then
 	brctl addbr $LXCBR
 	ip link set $LXCBR up
-	BR_BRCAST=`net-ipv4 ${LXCBRIP}/${LXCMASK}`
+	BR_BRCAST=`net-ipv4 -b ${LXCBRIP}/${LXCMASK}`
 	ip addr add ${LXCBRIP}/${LXCMASK} broadcast $BR_BRCAST dev $LXCBR
 	ip link set $LXCBR promisc on
 fi

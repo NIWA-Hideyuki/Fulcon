@@ -47,7 +47,7 @@ if [ $FLG_N -eq 1 ]; then
 			if [ $? -eq 0 ]; then
 				for j in `ls -1 $NETDIR`
 				do
-					sh $NETDIR/$j
+					bash $NETDIR/$j
 				done
 			fi
 		done;
@@ -83,7 +83,7 @@ do
 	if [ $? -eq 0 ]; then
 		for j in `ls -1 $NETDIR`
 		do
-			sh $NETDIR/$j
+			bash $NETDIR/$j
 		done
 	fi
 done
