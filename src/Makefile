@@ -46,6 +46,7 @@ install-lib :
 	install -m 755 lib/add-user $(DESTDIR)$(libdir)/fulcon/sbin/add-user
 	install -m 755 lib/del-user $(DESTDIR)$(libdir)/fulcon/sbin/del-user
 	install -m 755 lib/set-passwd $(DESTDIR)$(libdir)/fulcon/sbin/set-passwd
+	install -m 755 lib/set-driver $(DESTDIR)$(libdir)/fulcon/sbin/set-driver
 	install -m 755 lib/image-catalog $(DESTDIR)$(libdir)/fulcon/sbin/image-catalog
 	install -m 755 lib/ls-image $(DESTDIR)$(libdir)/fulcon/sbin/ls-image
 	install -m 755 lib/del-image $(DESTDIR)$(libdir)/fulcon/sbin/del-image

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+DRIVERNAME=$1
+
+if [ x"$DRIVERNAME" != x"docker" -a x"$DRIVERNAME" != x"runc" ]; then
+	echo "error: unsupported driver:" $DIRVERNAME
+	exit -1
+fi
+
+echo  $DRIVERNAME > /var/lib/fulcon/default-driver
+echo "default driver :" $DRIVERNAME
+

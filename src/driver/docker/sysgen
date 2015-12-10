@@ -59,7 +59,7 @@ start_docker() {
 MSG=`start_docker 2>&1`
 if [ $? -eq 0 ]; then
 	stty sane;
-	echo "sysgened:" $NAME;
+	echo $NAME;
 else
 	stty sane;
 	echo "error: can't sysgened" $NAME

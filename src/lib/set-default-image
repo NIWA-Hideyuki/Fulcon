@@ -14,7 +14,7 @@ fi
 
 fulcon ls-image | awk 'BEGIN{r=-1}{if ($1 == "'$NAME'") r=0}END{exit(r)}'
 if [ $? -eq 0 ]; then
-	echo "set" $NAME
+	echo  $NAME
 	echo "$NAME" > /var/lib/fulcon/default-image 
 else
 	echo "error: it is not an effective image:" $NAME
