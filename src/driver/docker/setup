@@ -8,7 +8,7 @@ OCFDIR=/var/lib/fulcon/OCF
 usage()
 {
 	cd $DOCKERFILEDIR
-	echo "usage: setup [ -p ] IMAGENAME"
+	echo "usage: setup [ -n ] [ -p ] IMAGENAME"
 	echo "Effective IMAGENAME:"
 	for i in *
 	do
@@ -17,11 +17,13 @@ usage()
 } 
 
 # check options
+FLG_N=0
 FLG_P=0
 
-while getopts p OPT
+while getopts np OPT
 do
   case $OPT in
+    "n" ) FLG_N=1 ;;
     "p" ) FLG_P=1 ;;
     \?  ) usage; exit -1;;
   esac
@@ -60,7 +62,30 @@ fi
 
 BUILDRESULT=""
 
-setup_image()
+download_new_image()
+{
+	i=$1
+	echo "download new image:" $i
+	docker pull fulcon/$i:latest
+	if [ $? -eq 0 ]; then
+		RESULT="success"
+		mkdir -p $OCFDIR/$i
+		ID=`docker run -d fulcon/$i /bin/true`
+		docker export $ID | gzip -c > $OCFDIR/$i/${i}.tgz
+		docker rm $ID
+		echo "generated OCF image:" $OCFDIR/$i/${i}.tgz
+		cd ..
+	else
+		RESULT="failed"
+	fi
+
+	BUILDRESULT=`printf "%s*download fulcon/%s : %s" "$BUILDRESULT" "$i" "$RESULT"`
+	echo
+	echo
+	cd ..
+}
+
+generate_new_image()
 {
 	i=$1
 	cd $i
@@ -100,19 +125,18 @@ setup_image()
 	docker build --no-cache -t fulcon/$i .
 	if [ $? -eq 0 ]; then
 		RESULT="success"
-		mkdir -p $OCFDIR/$i 
+		mkdir -p $OCFDIR/$i
 		ID=`docker run -d fulcon/$i /bin/true`
 		docker export $ID | gzip -c > $OCFDIR/$i/${i}.tgz
 		docker rm $ID
 		echo "generated OCF image:" $OCFDIR/$i/${i}.tgz
 		cd ..
-	
 	else
 		RESULT="failed"
 	fi
 
 	BUILDRESULT=`printf "%s*built fulcon/%s : %s" "$BUILDRESULT" "$i" "$RESULT"`
-	echo 
+	echo
 	echo
 	cd ..
 }
@@ -124,7 +148,11 @@ for i in *
 do
 	if [ x"$IMAGENAME" == x"$i" ]; then
 		MATCHFLG=1
-		setup_image $i
+		if [ $FLG_N -eq 1 ]; then
+			setup_new_image $i
+		else
+			download_new_image $i
+		fi
 	fi
 done
 
