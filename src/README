@@ -117,6 +117,7 @@ Information of network is able to be taken  by "fulcon net-info".
 ### ALL Sub command:  
 ```
   
+  
 add-user [ -n REAT_NUMBER ] CONTAINER_NAME USER [PASSWORD ]  
      A new user is registered in OS of the container.  
      The password is set with PASSWORD.  
@@ -126,7 +127,16 @@ add-user [ -n REAT_NUMBER ] CONTAINER_NAME USER [PASSWORD ]
           the number combined.
           ex) "AB" and 3 : AB0001, AB0002, AB0003  
   
-clone CONTAINER_NAME NEW_IMAGENAME  
+br-add BRIDGE_NUMBER ( IPADDR/MASK | NET_DEVICE ]
+     The IP-address or the device is registered in the bridge.
+  
+br-del BRIDGE_NUMBER ( IPADDR/MASK | NET_DEVICE ]
+     The IP-address or the device is deleted in the bridge.
+  
+br-info
+     Information on the bridge where NIC that adds it is connected is displayed.  
+  
+clone CONTAINER_NAME NEW_IMAGENAME
      A new image is made from the container.  
      New containers of the same content can be made from a new image.  
   
@@ -179,22 +189,21 @@ ls-image
 ls-ocf  
      The list of the OCF image is displayed.  
   
-net-add [-d NIC_DEVICE] [-n VETH_NUMBER] [-g GATEWAY] [-b BRIDGE_NUMBER ] CONTAINER_NAME IP_ADDR/MASK  
+net-add -n VETH_NUMBER [-d NIC_DEVICE] [-g GATEWAY] [-b BRIDGE_NUMBER ] CONTAINER_NAME IP_ADDR/MASK  
      NIC is added to the container.   
-     -d NIC_DEVICE  
-          The device to connect it to an external network is specified.   
      -n VETH_NUMBER  
           NIC that combines "Container name and specified number" is added.  
           ex) VETH_NUMBER is 1 and container is "abc" -> nic "abc1"  
-  
-net-br-info  
-     Information on the bridge where NIC that adds it is connected is displayed.  
-  
-net-del [-n VETH_NUMBER] NAME  
-net-del [-d NIC_DEVICE]  NAME  
-     NIC and the device are deleted from the container.   
      -d NIC_DEVICE  
           The device to connect it to an external network is specified.   
+     -g GATEWAY
+          GATEWAY that is used in the container
+     -b BRIDGE_NUMBER
+          BRIDGE that combines "'fulcon' and specified number" is added.  
+          ex) BRIDGE_NUMBER is 2 -> nic "fulcon2"  
+  
+net-del -n VETH_NUMBER CONTAINER_NAME  
+     NIC is deleted from the container.   
      -n VETH_NUMBER  
           NIC that combines "Container name and specified number" is added.  
           ex) VETH_NUMBER is 1 and container is "abc" -> nic "abc1"  
@@ -228,8 +237,10 @@ set-default-image [ IMAGE_NAME ]
 set-passwd NAME USERNAME  
      User's password in the container is set.  
   
-setup [ -p ] IMAGE_NAME  
+setup [ -n ] [ -p ] IMAGE_NAME  
      The image is newly made.  
+     -n
+          Generates a new image from a Dockerfile.
      -p  
           Proxy is set.  
           The value of the environment variable "Http_proxy, https_proxy, and ftp_proxy" is used.  
@@ -265,6 +276,7 @@ update
      All containers are renewed.   
      "Yum update" is done in centos. In ubuntu,   
      "Apt-get update" and "Apt-get upgrade" are done.   
+  
   
 
 ```
