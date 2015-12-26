@@ -11,8 +11,21 @@ fi
 
 usage()
 {
-	echo "usage: add-user NAME USER [ PASSWORD ]" 
+	echo "usage: add-user [ -s ] NAME USER [ PASSWORD ]" 
 }
+
+# check options
+FLG_S=0
+
+while getopts s OPT
+do
+  case $OPT in
+    "s" ) FLG_S=1 ;;
+    \?  ) usage; exit -1;;
+  esac
+done
+
+shift `expr $OPTIND - 1`
 
 if [ $# -ne 2 -a $# -ne 3 ]; then
 	usage
@@ -35,15 +48,21 @@ if [ $? -ne 0 ]; then
 	exit -1
 fi
 
-docker exec -it $LXCNAME mkdir -p /etc/sudoers.d
-SUDOERS_LINE="echo $USERNAME ALL\=\(ALL\) ALL  > /etc/sudoers.d/$USERNAME"
-docker exec -it $LXCNAME /bin/sh -c "$SUDOERS_LINE"
-docker exec -it $LXCNAME chmod 440 /etc/sudoers.d/$USERNAME
+if [ $FLG_S -eq 1 ]; then
+	docker exec -it $LXCNAME mkdir -p /etc/sudoers.d
+	SUDOERS_LINE="echo $USERNAME ALL\=\(ALL\) ALL  > /etc/sudoers.d/$USERNAME"
+	docker exec -it $LXCNAME /bin/sh -c "$SUDOERS_LINE"
+	docker exec -it $LXCNAME chmod 440 /etc/sudoers.d/$USERNAME
+	echo "This user has the administrator rights."
+fi
 
 if [ $ARGS -eq 3 ]; then
 	docker exec -it $LXCNAME /bin/sh -c "printf \"%s\n%s\n\" $PASSWORD $PASSWORD | passwd $USERNAME"
 else
 	docker exec -it $LXCNAME passwd $USERNAME
+	if [ $? -ne 0 ]; then
+		docker exec -it $LXCNAME userdel -r $USERNAME
+	fi
 fi
 
 exit 0
