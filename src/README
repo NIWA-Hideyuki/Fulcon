@@ -118,7 +118,7 @@ Information of network is able to be taken  by "fulcon net-info".
 ```
   
   
-add-user [ -n REAT_NUMBER ] CONTAINER_NAME USER [PASSWORD ]  
+add-user [ -n REAT_NUMBER ] [ -s ] CONTAINER_NAME USER [PASSWORD ]  
      A new user is registered in OS of the container.  
      The password is set with PASSWORD.  
      The password is interactively set when there is no PASSWORD.  
@@ -126,6 +126,8 @@ add-user [ -n REAT_NUMBER ] CONTAINER_NAME USER [PASSWORD ]
           It is specified to the container name that CONTAINER_NAME and 
           the number combined.
           ex) "AB" and 3 : AB0001, AB0002, AB0003  
+     -s 
+          The user gets administrator's rights.  
   
 br-add BRIDGE_NUMBER ( IPADDR/MASK | NET_DEVICE ]
      The IP-address or the device is registered in the bridge.
