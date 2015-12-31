@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+
+usage()
+{
+	echo "usage: deploy [ -c IMAGE ] SRC_FILE DEST_PATH "
+}
+
+# check options
+OPT_FLG=""
+FLG_C=0; IMAGENAME=""
+
+while getopts c: OPT
+do
+  case $OPT in
+    "c" ) FLG_C=1; IMAGENAME=$OPTARG;;
+    \?  ) usage; exit -1;;
+  esac
+done
+
+shift `expr $OPTIND - 1`
+
+if [ $# -ne 2 ]; then
+	usage
+	exit -1
+fi
+
+SRC_FILE=$1
+DEST_PATH=$2
+
+if [ x"$IMAGENAME" == x"" ]; then
+	IMAGES=`fulcon list | awk '{printf "%s;%s\n",$1,$2}'`
+else
+	IMAGES=`fulcon list | awk '(/$3~"'$IMAGENAME'"/){printf "%s;%s\n",$1,$2}'`
+fi
+
+for i in $IMAGES
+do
+	NAME=`echo $i | awk '{split($1,a,";");print a[1]}'`
+	STATE=`echo $i | awk '{split($1,a,";");print a[2]}'`
+
+	if [ x"$STATE" == x"PAUSED" ]; then
+		fulcon resume $NAME
+	elif [ x"$STATE" == x"STOPPED" ]; then
+		fulcon start $NAME
+	fi
+
+	deploy $NAME $SRC_FILE $DEST_PATH
+
+	if [ x"$STATE" == x"PAUSED" ]; then
+		fulcon suspend $NAME
+	elif [ x"$STATE" == x"STOPPED" ]; then
+		fulcon stop $NAME
+	fi
+done
+
+exit 0
+
+

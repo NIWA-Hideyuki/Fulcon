@@ -52,6 +52,7 @@ install-lib :
 	install -m 755 lib/del-image $(DESTDIR)$(libdir)/fulcon/sbin/del-image
 	install -m 755 lib/set-default-image $(DESTDIR)$(libdir)/fulcon/sbin/set-default-image
 	install -m 755 lib/update $(DESTDIR)$(libdir)/fulcon/sbin/update
+	install -m 755 lib/deploy $(DESTDIR)$(libdir)/fulcon/sbin/deploy
 	install -m 755 lib/console $(DESTDIR)$(libdir)/fulcon/sbin/console
 	install -m 755 lib/help $(DESTDIR)$(libdir)/fulcon/sbin/help
 
@@ -83,6 +84,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/ls-image $(DESTDIR)$(libdir)/fulcon/driver/docker/ls-image
 	install -m 755 driver/docker/del-image $(DESTDIR)$(libdir)/fulcon/driver/docker/del-image
 	install -m 755 driver/docker/update $(DESTDIR)$(libdir)/fulcon/driver/docker/update
+	install -m 755 driver/docker/deploy $(DESTDIR)$(libdir)/fulcon/driver/docker/deploy
 	install -m 755 driver/docker/console $(DESTDIR)$(libdir)/fulcon/driver/docker/console
 	install -m 755 driver/docker/net-ipv4 $(DESTDIR)$(libdir)/fulcon/driver/docker/net-ipv4
 	install -m 755 driver/docker//image-catalog $(DESTDIR)$(libdir)/fulcon/driver/docker/image-catalog
