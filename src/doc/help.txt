@@ -47,6 +47,11 @@ del-ocf IMAGE_NAME
 del-user CONTAINER_NAME USERNAME  
      The user specified in the container is deleted.  
   
+deploy [ -c IMAGE ] SRC_FILE DEST_PATH 
+     SRC_FILE on the host is copied in DEST_PATH of all containers.  
+     -c IMAGE
+          Only a container of IMAGE is made the target.
+  
 dirver-name  
      The container system that uses it as a driver of fulcon is displayed.  
   
