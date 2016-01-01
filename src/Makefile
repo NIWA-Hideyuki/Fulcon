@@ -51,6 +51,7 @@ install-lib :
 	install -m 755 lib/ls-image $(DESTDIR)$(libdir)/fulcon/sbin/ls-image
 	install -m 755 lib/del-image $(DESTDIR)$(libdir)/fulcon/sbin/del-image
 	install -m 755 lib/set-default-image $(DESTDIR)$(libdir)/fulcon/sbin/set-default-image
+	install -m 755 lib/setup-prog $(DESTDIR)$(libdir)/fulcon/sbin/setup-prog
 	install -m 755 lib/update $(DESTDIR)$(libdir)/fulcon/sbin/update
 	install -m 755 lib/deploy $(DESTDIR)$(libdir)/fulcon/sbin/deploy
 	install -m 755 lib/console $(DESTDIR)$(libdir)/fulcon/sbin/console
@@ -83,6 +84,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/set-passwd $(DESTDIR)$(libdir)/fulcon/driver/docker/set-passwd
 	install -m 755 driver/docker/ls-image $(DESTDIR)$(libdir)/fulcon/driver/docker/ls-image
 	install -m 755 driver/docker/del-image $(DESTDIR)$(libdir)/fulcon/driver/docker/del-image
+	install -m 755 driver/docker/setup-prog $(DESTDIR)$(libdir)/fulcon/driver/docker/setup-prog
 	install -m 755 driver/docker/update $(DESTDIR)$(libdir)/fulcon/driver/docker/update
 	install -m 755 driver/docker/deploy $(DESTDIR)$(libdir)/fulcon/driver/docker/deploy
 	install -m 755 driver/docker/console $(DESTDIR)$(libdir)/fulcon/driver/docker/console

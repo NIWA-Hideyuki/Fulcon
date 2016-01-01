@@ -1,13 +1,12 @@
-#!/bin/bash
+#!/bin/sh
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
 
-usage()
-{
-	echo "usage: deploy [ -c IMAGE ] SRC_FILE DEST_PATH "
+usage() {
+	echo "usage: setup-prog [ -c IMAGE ] COMMAND "
 }
 
 # check options
@@ -24,14 +23,9 @@ done
 
 shift `expr $OPTIND - 1`
 
-if [ $# -ne 2 ]; then
-	usage
-	exit -1
-fi
+CMD=$*
 
-SRC_FILE=$1
-DEST_PATH=$2
-
+# get container list
 if [ x"$IMAGENAME" == x"" ]; then
 	IMAGES=`fulcon list | awk '{printf "%s;%s\n",$1,$2}'`
 else
@@ -50,7 +44,7 @@ do
 		fulcon start $NAME
 	fi
 
-	deploy $NAME $SRC_FILE $DEST_PATH
+	setup-prog $NAME $CMD
 
 	if [ x"$STATE" == x"PAUSED" ]; then
 		fulcon suspend $NAME
@@ -59,6 +53,5 @@ do
 	fi
 done
 
+
 exit 0
-
-
