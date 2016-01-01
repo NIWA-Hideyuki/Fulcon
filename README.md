@@ -165,7 +165,8 @@ del-user CONTAINER_NAME USERNAME
 deploy [ -c IMAGE ] SRC_FILE DEST_PATH 
      SRC_FILE on the host is copied in DEST_PATH of all containers.  
      -c IMAGE
-          Only a container of IMAGE is made the target.
+          Only a container of IMAGE is made the target.  
+          IMAGE is the part of the image name.  
   
 dirver-name  
      The container system that uses it as a driver of fulcon is displayed.  
@@ -251,6 +252,12 @@ setup [ -n ] [ -p ] IMAGE_NAME
      -p  
           Proxy is set.  
           The value of the environment variable "Http_proxy, https_proxy, and ftp_proxy" is used.  
+  
+setup-prog [ -c IMAGE ] COMMAND 
+     The same command is carried out by more than one container.  
+     -c IMAGE
+          Only a container of IMAGE is made the target.  
+          IMAGE is the part of the image name.  
   
 start CONTAINER_NAME ...  
 start -n REPEAT_NUMBER CONTAINER_NAME  
