@@ -17,7 +17,7 @@ fi
 FLG=0
 for i in `fulcon ls-image | awk '(NR>1){print $1}'`
 do
-	if [ x"$i" == x"$NAME" ]; then
+	if [ x"$i" == x"$NAME" -o x"$i" == x"docker.io/$NAME" ]; then
 		FLG=1
 	fi
 done
@@ -25,6 +25,7 @@ done
 if [ $FLG -eq 1 ]; then
 	docker rmi -f $NAME
 	if [ $? -ne 0 ]; then
+		echo "error: can't deleted" $NAME
 		exit -1
 	fi
 else
