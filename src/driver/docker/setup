@@ -166,6 +166,11 @@ echo $BUILDRESULT | awk '{split($0,a,"*");for (i in a) print a[i]}'
 echo 
 
 DEFAULTIMAGE=`cat /var/lib/fulcon/default-image`
+docker images | egrep $DEFAULTIMAGE >& /dev/null
+if [ $? -ne 0 ]; then
+	DEFAULTIMAGE=""
+fi
+
 if [ x"$DEFAULTIMAGE" == x"" ]; then
 	echo -n "fulcon/"$IMAGENAME > /var/lib/fulcon/default-image
 	echo "fulcon/"$IMAGENAME "is set to the default image."
