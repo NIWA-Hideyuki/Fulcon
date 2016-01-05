@@ -22,9 +22,14 @@ fi
 
 IMAGENAME=`basename $1`
 
+REPO=`docker images --no-trunc docker.io/fulcon/$IMAGENAME | awk 'NR>1{print $1}'`
+if [ x"$REPO" != x"" ]; then
+	REPO="docker.io/"
+fi
+
 if [ -f $OCFDIR/$IMAGENAME/$IMAGENAME.tgz ]; then
 	echo "OCF image" $IMAGENAME "is loading"
-	cat $OCFDIR/$IMAGENAME/$IMAGENAME.tgz | docker import - fulcon/$IMAGENAME
+	cat $OCFDIR/$IMAGENAME/$IMAGENAME.tgz | gzip -d -c | docker import - ${REPO}fulcon/$IMAGENAME
 	if [ $? -eq 0 ]; then
 		echo $IMAGENAME "is loaded"
 		CONT=`docker images | egrep none | awk '{printf "%s ",$3}'`

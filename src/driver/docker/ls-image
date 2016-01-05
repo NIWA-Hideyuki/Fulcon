@@ -20,7 +20,8 @@ if [ x"$IMAGES" == x"" ]; then
 else
 	for i in $IMAGES
 	do
-		printf "\t%s\n" $i
+		IMG=`echo $i | awk '{split($1,img,"/");if(length(img)==3)printf "%s/%s",img[2],img[3]; else printf "%s/%s",img[1],img[2]}'`
+		printf "\t%s\n" $IMG
 	done
 	exit 0
 fi
