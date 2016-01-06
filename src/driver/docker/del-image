@@ -23,9 +23,8 @@ do
 done
 
 if [ $FLG -eq 1 ]; then
-	docker rmi -f $NAME
+	docker rmi -f $NAME >& /dev/null
 	if [ $? -ne 0 ]; then
-		echo "error: can't deleted" $NAME
 		exit -1
 	fi
 else

@@ -34,7 +34,7 @@ if [ -f $OCFDIR/$IMAGENAME/$IMAGENAME.tgz ]; then
 		echo $IMAGENAME "is loaded"
 		CONT=`docker images | egrep none | awk '{printf "%s ",$3}'`
 		if [ x"$CONT" != x"" ]; then
-		        docker rmi $CONT
+		        docker rmi $CONT >& /dev/null
 		fi
 		echo $IMAGENAME "is converted docker image:" fulcon/$IMAGENAME
 		exit 0
