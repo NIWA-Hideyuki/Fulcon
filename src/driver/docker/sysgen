@@ -17,7 +17,7 @@ else
 fi
 
 IMAGE=$2
-IMAGE=`echo $IMAGE | awk '{split($1,img,"/"); if(length(img)==3)printf "%s/%s",img[2],img[3]; else printf "%s/%s",img[1],img[2]}'`
+IMAGE=`echo $IMAGE | awk '{n=split($1,img,"/"); if(n==3)printf "%s/%s",img[2],img[3]; else printf "%s/%s",img[1],img[2]}'`
 
 docker ps | awk '(NR>1){ if ($NF == "'$NAME'"){exit -1} }'
 if [ $? -ne 0 ]; then
