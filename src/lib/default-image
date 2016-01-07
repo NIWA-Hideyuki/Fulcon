@@ -2,6 +2,8 @@
 
 # Copyright (C) 2015 NIWA Hideyuki
 
+umask 022
+
 usage()
 {
 	echo "usage: default-image"
@@ -12,7 +14,12 @@ if [ $# -ne 1 -o x"$1" != x"default-image" ]; then
 	exit -1
 fi
 
-IMAGENAME=`cat /var/lib/fulcon/default-image`
+if [ -f /var/lib/fulcon/default-image ]; then
+	IMAGENAME=`cat /var/lib/fulcon/default-image`
+else
+	IMAGENAME=""
+fi
+
 
 if [ x"$IMAGENAME" == x"" ]; then
 	for i in `fulcon ls-image | awk '(NR>1){print}'`

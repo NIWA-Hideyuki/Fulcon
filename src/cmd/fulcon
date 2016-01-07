@@ -13,9 +13,6 @@ export PATH=/usr/lib/fulcon/sbin:$PATH
 export FULCONDIR=/var/lib/fulcon
 
 mkdir -p /var/lib/fulcon
-if [ ! -f /var/lib/fulcon/default-image ]; then
-	echo "fulcon/centos7" > /var/lib/fulcon/default-image
-fi
 
 FLG_H=0
 
