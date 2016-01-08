@@ -11,41 +11,51 @@ the system with shutdown command.The container can be connected directly with
 the Internet by adding virtual NIC.
 Fulcon can handle CentOS 7 and Ubuntu 15.04
 
+### Install pacage
+
+ubuntu
+
+$ sudo dpkg -i fulcon_0.1_amd64.deb
+
+CentOS
+
+$ sudo rpm -ivh fulcon-0.1-1.el7.centos.x86_64.rpm
+ 
 ### Building:
 
-ubuntu15.04
+ubuntu
 
-/$ sudo apt-get install docker.io  
-/$ sudo apt-get install python-ipy  
-/$ sudo apt-get install bridge-utils  
+$  sudo apt-get install docker.io  
+$  sudo apt-get install python-ipy  
+$  sudo apt-get install bridge-utils  
   
-/$ tar xzf fulcon.tgz  
-/$ cd fulcon  
-/$ sudo make install  
+$  tar xzf fulcon.tgz  
+$  cd fulcon  
+$  sudo make install  
   
 CentOS 7  
   
-/$ sudo yum install docker-io  
-/$ sudo yum install python-IPy  
-/$ sudo yum install bridge-utils  
+$  sudo yum install docker-io  
+$  sudo yum install python-IPy  
+$  sudo yum install bridge-utils  
   
-/$ tar xzf fulcon.tgz  
-/$ cd fulcon  
-/ $ sudo make install  
+$  tar xzf fulcon.tgz  
+$  cd fulcon  
+$ sudo make install  
   
 ### Setup:  
   
 1) The image of CentOS 7, Ubuntu15.04 and Ubuntu15.10 is prepared.  
   
-/$ sudo fulcon setup centos7  
-/$ sudo fulcon setup ubuntu1504  
-/$ sudo fulcon setup ubuntu1510  
+$  sudo fulcon setup centos7  
+$  sudo fulcon setup ubuntu1504  
+$  sudo fulcon setup ubuntu1510  
   
 It takes the minute to several ten completion.
 It only has to execute only the kind of the image to be used.
 This operation do only first once.
 
-The image is acquired by using Dockerfile and this command is set up.
+The image is builded by using Dockerfile.
 If it does not go well.images are generated with following Dockerfile.  
      /var/lib/fulcon/driver/dockerfile/centos7/Dockerfile  
      /var/lib/fulcon/driver/dockerfile/ubuntu1504/Dockerfile  
@@ -54,66 +64,89 @@ It must be builded "fulcon/centos7", "fulcon/ubuntu1504" and "fulcon/ubuntu1510"
 
 2) The image of default is set.  
   
-/$ sudo fulcon set-default-image fulcon/centos7  
+$  sudo fulcon set-default-image fulcon/centos7  
 or  
-/$ sudo fulcon set-default-image fulcon/ubuntu1504  
+$  sudo fulcon set-default-image fulcon/ubuntu1504  
 or  
-/$ sudo fulcon set-default-image fulcon/ubuntu1510  
+$  sudo fulcon set-default-image fulcon/ubuntu1510  
   
 fulcon/centos7 is set in the following examples.  
   
 ### Using:  
   
-1.Generation of container  
+#### 1.Generation of container  
 
 In the following example, the container "webap-server" is generated.
   
-/$ sudo fulcon sysgen webap-server  
+$  sudo fulcon sysgen webap-server  
   
 The container of "fulcon/centos7" was generated.
 It is optional -c, and "fulcon/ubuntu1504" can be specified.
   
-/$ sudo fulcon sysgen -c fulcon/ubuntu1504 another-server  
+$  sudo fulcon sysgen -c fulcon/ubuntu1504 another-server  
   
-2.The user is added, and the password is set.  
+#### 2.The user is added, and the password is set.  
   
 In the following example, the user "niwa" is seted.
 The last argument is set to passwd.
   
-/$ sudo fulcon add-user webap-server niwa abc123  
+$  sudo fulcon add-user webap-server niwa 
  
-3.Virtual NIC addition  
+Please use optional "-s" to give the sudo right to the user.
   
-/$ sudo fulcon net-add webap-server 192.168.17.2/24  
+$  sudo fulcon add-user -s webap-server tom
+
+Please use the "set-passwd" sub-command if you want to change the password.
+ 
+$  sudo fulcon set-passwd webap-server niwa
+ 
+The "del-user" subcommand is used to delete the user from the container. 
+ 
+$  sudo fulcon del-user webap-server tom
+ 
+#### 3.Virtual NIC addition  
+  
+$  sudo fulcon net-add webap-server 192.168.17.2/24  
   
 Information of network is able to be taken  by "fulcon net-info".  
+ 
+$  sudo fulcon net-info  
   
-/$ sudo fulcon net-info  
+When the network is connected with host's device in the container it, 
+optional "-d" is used. 
+IP-address specifies it within the range of same netmask as the shared device. 
+ 
+In the following example, when it is NIC "eth1" and the address is 
+"192.168.0.2/24", "192.168.0.12/24" is allocated in the container.
+ 
+$ sudo fulcon net-add -d eth1 webap-server 192.168.0.12/24
   
-4.Attache console to the container.  
+#### 4.Attache console to the container.
   
-/$ sudo fulcon console webap-server  
+$  sudo fulcon console webap-server  
+ 
+You return from the console to the host if you do "Exit".
   
-5.When you login the container, yum and apt can be used.  
+#### 5.When you login the container, yum and apt can be used.  
    You can login with ssh.  
    "shutdown -h now" can be used in container.  
   
-6.Stop and start of container  
+#### 6.Stop and start of container  
   
-/$ sudo fulcon stop webap-server  
+$  sudo fulcon stop webap-server  
   
-/$ sudo fulcon start webap-server  
+$  sudo fulcon start webap-server  
   
-7.List containers  
+#### 7.List containers  
   
-/$ sudo fulcon list 
+$  sudo fulcon list 
   
-8.Erase container  
+#### 8.Erase container  
   
-/$ sudo fulcon erase webap-server  
-  
-
-
+$  sudo fulcon erase webap-server  
+ 
+ 
+ 
 ### ALL Sub command:  
 ```
   
