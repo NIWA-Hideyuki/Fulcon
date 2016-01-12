@@ -24,14 +24,14 @@ collectively.
 %setup -q
 
 %build
-make %{?_smp_mflags} libdir=%_libdir
+make %{?_smp_mflags} libdir=%{_prefix}/lib
 
 %install
-make install libdir=%_libdir DESTDIR=$RPM_BUILD_ROOT
+make install libdir=%{_prefix}/lib DESTDIR=$RPM_BUILD_ROOT
 
 %files
 %{_sbindir}/fulcon
-%{_libdir}/fulcon
+%{_prefix}/lib/fulcon
 %{_localstatedir}/lib/fulcon
 
 %changelog

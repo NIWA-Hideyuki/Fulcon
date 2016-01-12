@@ -8,7 +8,7 @@ rm -rf RPMS/*
 rm -rf SRPMS/*
 
 cd ../../src
-make clean libdir=/usr/lib`[ $(uname -m) == x86_64 ] && echo 64`
+make clean libdir=/usr/lib
 cd ..
 git clean -xdf
 git set-file-times
