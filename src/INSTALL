@@ -3,7 +3,7 @@ Installation
 
 1. Building:
 
-ubuntu15.04
+ubuntu
 
 $ sudo apt-get install docker.io
 $ sudo apt-get install python-ipy
@@ -24,19 +24,34 @@ $ cd fulcon
 $ sudo make install
 
 2. Setup:
-
-The image of CentOS 7 and Ubuntu15.04 is prepared.
-
-$ sudo fulcon setup
-
-It takes time until ending.
+  
+1) The image of CentOS 7, Ubuntu15.04 and Ubuntu15.10 is prepared.  
+  
+$  sudo fulcon setup centos7  
+$  sudo fulcon setup ubuntu1504  
+$  sudo fulcon setup ubuntu1510  
+  
+It takes the minute to several ten completion.
+It only has to execute only the kind of the image to be used.
 This operation do only first once.
 
-The image is acquired by using Dockerfile and this command is set up.
-If it does not go well. images are generated with following Dockerfile.
-	/var/lib/fulcon/driver/dockerfile/centos7/Dockerfile
-	/var/lib/fulcon/driver/dockerfile/ubuntu1504/Dockerfile
-It must be builded "fulcon/centos7" and "fulcon/ubuntu1504"
+The image is builded by using Dockerfile.
+If it does not go well.images are generated with following Dockerfile.  
+     /var/lib/fulcon/driver/dockerfile/centos7/Dockerfile  
+     /var/lib/fulcon/driver/dockerfile/ubuntu1504/Dockerfile  
+     /var/lib/fulcon/driver/dockerfile/ubuntu1510/Dockerfile  
+It must be builded "fulcon/centos7", "fulcon/ubuntu1504" and "fulcon/ubuntu1510"
+
+2) The image of default is set.  
+  
+$  sudo fulcon set-default-image fulcon/centos7  
+or  
+$  sudo fulcon set-default-image fulcon/ubuntu1504  
+or  
+$  sudo fulcon set-default-image fulcon/ubuntu1510  
+  
+fulcon/centos7 is set in the following examples.  
+  
 
 Let's enjoy.
 
