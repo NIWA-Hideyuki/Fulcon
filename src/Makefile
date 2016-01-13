@@ -115,7 +115,6 @@ uninstall :
 	rm -f $(DESTDIR)$(sbindir)/fulcon
 	rm -rf $(DESTDIR)$(libdir)/fulcon
 	rm -rf $(DESTDIR)/$(docdir)
-	rm -rf $(DESTDIR)/var/lib/fulcon
 
 clean :
 
