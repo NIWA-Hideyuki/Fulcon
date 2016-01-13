@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2015-2016 NIWA Hideyuki
 
 OCFDIR=/var/lib/fulcon/OCF
 
