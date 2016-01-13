@@ -10,15 +10,15 @@ URL:                   https://github.com/NIWA-Hideyuki/Fulcon
 Requires:              python-IPy
 
 %description
-fulcon efficiently makes the container. One container making is a second 
-or less.
-The fulcon container can dynamically change the resource of CPU, MEMORY,
-IO and NET. 
-fulcon can be used as well as VM.
-fulcon can be operated stabilizing the job like a past system at a long term.
-Moreover, a lot of fulcon instances are generate in a short time. If a lot
-of fulcon instances become unnecessary, it is possible to delete it
-collectively. 
+
+`Fulcon` is the CLI tool for Full Container System
+
+In Fulcon, the container can be handled like VM.
+Fulcon constructs the system by generating the container, logging in
+from the console, and installing the package with yum and apt, and stops
+the system with shutdown command.The container can be connected directly with
+the Internet by adding virtual NIC.
+Fulcon can handle CentOS 7 and Ubuntu 15.04
 
 %prep
 %setup -q
