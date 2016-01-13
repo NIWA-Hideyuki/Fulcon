@@ -35,5 +35,5 @@ make install libdir=%{_prefix}/lib DESTDIR=$RPM_BUILD_ROOT
 %{_localstatedir}/lib/fulcon
 
 %changelog
-* Fri Aug 28 2015 NIWA Hideyuki <niwa.niwa@nifty.ne.jp>
+* Thu Jan 14 2016 NIWA Hideyuki <niwa.niwa@nifty.ne.jp>
 - New Build. First release 0.1
