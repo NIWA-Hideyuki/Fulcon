@@ -1,10 +1,20 @@
 #!/bin/bash
 
 FULCON_VER=$(grep "^VERSION" ../../Makefile | sed -e s'/VERSION=//')
+PATH=`dirname $PWD`/rpm/script:$PATH
 
 # rm old packages
 rm -f fulcon_*.dsc fulcon_*_amd64.changes fulcon_*.tar.gz fulcon_*_amd64.deb
 rm -rf build
+
+# make changelog
+pushd ../../src
+make clean libdir=/usr/lib
+cd ..
+git clean -xdf
+git set-file-times
+( cd src ; TZ=UTC gitlog2changelog.py )
+popd
 
 # make build dir
 mkdir -p build
