@@ -15,11 +15,11 @@ Fulcon can handle CentOS 7 and Ubuntu 15.04
 
 ubuntu
 
-$ sudo dpkg -i fulcon_0.1_amd64.deb
+$ sudo dpkg -i fulcon_0.2_amd64.deb
 
 CentOS
 
-$ sudo rpm -ivh fulcon-0.1-1.el7.centos.x86_64.rpm
+$ sudo rpm -ivh fulcon-0.2-1.el7.centos.x86_64.rpm
  
 ### Building:
 
