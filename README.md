@@ -1,6 +1,6 @@
 ## Fulcon VirtualPlatform
 
-`Fulcon` is the CLI tool for Full Container System
+`Fulcon` is the system container tool.
 
 ## State of the project
 
@@ -15,11 +15,17 @@ Fulcon can handle CentOS 7 and Ubuntu 15.04
 
 ubuntu
 
-$ sudo dpkg -i fulcon_0.2_amd64.deb
+$  sudo apt-get install docker.io  
+$  sudo apt-get install python-ipy  
+$  sudo apt-get install bridge-utils  
+$  sudo dpkg -i fulcon_0.2_amd64.deb
 
 CentOS
 
-$ sudo rpm -ivh fulcon-0.2-1.el7.centos.x86_64.rpm
+$  sudo yum install docker-io  
+$  sudo yum install python-IPy  
+$  sudo yum install bridge-utils  
+$  sudo rpm -ivh fulcon-0.2-1.el7.centos.x86_64.rpm
  
 ### Building:
 
