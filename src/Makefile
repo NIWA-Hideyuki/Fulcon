@@ -1,5 +1,5 @@
 # Fulcon
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2015-2016 NIWA Hideyuki
 
 prefix ?= /usr
 exec_prefix ?= ${prefix}
@@ -12,50 +12,50 @@ docdir ?= ${datarootdir}/doc/fulcon-${VERSION}
 
 fulcon :
 
-install : install-cmd install-lib install-driver install-doc
+install : install-cmd install-subcmd install-driver install-doc
 
 install-cmd :
 	mkdir -p $(DESTDIR)$(sbindir)/sbin
 	install -m 755 cmd/fulcon $(DESTDIR)$(sbindir)/fulcon
 
-install-lib : 
+install-subcmd : 
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/sbin
-	install -m 755 lib/default-image $(DESTDIR)$(libdir)/fulcon/sbin/default-image
-	install -m 755 lib/driver-name $(DESTDIR)$(libdir)/fulcon/sbin/driver-name
-	install -m 755 lib/list $(DESTDIR)$(libdir)/fulcon/sbin/list
-	install -m 755 lib/sysgen $(DESTDIR)$(libdir)/fulcon/sbin/sysgen
-	install -m 755 lib/clone $(DESTDIR)$(libdir)/fulcon/sbin/clone
-	install -m 755 lib/erase $(DESTDIR)$(libdir)/fulcon/sbin/erase
-	install -m 755 lib/start $(DESTDIR)$(libdir)/fulcon/sbin/start
-	install -m 755 lib/stop $(DESTDIR)$(libdir)/fulcon/sbin/stop
-	install -m 755 lib/suspend $(DESTDIR)$(libdir)/fulcon/sbin/suspend
-	install -m 755 lib/resume $(DESTDIR)$(libdir)/fulcon/sbin/resume
-	install -m 755 lib/rename $(DESTDIR)$(libdir)/fulcon/sbin/rename
-	install -m 755 lib/br-info $(DESTDIR)$(libdir)/fulcon/sbin/br-info
-	install -m 755 lib/br-add $(DESTDIR)$(libdir)/fulcon/sbin/br-add
-	install -m 755 lib/br-del $(DESTDIR)$(libdir)/fulcon/sbin/br-del
-	install -m 755 lib/net-add $(DESTDIR)$(libdir)/fulcon/sbin/net-add
-	install -m 755 lib/net-del $(DESTDIR)$(libdir)/fulcon/sbin/net-del
-	install -m 755 lib/net-info $(DESTDIR)$(libdir)/fulcon/sbin/net-info
-	install -m 755 lib/resource $(DESTDIR)$(libdir)/fulcon/sbin/resource
-	install -m 755 lib/setup $(DESTDIR)$(libdir)/fulcon/sbin/setup
-	install -m 755 lib/load-ocf $(DESTDIR)$(libdir)/fulcon/sbin/load-ocf
-	install -m 755 lib/save-ocf $(DESTDIR)$(libdir)/fulcon/sbin/save-ocf
-	install -m 755 lib/ls-ocf $(DESTDIR)$(libdir)/fulcon/sbin/ls-ocf
-	install -m 755 lib/del-ocf $(DESTDIR)$(libdir)/fulcon/sbin/del-ocf
-	install -m 755 lib/add-user $(DESTDIR)$(libdir)/fulcon/sbin/add-user
-	install -m 755 lib/del-user $(DESTDIR)$(libdir)/fulcon/sbin/del-user
-	install -m 755 lib/set-passwd $(DESTDIR)$(libdir)/fulcon/sbin/set-passwd
-	install -m 755 lib/set-driver $(DESTDIR)$(libdir)/fulcon/sbin/set-driver
-	install -m 755 lib/image-catalog $(DESTDIR)$(libdir)/fulcon/sbin/image-catalog
-	install -m 755 lib/ls-image $(DESTDIR)$(libdir)/fulcon/sbin/ls-image
-	install -m 755 lib/del-image $(DESTDIR)$(libdir)/fulcon/sbin/del-image
-	install -m 755 lib/set-default-image $(DESTDIR)$(libdir)/fulcon/sbin/set-default-image
-	install -m 755 lib/setup-prog $(DESTDIR)$(libdir)/fulcon/sbin/setup-prog
-	install -m 755 lib/update $(DESTDIR)$(libdir)/fulcon/sbin/update
-	install -m 755 lib/deploy $(DESTDIR)$(libdir)/fulcon/sbin/deploy
-	install -m 755 lib/console $(DESTDIR)$(libdir)/fulcon/sbin/console
-	install -m 755 lib/help $(DESTDIR)$(libdir)/fulcon/sbin/help
+	install -m 755 subcmd/default-image $(DESTDIR)$(libdir)/fulcon/sbin/default-image
+	install -m 755 subcmd/driver-name $(DESTDIR)$(libdir)/fulcon/sbin/driver-name
+	install -m 755 subcmd/list $(DESTDIR)$(libdir)/fulcon/sbin/list
+	install -m 755 subcmd/sysgen $(DESTDIR)$(libdir)/fulcon/sbin/sysgen
+	install -m 755 subcmd/clone $(DESTDIR)$(libdir)/fulcon/sbin/clone
+	install -m 755 subcmd/erase $(DESTDIR)$(libdir)/fulcon/sbin/erase
+	install -m 755 subcmd/start $(DESTDIR)$(libdir)/fulcon/sbin/start
+	install -m 755 subcmd/stop $(DESTDIR)$(libdir)/fulcon/sbin/stop
+	install -m 755 subcmd/suspend $(DESTDIR)$(libdir)/fulcon/sbin/suspend
+	install -m 755 subcmd/resume $(DESTDIR)$(libdir)/fulcon/sbin/resume
+	install -m 755 subcmd/rename $(DESTDIR)$(libdir)/fulcon/sbin/rename
+	install -m 755 subcmd/br-info $(DESTDIR)$(libdir)/fulcon/sbin/br-info
+	install -m 755 subcmd/br-add $(DESTDIR)$(libdir)/fulcon/sbin/br-add
+	install -m 755 subcmd/br-del $(DESTDIR)$(libdir)/fulcon/sbin/br-del
+	install -m 755 subcmd/net-add $(DESTDIR)$(libdir)/fulcon/sbin/net-add
+	install -m 755 subcmd/net-del $(DESTDIR)$(libdir)/fulcon/sbin/net-del
+	install -m 755 subcmd/net-info $(DESTDIR)$(libdir)/fulcon/sbin/net-info
+	install -m 755 subcmd/resource $(DESTDIR)$(libdir)/fulcon/sbin/resource
+	install -m 755 subcmd/setup $(DESTDIR)$(libdir)/fulcon/sbin/setup
+	install -m 755 subcmd/load-ocf $(DESTDIR)$(libdir)/fulcon/sbin/load-ocf
+	install -m 755 subcmd/save-ocf $(DESTDIR)$(libdir)/fulcon/sbin/save-ocf
+	install -m 755 subcmd/ls-ocf $(DESTDIR)$(libdir)/fulcon/sbin/ls-ocf
+	install -m 755 subcmd/del-ocf $(DESTDIR)$(libdir)/fulcon/sbin/del-ocf
+	install -m 755 subcmd/add-user $(DESTDIR)$(libdir)/fulcon/sbin/add-user
+	install -m 755 subcmd/del-user $(DESTDIR)$(libdir)/fulcon/sbin/del-user
+	install -m 755 subcmd/set-passwd $(DESTDIR)$(libdir)/fulcon/sbin/set-passwd
+	install -m 755 subcmd/set-driver $(DESTDIR)$(libdir)/fulcon/sbin/set-driver
+	install -m 755 subcmd/image-catalog $(DESTDIR)$(libdir)/fulcon/sbin/image-catalog
+	install -m 755 subcmd/ls-image $(DESTDIR)$(libdir)/fulcon/sbin/ls-image
+	install -m 755 subcmd/del-image $(DESTDIR)$(libdir)/fulcon/sbin/del-image
+	install -m 755 subcmd/set-default-image $(DESTDIR)$(libdir)/fulcon/sbin/set-default-image
+	install -m 755 subcmd/setup-prog $(DESTDIR)$(libdir)/fulcon/sbin/setup-prog
+	install -m 755 subcmd/update $(DESTDIR)$(libdir)/fulcon/sbin/update
+	install -m 755 subcmd/deploy $(DESTDIR)$(libdir)/fulcon/sbin/deploy
+	install -m 755 subcmd/console $(DESTDIR)$(libdir)/fulcon/sbin/console
+	install -m 755 subcmd/help $(DESTDIR)$(libdir)/fulcon/sbin/help
 
 install-driver : install-driver-docker
 
