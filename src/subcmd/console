@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2015-2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 usage() {
 	echo "usage: console [ -n REPEAT_NUMBER ] NAME"
@@ -37,7 +37,7 @@ if [ $FLG_N -eq 1 ]; then
 			if [ x"$ST" != x"0" ]; then
 				echo $NAME$N "is not running"
 			else	
-				gnome-terminal -e "console $OPT_FLG $NAME$N" >& /dev/null
+				gnome-terminal -e "lib-console $OPT_FLG $NAME$N" >& /dev/null
 				if [ $? -ne 0 ]; then
 					echo "error: can't open new gnome-terminal:" $NAME$N
 				fi
@@ -70,7 +70,7 @@ do
 		echo $i "is not running"
 
 	else
-		console $OPT_FLG $i
+		lib-console $OPT_FLG $i
 	fi
 done
 

@@ -89,7 +89,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/setup-prog $(DESTDIR)$(libdir)/fulcon/driver/docker/setup-prog
 	install -m 755 driver/docker/update $(DESTDIR)$(libdir)/fulcon/driver/docker/update
 	install -m 755 driver/docker/deploy $(DESTDIR)$(libdir)/fulcon/driver/docker/deploy
-	install -m 755 driver/docker/console $(DESTDIR)$(libdir)/fulcon/driver/docker/console
+	install -m 755 lib/lib-console $(DESTDIR)$(libdir)/fulcon/lib/lib-console
 	install -m 755 driver/docker/net-ipv4 $(DESTDIR)$(libdir)/fulcon/driver/docker/net-ipv4
 	install -m 755 driver/docker//image-catalog $(DESTDIR)$(libdir)/fulcon/driver/docker/image-catalog
 	install -m 755 driver/docker/parmchk-num-kmg $(DESTDIR)$(libdir)/fulcon/driver/docker/parmchk-num-kmg

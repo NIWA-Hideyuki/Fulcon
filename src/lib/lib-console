@@ -1,12 +1,12 @@
 #!/bin/sh
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2015-2016 NIWA Hideyuki
 
 # check options
 FLG_E=0
 
 usage() {
-	echo "usage: console NAME"
+	echo "usage: lib-console NAME"
 }
 
 if [ $# -ne 1 ]; then
@@ -16,6 +16,6 @@ fi
 
 NAME=$1
 
-docker exec -it $NAME /bin/bash
+fulcon-exec $NAME /bin/bash
 
 exit 0
