@@ -42,26 +42,26 @@ if [ $ARGS -eq 3 ]; then
 	PASSWORD=$3
 fi
 
-docker exec -it $LXCNAME useradd -m $USERNAME
+fulcon-exec $LXCNAME useradd -m $USERNAME
 if [ $? -ne 0 ]; then
 	echo "error: add-user is failed"
 	exit -1
 fi
 
 if [ $FLG_S -eq 1 ]; then
-	docker exec -it $LXCNAME mkdir -p /etc/sudoers.d
+	fulcon-exec $LXCNAME mkdir -p /etc/sudoers.d
 	SUDOERS_LINE="echo $USERNAME ALL\=\(ALL\) ALL  > /etc/sudoers.d/$USERNAME"
-	docker exec -it $LXCNAME /bin/sh -c "$SUDOERS_LINE"
-	docker exec -it $LXCNAME chmod 440 /etc/sudoers.d/$USERNAME
+	fulcon-exec $LXCNAME /bin/sh -c "$SUDOERS_LINE"
+	fulcon-exec $LXCNAME chmod 440 /etc/sudoers.d/$USERNAME
 	echo "This user has the administrator rights."
 fi
 
 if [ $ARGS -eq 3 ]; then
-	docker exec -it $LXCNAME /bin/sh -c "printf \"%s\n%s\n\" $PASSWORD $PASSWORD | passwd $USERNAME"
+	fulcon-exec $LXCNAME /bin/sh -c "printf \"%s\n%s\n\" $PASSWORD $PASSWORD | passwd $USERNAME"
 else
-	docker exec -it $LXCNAME passwd $USERNAME
+	fulcon-exec $LXCNAME passwd $USERNAME
 	if [ $? -ne 0 ]; then
-		docker exec -it $LXCNAME userdel -r $USERNAME
+		fulcon-exec $LXCNAME userdel -r $USERNAME
 	fi
 fi
 

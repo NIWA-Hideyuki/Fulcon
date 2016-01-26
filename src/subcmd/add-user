@@ -3,7 +3,7 @@
 # Copyright (C) 2015-2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 usage() {
 	echo "usage: add-user [ -s ] [ -n REAT_NUMBER ] NAME USER [PASSWORD ]"
@@ -40,10 +40,10 @@ if [ $FLG_N -gt 0 ]; then
 	for i in `seq $RNUM`
 	do
 		NAME_N=`printf "%s%04d" $NAME $i`
-		add-user $SFLG $NAME_N $UNAME $PASSWORD
+		lib-add-user $SFLG $NAME_N $UNAME $PASSWORD
 	done
 else
-	add-user $SFLG $NAME $UNAME $PASSWORD
+	lib-add-user $SFLG $NAME $UNAME $PASSWORD
 fi
 
 exit 0
