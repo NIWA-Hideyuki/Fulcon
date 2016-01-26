@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2015-2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 usage() {
 	echo "usage: del-user NAME USER"
@@ -19,7 +19,7 @@ if [ x"$1" == x"del-user" ]; then
 	exit -1
 fi
 
-. del-user $@
+. lib-del-user $@
 
 exit 0
 

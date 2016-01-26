@@ -82,7 +82,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/load-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/load-ocf
 	install -m 755 driver/docker/save-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/save-ocf
 	install -m 755 lib/lib-add-user $(DESTDIR)$(libdir)/fulcon/lib/lib-add-user
-	install -m 755 driver/docker/del-user $(DESTDIR)$(libdir)/fulcon/driver/docker/del-user
+	install -m 755 lib/lib-del-user $(DESTDIR)$(libdir)/fulcon/lib/lib-del-user
 	install -m 755 driver/docker/set-passwd $(DESTDIR)$(libdir)/fulcon/driver/docker/set-passwd
 	install -m 755 driver/docker/ls-image $(DESTDIR)$(libdir)/fulcon/driver/docker/ls-image
 	install -m 755 driver/docker/del-image $(DESTDIR)$(libdir)/fulcon/driver/docker/del-image

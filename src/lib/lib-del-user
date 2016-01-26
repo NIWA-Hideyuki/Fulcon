@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2015-2016 NIWA Hideyuki
 
 
 # check root
@@ -11,7 +11,7 @@ fi
 
 usage()
 {
-	echo "usage: del-user NAME USER"
+	echo "usage: lib-del-user NAME USER"
 }
 
 if [ $# -ne 2 ]; then
@@ -21,7 +21,7 @@ fi
 
 LXCNAME=$1
 USERNAME=$2
-docker exec -it $LXCNAME userdel -r $USERNAME
+fulcon-exec $LXCNAME userdel -r $USERNAME
 if [ $? -ne 0 ]; then
 	echo "error: del-user is failed"
 	exit -1

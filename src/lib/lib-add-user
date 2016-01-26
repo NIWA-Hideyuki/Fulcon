@@ -11,7 +11,7 @@ fi
 
 usage()
 {
-	echo "usage: add-user [ -s ] NAME USER [ PASSWORD ]" 
+	echo "usage: lib-add-user [ -s ] NAME USER [ PASSWORD ]" 
 }
 
 # check options
