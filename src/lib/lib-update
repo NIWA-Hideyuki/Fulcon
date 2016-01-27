@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2015-2016 NIWA Hideyuki
 
 usage() {
-	echo "usage: update "
+	echo "usage: lib-update "
 }
 
 update_ubuntu_all() {
@@ -12,8 +12,8 @@ update_ubuntu_all() {
 		for i in $NAMES
 		do
 			echo "update" $i
-			docker exec -it $i apt-get update
-			docker exec -it $i apt-get upgrade -y
+			fulcon-exec $i apt-get update
+			fulcon-exec $i apt-get upgrade -y
 			echo 
 			echo
 		done
@@ -24,8 +24,8 @@ update_ubuntu_all() {
 		do
 			echo "update" $i
 			fulcon start $i
-			docker exec -it $i apt-get update
-			docker exec -it $i apt-get upgrade -y
+			fulcon-exec $i apt-get update
+			fulcon-exec $i apt-get upgrade -y
 			fulcon stop $i
 			echo 
 			echo
@@ -39,7 +39,7 @@ update_centos_all() {
 		for i in $NAMES
 		do
 			echo "update" $i
-			docker exec -it $i yum update -y
+			fulcon-exec $i yum update -y
 			echo 
 			echo
 		done
@@ -50,7 +50,7 @@ update_centos_all() {
 		do
 			echo "update" $i
 			fulcon start $i
-			docker exec -it $i yum update -y
+			fulcon-exec $i yum update -y
 			fulcon stop $i
 			echo 
 			echo

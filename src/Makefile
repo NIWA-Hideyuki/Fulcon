@@ -87,7 +87,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/ls-image $(DESTDIR)$(libdir)/fulcon/driver/docker/ls-image
 	install -m 755 driver/docker/del-image $(DESTDIR)$(libdir)/fulcon/driver/docker/del-image
 	install -m 755 driver/docker/setup-prog $(DESTDIR)$(libdir)/fulcon/driver/docker/setup-prog
-	install -m 755 driver/docker/update $(DESTDIR)$(libdir)/fulcon/driver/docker/update
+	install -m 755 lib/lib-update $(DESTDIR)$(libdir)/fulcon/lib/lib-update
 	install -m 755 driver/docker/deploy $(DESTDIR)$(libdir)/fulcon/driver/docker/deploy
 	install -m 755 lib/lib-console $(DESTDIR)$(libdir)/fulcon/lib/lib-console
 	install -m 755 driver/docker/net-ipv4 $(DESTDIR)$(libdir)/fulcon/driver/docker/net-ipv4
