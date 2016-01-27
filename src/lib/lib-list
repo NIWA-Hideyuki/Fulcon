@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2015-2016 NIWA Hideyuki
 
 usage()
 {
-	echo "usage: list "
+	echo "usage: lib-list "
 }
 
-RUNNING=`docker ps --no-trunc    | awk 'NR>1{if($(NF-1) != "(Paused)") printf "%s\n",$NF}'`
-PAUSED=`docker ps --no-trunc    | awk 'NR>1{if($(NF-1) == "(Paused)") printf "%s\n",$NF}'`
-ALLCONT=`docker ps --no-trunc -a | awk 'NR>1{printf "%s\n",$NF}'`
+RUNNING=`fulcon-list-running | awk '{printf "%s ",$1}'`
+PAUSED=`fulcon-list-paused | awk '{printf "%s ",$1}'`
+ALLCONT=`fulcon-list-all | awk '{printf "%s ",$1}'`
 for i in $ALLCONT
 do
 	NAME=$i

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+exec docker ps --no-trunc -a | awk 'NR>1{printf "%s %s\n",$NF,$2}'
+
+
+
