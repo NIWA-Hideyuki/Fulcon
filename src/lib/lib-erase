@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2015-2016 NIWA Hideyuki
 
 usage()
 {
@@ -28,17 +28,17 @@ else
 	exit -1
 fi
 
-docker ps -a | awk '(NR>1){ printf "%s\n",$NF }' | egrep $NAME >& /dev/null
+fulcon-list-all | awk 'BEGIN{r=1}{if($1=="'$NAME'")r=0}END{exit(r)}'
 if [ $? -ne 0 ]; then
 	echo "error: can't find" $NAME
 	exit -1
 fi
 
-docker stop $NAME >& /dev/null
-docker rm   $NAME >& /dev/null
+fulcon-stop $NAME >& /dev/null
+fulcon-erase $NAME >& /dev/null
 echo "erased" $NAME
 
-(docker rmi `docker images | grep '<none>' | awk '{print$3}'`) >& /dev/null
+fulcon-image-gc
 
 exit 0
 

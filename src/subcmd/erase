@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2015-2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 # check options
 OPT_FLG=""
@@ -35,7 +35,7 @@ if [ $FLG_N -eq 1 ]; then
 		for i in `seq $RNUM`
 		do
 			N=`printf "%04d" $i`
-			erase $NAME$N
+			lib-erase $NAME$N
 			rm -rf $FULCONDIR/container/$NAME$N
 		done;
 		exit 0
@@ -60,7 +60,7 @@ fi
 
 for i in $NAMES
 do
-	erase $OPT_FLG$i
+	lib-erase $OPT_FLG$i
 	rm -rf $FULCONDIR/container/$OPT_FLG$i
 done
 
