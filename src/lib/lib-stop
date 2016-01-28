@@ -28,7 +28,7 @@ else
 	exit -1
 fi
 
-fulcon-list-running | awk '{if ($1=="'$NAME'")exit(0);else exit(1)}'
+fulcon-list-running | awk 'BEGIN{r=1}{if($1=="'$NAME'")r=0}END{exit(r);}'
 if [ $? -ne 0 ]; then
 	echo "error: can't find running" $NAME
 	exit -1
