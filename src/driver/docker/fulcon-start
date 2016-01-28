@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+exec docker start $*
+

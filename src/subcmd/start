@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2015-2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 usage()
 {
@@ -37,7 +37,7 @@ if [ $FLG_N -eq 1 ]; then
 		for i in `seq $RNUM`
 		do
 			N=`printf "%04d" $i`
-			start $OPT_FLG $NAME$N
+			lib-start $OPT_FLG $NAME$N
 			if [ $? -ne 0 ]; then
 				continue
 			fi
@@ -73,7 +73,7 @@ fi
 
 for i in $NAMES
 do
-	start $OPT_FLG $i
+	lib-start $OPT_FLG $i
 	if [ $? -ne 0 ]; then
 		continue
 	fi
