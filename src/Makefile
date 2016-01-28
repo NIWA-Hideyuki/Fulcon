@@ -68,6 +68,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/fulcon-list-stopped $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-list-stopped
 	install -m 755 driver/docker/fulcon-start $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-start
 	install -m 755 driver/docker/fulcon-stop $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-stop
+	install -m 755 driver/docker/fulcon-suspend $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-suspend
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/lib
 	install -m 755 driver/docker/cpu $(DESTDIR)$(libdir)/fulcon/driver/docker/cpu
 	install -m 755 driver/docker/cpuset $(DESTDIR)$(libdir)/fulcon/driver/docker/cpuset
@@ -78,7 +79,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/mem $(DESTDIR)$(libdir)/fulcon/driver/docker/mem
 	install -m 755 lib/lib-start $(DESTDIR)$(libdir)/fulcon/lib/lib-start
 	install -m 755 lib/lib-stop $(DESTDIR)$(libdir)/fulcon/lib/lib-stop
-	install -m 755 driver/docker/suspend $(DESTDIR)$(libdir)/fulcon/driver/docker/suspend
+	install -m 755 lib/lib-suspend $(DESTDIR)$(libdir)/fulcon/lib/lib-suspend
 	install -m 755 driver/docker/resume $(DESTDIR)$(libdir)/fulcon/driver/docker/resume
 	install -m 755 driver/docker/rename $(DESTDIR)$(libdir)/fulcon/driver/docker/rename
 	install -m 755 driver/docker/sysgen $(DESTDIR)$(libdir)/fulcon/driver/docker/sysgen
