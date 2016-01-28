@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2015-2016 NIWA Hideyuki
 
 usage()
 {
-	echo "usage: stop [ -f ] NAME"
+	echo "usage: lib-stop [ -f ] NAME"
 }
 
 # check options
@@ -28,25 +28,13 @@ else
 	exit -1
 fi
 
-docker ps | awk '(NR>1){ printf "%s\n",$NF }' | egrep $NAME >& /dev/null
+fulcon-list-running | awk '{if ($1=="'$NAME'")exit(0);else exit(1)}'
 if [ $? -ne 0 ]; then
-	echo "error: can't find" $NAME 
+	echo "error: can't find running" $NAME
 	exit -1
 fi
 
-docker ps -a | awk '(NR>1){ printf "%s\n",$NF }' | egrep $NAME >& /dev/null
-if [ $? -ne 0 ]; then
-	echo "error: can't find" $NAME
-	exit -1
-fi
-
-STAT=`fulcon list | awk '($1=="'$NAME'"){print $2}'`
-if [ x"$STAT" != x"RUNNING" ]; then
-	echo "error: not RUNNING" 
-	exit -1
-fi
-
-docker stop $NAME >& /dev/null
+fulcon-stop $NAME >& /dev/null
 
 for i in `brctl show | egrep fulcon | awk '{print $1}' `
 do
