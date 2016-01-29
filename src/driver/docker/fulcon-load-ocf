@@ -1,26 +1,10 @@
 #!/bin/bash
 
-# Copyright (C) 2015-2016 NIWA Hideyuki
+# Copyright (C) 2016 NIWA Hideyuki
 
 OCFDIR=/var/lib/fulcon/OCF
 
-usage()
-{
-	echo "usage: load-ocf IMAGENAME"
-}
-
-if [ $# -ne 1 ]; then
-echo debug $#
-	usage
-	exit -1
-fi
-
-if [ x"$1" == x"load-ocf" ]; then
-	usage
-	exit -1
-fi
-
-IMAGENAME=`basename $1`
+IMAGENAME=$1
 
 REPO=`docker images --no-trunc docker.io/fulcon/$IMAGENAME | awk 'NR>1{print $1}'`
 if [ x"$REPO" != x"" ]; then
@@ -44,4 +28,4 @@ if [ -f $OCFDIR/$IMAGENAME/$IMAGENAME.tgz ]; then
 	fi
 fi
 
-exit 0
+

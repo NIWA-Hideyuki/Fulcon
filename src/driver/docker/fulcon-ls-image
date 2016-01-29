@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+docker images --no-trunc $* | awk 'NR>1{print $1}'
+

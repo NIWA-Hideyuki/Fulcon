@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Copyright (C) 2015-2016 NIWA Hideyuki
+
+OCFDIR=/var/lib/fulcon/OCF
+
+usage()
+{
+	echo "usage: lib-load-ocf IMAGENAME"
+}
+
+if [ $# -ne 1 ]; then
+echo debug $#
+	usage
+	exit -1
+fi
+
+if [ x"$1" == x"load-ocf" ]; then
+	usage
+	exit -1
+fi
+
+IMAGENAME=`basename $1`
+
+fulcon-load-ocf $IMAGENAME
+
