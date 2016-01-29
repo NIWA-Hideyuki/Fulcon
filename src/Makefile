@@ -76,6 +76,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/fulcon-rename $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-rename
 	install -m 755 driver/docker/fulcon-cp-in $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cp-in
 	install -m 755 driver/docker/fulcon-cp-out $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cp-out
+	install -m 755 driver/docker/fulcon-ls-image $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-ls-image
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/lib
 	install -m 755 driver/docker/cpu $(DESTDIR)$(libdir)/fulcon/driver/docker/cpu
 	install -m 755 driver/docker/cpuset $(DESTDIR)$(libdir)/fulcon/driver/docker/cpuset
@@ -98,7 +99,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 lib/lib-add-user $(DESTDIR)$(libdir)/fulcon/lib/lib-add-user
 	install -m 755 lib/lib-del-user $(DESTDIR)$(libdir)/fulcon/lib/lib-del-user
 	install -m 755 driver/docker/set-passwd $(DESTDIR)$(libdir)/fulcon/driver/docker/set-passwd
-	install -m 755 driver/docker/ls-image $(DESTDIR)$(libdir)/fulcon/driver/docker/ls-image
+	install -m 755 lib/lib-ls-image $(DESTDIR)$(libdir)/fulcon/lib/lib-ls-image
 	install -m 755 driver/docker/del-image $(DESTDIR)$(libdir)/fulcon/driver/docker/del-image
 	install -m 755 driver/docker/setup-prog $(DESTDIR)$(libdir)/fulcon/driver/docker/setup-prog
 	install -m 755 lib/lib-update $(DESTDIR)$(libdir)/fulcon/lib/lib-update

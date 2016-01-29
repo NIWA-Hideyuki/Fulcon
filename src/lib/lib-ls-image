@@ -4,7 +4,7 @@
 
 usage()
 {
-	echo "usage: ls-image"
+	echo "usage: lib-ls-image"
 }
 
 if [ $# -ne 1 -o x"$1" != x"ls-image" ]; then
@@ -13,7 +13,7 @@ if [ $# -ne 1 -o x"$1" != x"ls-image" ]; then
 fi
 
 echo "fulcon images:"
-IMAGES=`docker images --no-trunc | awk '($1~/fulcon\//){printf "\t%s\n",$1}'`
+IMAGES=`fulcon-ls-image | awk '($1~/fulcon\//){printf "\t%s\n",$1}'`
 
 if [ x"$IMAGES" == x"" ]; then
 	exit -1
