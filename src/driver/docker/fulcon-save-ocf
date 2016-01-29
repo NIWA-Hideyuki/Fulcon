@@ -4,22 +4,7 @@
 
 OCFDIR=/var/lib/fulcon/OCF
 
-usage()
-{
-	echo "usage: save-ocf IMAGENAME"
-}
-
-if [ $# -ne 1 ]; then
-	usage
-	exit -1
-fi
-
-if [ x"$1" == x"save-ocf" ]; then
-	usage
-	exit -1
-fi
-
-IMAGENAME=`basename $1`
+IMAGENAME=$1
 
 echo "OCF image" fulcon/$IMAGENAME "is saving"
 mkdir -p $OCFDIR/$IMAGENAME 

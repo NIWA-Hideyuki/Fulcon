@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Copyright (C) 2015-2016 NIWA Hideyuki
+
+OCFDIR=/var/lib/fulcon/OCF
+
+usage()
+{
+	echo "usage: lib-save-ocf IMAGENAME"
+}
+
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+if [ x"$1" == x"save-ocf" ]; then
+	usage
+	exit -1
+fi
+
+IMAGENAME=`basename $1`
+
+fulcon-save-ocf $IMAGENAME
+
