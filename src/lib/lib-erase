@@ -4,7 +4,7 @@
 
 usage()
 {
-	echo "usage: erase [ -f ] NAME"
+	echo "usage: lib-erase [ -f ] NAME"
 }
 
 # check options

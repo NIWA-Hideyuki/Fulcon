@@ -73,6 +73,9 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/fulcon-sysgen $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-sysgen
 	install -m 755 driver/docker/fulcon-erase $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-erase
 	install -m 755 driver/docker/fulcon-image-gc $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-image-gc
+	install -m 755 driver/docker/fulcon-rename $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-rename
+	install -m 755 driver/docker/fulcon-cp-in $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cp-in
+	install -m 755 driver/docker/fulcon-cp-out $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cp-out
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/lib
 	install -m 755 driver/docker/cpu $(DESTDIR)$(libdir)/fulcon/driver/docker/cpu
 	install -m 755 driver/docker/cpuset $(DESTDIR)$(libdir)/fulcon/driver/docker/cpuset
@@ -85,7 +88,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 lib/lib-stop $(DESTDIR)$(libdir)/fulcon/lib/lib-stop
 	install -m 755 lib/lib-suspend $(DESTDIR)$(libdir)/fulcon/lib/lib-suspend
 	install -m 755 lib/lib-resume $(DESTDIR)$(libdir)/fulcon/lib/lib-resume
-	install -m 755 driver/docker/rename $(DESTDIR)$(libdir)/fulcon/driver/docker/rename
+	install -m 755 lib/lib-rename $(DESTDIR)$(libdir)/fulcon/lib/lib-rename
 	install -m 755 lib/lib-sysgen $(DESTDIR)$(libdir)/fulcon/lib/lib-sysgen
 	install -m 755 driver/docker/clone $(DESTDIR)$(libdir)/fulcon/driver/docker/clone
 	install -m 755 driver/docker/clone-newimage $(DESTDIR)$(libdir)/fulcon/driver/docker/clone-newimage
@@ -99,11 +102,11 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/del-image $(DESTDIR)$(libdir)/fulcon/driver/docker/del-image
 	install -m 755 driver/docker/setup-prog $(DESTDIR)$(libdir)/fulcon/driver/docker/setup-prog
 	install -m 755 lib/lib-update $(DESTDIR)$(libdir)/fulcon/lib/lib-update
-	install -m 755 driver/docker/deploy $(DESTDIR)$(libdir)/fulcon/driver/docker/deploy
+	install -m 755 lib/lib-deploy $(DESTDIR)$(libdir)/fulcon/lib/lib-deploy
 	install -m 755 lib/lib-console $(DESTDIR)$(libdir)/fulcon/lib/lib-console
 	install -m 755 driver/docker/net-ipv4 $(DESTDIR)$(libdir)/fulcon/driver/docker/net-ipv4
 	install -m 755 driver/docker//image-catalog $(DESTDIR)$(libdir)/fulcon/driver/docker/image-catalog
-	install -m 755 driver/docker/parmchk-num-kmg $(DESTDIR)$(libdir)/fulcon/driver/docker/parmchk-num-kmg
+	install -m 755 lib/parmchk-num-kmg $(DESTDIR)$(libdir)/fulcon/lib/parmchk-num-kmg
 
 install-dockerfile :
 	mkdir -p $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Copyright (C) 2015-2016 NIWA Hideyuki
+
+LIBDIR="/var/lib/fulcon/"
+
+usage()
+{
+	echo "usage: lib-deploy CONTAINER_NAME SRC_FILE DEST_PATH"
+}
+
+if [ $# -ne 3 ]; then
+	usage
+	exit -1
+fi
+
+NAME=$1
+SRC_FILE=$2
+DEST_PATH=$3
+
+fulcon-cp-in $SRC_FILE $NAME $DEST_PATH
+
+if [ $? -eq 0 ]; then
+	echo "deployed file :  $NAME ${DEST_PATH}/${SRC_FILE}"
+fi
+
+
+

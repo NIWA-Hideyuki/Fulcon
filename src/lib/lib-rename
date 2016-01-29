@@ -6,7 +6,7 @@ LIBDIR="/var/lib/fulcon/"
 
 usage()
 {
-	echo "usage: rename NAME NEW_NAME"
+	echo "usage: lib-rename NAME NEW_NAME"
 }
 
 if [ $# -eq 2 ]; then
@@ -18,7 +18,7 @@ else
 fi
 
 echo $NAME "->" $NEWNAME
-docker rename $NAME $NEWNAME
+fulcon-rename $NAME $NEWNAME
 mv $LIBDIR/container/$NAME $LIBDIR/container/$NEWNAME
 
 exit 0

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+NAME=$1
+SRC_FILE=$2
+DEST_PATH=$3
+
+docker cp $NAME:$SRC_FILE $DEST_PATH
+
+

@@ -3,7 +3,7 @@
 # Copyright (C) 2015-2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 usage()
 {
@@ -50,7 +50,7 @@ do
 		fulcon start $NAME
 	fi
 
-	deploy $NAME $SRC_FILE $DEST_PATH
+	lib-deploy $NAME $SRC_FILE $DEST_PATH
 
 	if [ x"$STATE" == x"PAUSED" ]; then
 		fulcon suspend $NAME
