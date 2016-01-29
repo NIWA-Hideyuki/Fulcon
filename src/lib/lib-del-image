@@ -4,7 +4,7 @@
 
 usage()
 {
-	echo "usage: del-image IMAGENAME"
+	echo "usage: lib-del-image IMAGENAME"
 }
 
 if [ $# -ne 1 -o x"$1" != x"del-image" ]; then
@@ -23,7 +23,7 @@ do
 done
 
 if [ $FLG -eq 1 ]; then
-	docker rmi -f $NAME >& /dev/null
+	fulcon-del-image $NAME >& /dev/null
 	if [ $? -ne 0 ]; then
 		exit -1
 	fi
