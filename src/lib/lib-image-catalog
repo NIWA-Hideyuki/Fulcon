@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2015-2016 NIWA Hideyuki
 
 ls /var/lib/fulcon/driver/dockerfile/* >& /dev/null
 if [ $? -ne 0 ]; then 
@@ -9,7 +9,7 @@ if [ $? -ne 0 ]; then
 fi
 
 usage() {
-	echo "usage: image-catalog"
+	echo "usage: lib-image-catalog"
 }
 
 if [ $# -ne 1 ]; then

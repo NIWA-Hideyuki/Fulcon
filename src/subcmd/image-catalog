@@ -5,7 +5,8 @@
 FULCONDIR=/var/lib/fulcon
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
 umask 022
 
 usage() {
@@ -22,4 +23,4 @@ if [ x"$1" != x"image-catalog" ]; then
 	exit -1
 fi
 
-. image-catalog $@
+. lib-image-catalog $@
