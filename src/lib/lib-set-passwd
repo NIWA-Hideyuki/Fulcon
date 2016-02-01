@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2016 NIWA Hideyuki
 
 
 # check root
@@ -11,7 +11,7 @@ fi
 
 usage()
 {
-	echo "usage: set-passwd NAME USER" 
+	echo "usage: lib-set-passwd NAME USER" 
 }
 
 if [ $# -ne 2 ]; then
@@ -21,6 +21,6 @@ fi
 
 LXCNAME=$1
 USERNAME=$2
-docker exec -it $LXCNAME /usr/bin/passwd $USERNAME
+fulcon-exec $LXCNAME /usr/bin/passwd $USERNAME
 
 exit 0
