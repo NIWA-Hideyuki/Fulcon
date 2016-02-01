@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright (C) 2015 NIWA Hideyuki
+# Copyright (C) 2015-2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
@@ -39,20 +39,20 @@ fi
 CNAME=$1
 
 if [ $FLG_C -eq 1 ]; then
-	cpu $CNAME $CPU
+	fulcon-cpu $CNAME $CPU
 fi
 
 if [ $FLG_N -eq 1 ]; then
-	cpuset $CNAME $CPUSET
+	fulcon-cpuset $CNAME $CPUSET
 fi
 
 if [ $FLG_M -eq 1 ]; then
-	mem $CNAME $MEM
+	fulcon-mem $CNAME $MEM
 fi
 
-cpu $CNAME
-cpuset $CNAME
-mem $CNAME
+fulcon-cpu $CNAME
+fulcon-cpuset $CNAME
+fulcon-mem $CNAME
 
 exit 0
 
