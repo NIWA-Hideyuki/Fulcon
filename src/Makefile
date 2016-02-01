@@ -96,7 +96,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 lib/lib-sysgen $(DESTDIR)$(libdir)/fulcon/lib/lib-sysgen
 	install -m 755 lib/lib-clone $(DESTDIR)$(libdir)/fulcon/lib/lib-clone
 	install -m 755 driver/docker/clone-newimage $(DESTDIR)$(libdir)/fulcon/driver/docker/clone-newimage
-	install -m 755 driver/docker/setup $(DESTDIR)$(libdir)/fulcon/driver/docker/setup
+	install -m 755 lib/lib-setup $(DESTDIR)$(libdir)/fulcon/lib/lib-setup
 	install -m 755 lib/lib-load-ocf $(DESTDIR)$(libdir)/fulcon/lib/lib-load-ocf
 	install -m 755 lib/lib-save-ocf $(DESTDIR)$(libdir)/fulcon/lib/lib-save-ocf
 	install -m 755 lib/lib-add-user $(DESTDIR)$(libdir)/fulcon/lib/lib-add-user
