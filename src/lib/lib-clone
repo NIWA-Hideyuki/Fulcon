@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Copyright (C) 2015-2016 NIWA Hideyuki
+
+LIBDIR="/var/lib/fulcon/"
+
+usage()
+{
+	echo "usage: lib-clone CONTAINER_NAME NEW_IMAGENAME "
+}
+
+if [ $# -ne 2 ]; then
+	usage
+	exit -1
+fi
+
+CONTAINER=$1
+IMAGENAME=`basename $2`
+
+fulcon-clone $CONTAINER fulcon/$IMAGENAME
+
+if [ $? -eq 0 ]; then
+	echo "cloned new image:" fulcon/$IMAGENAME
+else
+	echo "error: clone is failed"
+	exit -1
+fi
+
+fulcon-image-gc
+
+
+exit 0
+
+
