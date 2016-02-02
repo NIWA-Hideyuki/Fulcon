@@ -8,7 +8,7 @@ if [ -x $CPUDIR/system.slice/docker.service/docker ]; then
 	CPUSUFFIX=""
 elif [ -x $CPUDIR/docker ]; then
 	CPUDIR=$CPUDIR/docker
-	CPUSUFFIX="docker-"
+	CPUSUFFIX=""
 else
 	CPUDIR=$CPUDIR/system.slice
 	CPUSUFFIX="docker-"
