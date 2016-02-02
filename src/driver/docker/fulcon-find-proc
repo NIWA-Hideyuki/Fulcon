@@ -4,12 +4,13 @@
 
 CPUDIR="/sys/fs/cgroup/cpu"
 if [ -x $CPUDIR/system.slice/docker.service/docker ]; then
-	CPUDIR=$CPUDIR/docker.service/docker
+	CPUDIR=$CPUDIR/system.slice/docker.service/docker
 	CPUSUFFIX=""
 elif [ -x $CPUDIR/docker ]; then
 	CPUDIR=$CPUDIR/docker
-	CPUSUFFIX=""
+	CPUSUFFIX="docker-"
 else
+	CPUDIR=$CPUDIR/system.slice
 	CPUSUFFIX="docker-"
 fi
 

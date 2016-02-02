@@ -10,6 +10,7 @@ elif [ -x $CPUDIR/docker ]; then
 	CPUDIR=$CPUDIR/docker
 	CPUSUFFIX=""
 else
+	CPUDIR=$CPUDIR/system.slice
 	CPUSUFFIX="docker-"
 fi
 
