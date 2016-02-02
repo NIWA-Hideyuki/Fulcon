@@ -2,9 +2,12 @@
 
 # Copyright (C) 2015 NIWA Hideyuki
 
-CPUDIR="/sys/fs/cgroup/cpu/system.slice"
-if [ -x $CPUDIR/docker.service/docker ]; then
+CPUDIR="/sys/fs/cgroup/cpu"
+if [ -x $CPUDIR/system.slice/docker.service/docker ]; then
 	CPUDIR=$CPUDIR/docker.service/docker
+	CPUSUFFIX=""
+elif [ -x $CPUDIR/docker ]; then
+	CPUDIR=$CPUDIR/docker
 	CPUSUFFIX=""
 else
 	CPUSUFFIX="docker-"
@@ -12,7 +15,7 @@ fi
 
 # check args
 if [ $# -ne 1 ]; then
-	echo "usage: find-proc CONTAINER_NAME"
+	echo "usage: fulcon-find-proc CONTAINER_NAME"
 	exit -1
 fi
 

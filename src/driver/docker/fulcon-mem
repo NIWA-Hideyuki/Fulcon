@@ -48,7 +48,7 @@ if [ x"$STATUS" == x"STOPPED" ]; then
 fi
 
 
-DID=`docker-find-id $NAME`
+DID=`fulcon-find-id $NAME`
 if [ $? -ne 0 ]; then
 	echo "error: can't find a container"
 	exit -1
