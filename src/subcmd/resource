@@ -3,7 +3,7 @@
 # Copyright (C) 2015-2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 usage() {
 	echo "usage: resource [-c CPU] [-n CPUSET] [-m MEM] NAME "
