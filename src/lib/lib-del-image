@@ -7,7 +7,7 @@ usage()
 	echo "usage: lib-del-image IMAGENAME"
 }
 
-if [ $# -ne 1 -o x"$1" != x"del-image" ]; then
+if [ $# -ne 1 -o x"$1" != x"lib-del-image" ]; then
 	NAME=$1
 else
 	usage

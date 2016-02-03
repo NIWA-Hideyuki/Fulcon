@@ -15,7 +15,7 @@ echo debug $#
 	exit -1
 fi
 
-if [ x"$1" == x"load-ocf" ]; then
+if [ x"$1" == x"lib-load-ocf" ]; then
 	usage
 	exit -1
 fi

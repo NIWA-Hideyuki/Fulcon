@@ -14,7 +14,7 @@ if [ $# -ne 1 ]; then
 	exit -1
 fi
 
-if [ x"$1" == x"save-ocf" ]; then
+if [ x"$1" == x"lib-save-ocf" ]; then
 	usage
 	exit -1
 fi
