@@ -15,11 +15,6 @@ echo debug $#
 	exit -1
 fi
 
-if [ x"$1" == x"lib-load-ocf" ]; then
-	usage
-	exit -1
-fi
-
 IMAGENAME=`basename $1`
 
 fulcon-load-ocf $IMAGENAME

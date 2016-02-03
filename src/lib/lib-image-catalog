@@ -17,11 +17,6 @@ if [ $# -ne 1 ]; then
 	exit -1
 fi
 
-if [ x"$1" != x"lib-image-catalog" ]; then
-	usage
-	exit -1
-fi
-
 cd /var/lib/fulcon/driver/dockerfile
 
 for i in *
