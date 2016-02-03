@@ -36,11 +36,6 @@ if [ $# -ne 1 ]; then
 	exit -1
 fi
 
-if [ x"$1" == x"setup" ]; then
-	usage
-	exit -1
-fi
-
 IMAGENAME=$1
 
 ls $DOCKERFILEDIR/* >& /dev/null

@@ -112,6 +112,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/fulcon-del-image $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-del-image
 	install -m 755 driver/docker/fulcon-load-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-load-ocf
 	install -m 755 driver/docker/fulcon-save-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-save-ocf
+	install -m 755 driver/docker/fulcon-setup $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-setup
 
 install-dockerfile :
 	mkdir -p $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile
