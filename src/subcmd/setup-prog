@@ -3,7 +3,7 @@
 # Copyright (C) 2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:$PATH
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 usage() {
 	echo "usage: setup-prog [ -c IMAGE ] COMMAND "
@@ -44,7 +44,7 @@ do
 		fulcon start $NAME
 	fi
 
-	setup-prog $NAME $CMD
+	lib-setup-prog $NAME $CMD
 
 	if [ x"$STATE" == x"PAUSED" ]; then
 		fulcon suspend $NAME
