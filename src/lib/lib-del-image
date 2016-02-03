@@ -7,7 +7,7 @@ usage()
 	echo "usage: lib-del-image IMAGENAME"
 }
 
-if [ $# -ne 1 ]; then
+if [ $# -eq 1 ]; then
 	NAME=$1
 else
 	usage
