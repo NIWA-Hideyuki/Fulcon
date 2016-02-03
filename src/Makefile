@@ -12,7 +12,7 @@ docdir ?= ${datarootdir}/doc/fulcon-${VERSION}
 
 fulcon :
 
-install : install-cmd install-subcmd install-driver install-doc
+install : install-cmd install-subcmd install-lib install-driver install-doc
 
 install-cmd :
 	mkdir -p $(DESTDIR)$(sbindir)/sbin
@@ -57,37 +57,10 @@ install-subcmd :
 	install -m 755 subcmd/console $(DESTDIR)$(libdir)/fulcon/sbin/console
 	install -m 755 subcmd/help $(DESTDIR)$(libdir)/fulcon/sbin/help
 
-install-driver : install-driver-docker
-
-install-driver-docker : install-dockerfile
-	mkdir -p $(DESTDIR)$(libdir)/fulcon/driver/docker
-	install -m 755 driver/docker/fulcon-exec $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-exec
-	install -m 755 driver/docker/fulcon-list-all $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-list-all
-	install -m 755 driver/docker/fulcon-list-paused $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-list-paused
-	install -m 755 driver/docker/fulcon-list-running $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-list-running
-	install -m 755 driver/docker/fulcon-list-stopped $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-list-stopped
-	install -m 755 driver/docker/fulcon-start $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-start
-	install -m 755 driver/docker/fulcon-stop $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-stop
-	install -m 755 driver/docker/fulcon-suspend $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-suspend
-	install -m 755 driver/docker/fulcon-resume $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-resume
-	install -m 755 driver/docker/fulcon-sysgen $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-sysgen
-	install -m 755 driver/docker/fulcon-erase $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-erase
-	install -m 755 driver/docker/fulcon-image-gc $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-image-gc
-	install -m 755 driver/docker/fulcon-rename $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-rename
-	install -m 755 driver/docker/fulcon-cp-in $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cp-in
-	install -m 755 driver/docker/fulcon-cp-out $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cp-out
-	install -m 755 driver/docker/fulcon-ls-image $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-ls-image
-	install -m 755 driver/docker/fulcon-del-image $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-del-image
-	install -m 755 driver/docker/fulcon-load-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-load-ocf
-	install -m 755 driver/docker/fulcon-save-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-save-ocf
+install-lib:
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/lib
-	install -m 755 driver/docker/fulcon-cpu $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cpu
-	install -m 755 driver/docker/fulcon-cpuset $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cpuset
-	install -m 755 driver/docker/fulcon-find-id $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-find-id
 	install -m 755 lib/lib-erase $(DESTDIR)$(libdir)/fulcon/lib/lib-erase
-	install -m 755 driver/docker/fulcon-find-proc $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-find-proc
 	install -m 755 lib/lib-list $(DESTDIR)$(libdir)/fulcon/lib/lib-list
-	install -m 755 driver/docker/fulcon-mem $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-mem
 	install -m 755 lib/lib-start $(DESTDIR)$(libdir)/fulcon/lib/lib-start
 	install -m 755 lib/lib-stop $(DESTDIR)$(libdir)/fulcon/lib/lib-stop
 	install -m 755 lib/lib-suspend $(DESTDIR)$(libdir)/fulcon/lib/lib-suspend
@@ -109,6 +82,36 @@ install-driver-docker : install-dockerfile
 	install -m 755 lib/net-ipv4 $(DESTDIR)$(libdir)/fulcon/lib/net-ipv4
 	install -m 755 lib/lib-image-catalog $(DESTDIR)$(libdir)/fulcon/lib/lib-image-catalog
 	install -m 755 lib/parmchk-num-kmg $(DESTDIR)$(libdir)/fulcon/lib/parmchk-num-kmg
+
+install-driver : install-driver-docker
+
+install-driver-docker : install-dockerfile
+	mkdir -p $(DESTDIR)$(libdir)/fulcon/driver/docker
+	install -m 755 driver/docker/fulcon-cpu $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cpu
+	install -m 755 driver/docker/fulcon-cpuset $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cpuset
+	install -m 755 driver/docker/fulcon-find-id $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-find-id
+	install -m 755 driver/docker/fulcon-clone $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-clone
+	install -m 755 driver/docker/fulcon-exec $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-exec
+	install -m 755 driver/docker/fulcon-list-all $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-list-all
+	install -m 755 driver/docker/fulcon-list-paused $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-list-paused
+	install -m 755 driver/docker/fulcon-list-running $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-list-running
+	install -m 755 driver/docker/fulcon-list-stopped $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-list-stopped
+	install -m 755 driver/docker/fulcon-find-proc $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-find-proc
+	install -m 755 driver/docker/fulcon-start $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-start
+	install -m 755 driver/docker/fulcon-stop $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-stop
+	install -m 755 driver/docker/fulcon-suspend $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-suspend
+	install -m 755 driver/docker/fulcon-mem $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-mem
+	install -m 755 driver/docker/fulcon-resume $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-resume
+	install -m 755 driver/docker/fulcon-sysgen $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-sysgen
+	install -m 755 driver/docker/fulcon-erase $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-erase
+	install -m 755 driver/docker/fulcon-image-gc $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-image-gc
+	install -m 755 driver/docker/fulcon-rename $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-rename
+	install -m 755 driver/docker/fulcon-cp-in $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cp-in
+	install -m 755 driver/docker/fulcon-cp-out $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cp-out
+	install -m 755 driver/docker/fulcon-ls-image $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-ls-image
+	install -m 755 driver/docker/fulcon-del-image $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-del-image
+	install -m 755 driver/docker/fulcon-load-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-load-ocf
+	install -m 755 driver/docker/fulcon-save-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-save-ocf
 
 install-dockerfile :
 	mkdir -p $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile
