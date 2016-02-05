@@ -51,7 +51,7 @@ install-subcmd :
 	install -m 755 subcmd/ls-image $(DESTDIR)$(libdir)/fulcon/sbin/ls-image
 	install -m 755 subcmd/del-image $(DESTDIR)$(libdir)/fulcon/sbin/del-image
 	install -m 755 subcmd/set-default-image $(DESTDIR)$(libdir)/fulcon/sbin/set-default-image
-	install -m 755 subcmd/setup-prog $(DESTDIR)$(libdir)/fulcon/sbin/setup-prog
+	install -m 755 subcmd/update-prog $(DESTDIR)$(libdir)/fulcon/sbin/update-prog
 	install -m 755 subcmd/update $(DESTDIR)$(libdir)/fulcon/sbin/update
 	install -m 755 subcmd/deploy $(DESTDIR)$(libdir)/fulcon/sbin/deploy
 	install -m 755 subcmd/console $(DESTDIR)$(libdir)/fulcon/sbin/console
@@ -75,7 +75,7 @@ install-lib:
 	install -m 755 lib/lib-set-passwd $(DESTDIR)$(libdir)/fulcon/lib/lib-set-passwd
 	install -m 755 lib/lib-ls-image $(DESTDIR)$(libdir)/fulcon/lib/lib-ls-image
 	install -m 755 lib/lib-del-image $(DESTDIR)$(libdir)/fulcon/lib/lib-del-image
-	install -m 755 lib/lib-setup-prog $(DESTDIR)$(libdir)/fulcon/lib/lib-setup-prog
+	install -m 755 lib/lib-update-prog $(DESTDIR)$(libdir)/fulcon/lib/lib-update-prog
 	install -m 755 lib/lib-update $(DESTDIR)$(libdir)/fulcon/lib/lib-update
 	install -m 755 lib/lib-deploy $(DESTDIR)$(libdir)/fulcon/lib/lib-deploy
 	install -m 755 lib/lib-console $(DESTDIR)$(libdir)/fulcon/lib/lib-console

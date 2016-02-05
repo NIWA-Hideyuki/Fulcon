@@ -6,7 +6,7 @@ FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 usage() {
-	echo "usage: setup-prog [ -c IMAGE ] COMMAND "
+	echo "usage: update-prog [ -c IMAGE ] COMMAND "
 }
 
 # check options
@@ -44,7 +44,7 @@ do
 		fulcon start $NAME
 	fi
 
-	lib-setup-prog $NAME $CMD
+	lib-update-prog $NAME $CMD
 
 	if [ x"$STATE" == x"PAUSED" ]; then
 		fulcon suspend $NAME

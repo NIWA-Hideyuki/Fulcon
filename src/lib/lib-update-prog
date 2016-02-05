@@ -6,7 +6,7 @@ LIBDIR="/var/lib/fulcon/"
 
 usage()
 {
-	echo "usage: lib-setup-prog CONTAINER_NAME COMMAND"
+	echo "usage: lib-update-prog CONTAINER_NAME COMMAND"
 }
 
 if [ $# -lt 2 ]; then
