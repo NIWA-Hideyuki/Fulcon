@@ -3,11 +3,16 @@
 # Copyright (C) 2015 NIWA Hideyuki
 
 LIBDIR="/var/lib/fulcon/"
-MEMSETDIR="/sys/fs/cgroup/memory/system.slice"
-if [ -x $MEMSETDIR/docker.service/docker ]; then
-	MEMSETDIR="$MEMSETDIR/docker.service/docker/"
+
+MEMSETDIR="/sys/fs/cgroup/memory"
+if [ -x $MEMSETDIR/system.slice/docker.service/docker ]; then
+	MEMSETDIR="$MEMSETDIR/system.slice/docker.service/docker/"
+	MEMSETSUFFIX=""
+elif [ -x $MEMSETDIR/docker ]; then
+	MEMSETDIR=$MEMSETDIR/docker
 	MEMSETSUFFIX=""
 else
+	MEMSETDIR=$MEMSETDIR/system.slice
 	MEMSETSUFFIX="docker-"
 fi
 

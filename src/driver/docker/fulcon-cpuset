@@ -3,11 +3,16 @@
 # Copyright (C) 2015 NIWA Hideyuki
 
 LIBDIR="/var/lib/fulcon/"
-CPUSETDIR="/sys/fs/cgroup/cpuset/system.slice"
-if [ -x $CPUSETDIR/docker.service/docker ]; then
-	CPUSETDIR=$CPUSETDIR/docker.service/docker
+
+CPUSETDIR="/sys/fs/cgroup/cpuset"
+if [ -x $CPUSETDIR/system.slice/docker.service/docker ]; then
+	CPUSETDIR=$CPUSETDIR/system.slice/docker.service/docker
+	CPUSETSUFFIX=""
+elif [ -x $CPUSETDIR/docker ]; then
+	CPUSETDIR=$CPUSETDIR/docker
 	CPUSETSUFFIX=""
 else
+	CPUSETDIR=$CPUSETDIR/system.slice
 	CPUSETSUFFIX="docker-"
 fi
 

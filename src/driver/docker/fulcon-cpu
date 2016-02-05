@@ -3,11 +3,16 @@
 # Copyright (C) 2015 NIWA Hideyuki
 
 LIBDIR="/var/lib/fulcon/"
-CPUDIR="/sys/fs/cgroup/cpu/system.slice"
-if [ -x $CPUDIR/docker.service/docker ]; then
-	CPUDIR=$CPUDIR/docker.service/docker
+
+CPUDIR="/sys/fs/cgroup/cpu"
+if [ -x $CPUDIR/system.slice/docker.service/docker ]; then
+	CPUDIR=$CPUDIR/system.slice/docker.service/docker
+	CPUSUFFIX=""
+elif [ -x $CPUDIR/docker ]; then
+	CPUDIR=$CPUDIR/docker
 	CPUSUFFIX=""
 else
+	CPUDIR=$CPUDIR/system.slice
 	CPUSUFFIX="docker-"
 fi
 
