@@ -16,7 +16,7 @@ fi
 
 # check args
 if [ $# -ne 1 ]; then
-	echo "usage: fulcon-find-id CONTAINER_NAME"
+	echo "usage: find-id CONTAINER_NAME"
 	exit -1
 fi
 

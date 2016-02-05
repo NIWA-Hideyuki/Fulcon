@@ -89,7 +89,6 @@ install-driver-docker : install-dockerfile
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/driver/docker
 	install -m 755 driver/docker/fulcon-cpu $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cpu
 	install -m 755 driver/docker/fulcon-cpuset $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cpuset
-	install -m 755 driver/docker/fulcon-find-id $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-find-id
 	install -m 755 driver/docker/fulcon-clone $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-clone
 	install -m 755 driver/docker/fulcon-exec $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-exec
 	install -m 755 driver/docker/fulcon-list-all $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-list-all
@@ -113,6 +112,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/fulcon-load-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-load-ocf
 	install -m 755 driver/docker/fulcon-save-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-save-ocf
 	install -m 755 driver/docker/fulcon-setup $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-setup
+	install -m 755 driver/docker/find-id $(DESTDIR)$(libdir)/fulcon/driver/docker/find-id
 
 install-dockerfile :
 	mkdir -p $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile
