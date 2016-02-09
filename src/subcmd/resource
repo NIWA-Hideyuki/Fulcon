@@ -51,8 +51,17 @@ if [ $FLG_M -eq 1 ]; then
 fi
 
 fulcon-cpu $CNAME
+if [ $? -ne 0 ]; then
+	exit -1
+fi
 fulcon-cpuset $CNAME
+if [ $? -ne 0 ]; then
+	exit -1
+fi
 fulcon-mem $CNAME
+if [ $? -ne 0 ]; then
+	exit -1
+fi
 
 exit 0
 
