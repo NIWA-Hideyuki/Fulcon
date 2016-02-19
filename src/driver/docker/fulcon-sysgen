@@ -21,6 +21,7 @@ start_docker() {
 	--name $NAME --hostname $NAME \
 	-v /sys/fs/cgroup:/sys/fs/cgroup:ro \
 	--privileged \
+	-e TERM=vt100 \
 	$IMAGE /sbin/init
 	RT=$?
 	if [ $RT -eq 0 ]; then
