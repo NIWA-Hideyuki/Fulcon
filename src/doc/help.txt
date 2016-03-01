@@ -1,4 +1,4 @@
-Fulcon-VirtualPlatform 0.2	Copyright (C) 2015-2016 NIWA Hideyuki
+Fulcon-VirtualPlatform 0.3	Copyright (C) 2015-2016 NIWA Hideyuki
 	Apache License Version 2.0
   
 ### ALL Sub command:

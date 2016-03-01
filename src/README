@@ -18,14 +18,14 @@ ubuntu
 $  sudo apt-get install docker.io  
 $  sudo apt-get install python-ipy  
 $  sudo apt-get install bridge-utils  
-$  sudo dpkg -i fulcon_0.2_amd64.deb
+$  sudo dpkg -i fulcon_0.3_amd64.deb
 
 CentOS
 
 $  sudo yum install docker-io  
 $  sudo yum install python-IPy  
 $  sudo yum install bridge-utils  
-$  sudo rpm -ivh fulcon-0.2-1.el7.centos.x86_64.rpm
+$  sudo rpm -ivh fulcon-0.3-1.el7.centos.x86_64.rpm
  
 ### Building:
 
