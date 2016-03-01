@@ -1,0 +1,104 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+PATH=/usr/lib/fulcon/lib/:$PATH
+
+# BASE dir
+CONTAINER_DIR=/var/lib/fulcon/container
+
+# check root
+if [ ${EUID:-$UID} -ne 0 ] ; then
+  echo "error: Because you are not root, you cannot execute this command."
+  exit 1
+fi
+
+usage () {
+	echo "usage ; release-rootfs NAME"
+}
+
+# check arts
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+umask 022
+
+LXCNAME=$1
+
+rootfs=$CONTAINER_DIR/$LXCNAME/rootfs
+
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
+
+# release root dir
+
+# release /bin
+if [ ! -L $rootfs/bin ]; then
+	umount $rootfs/bin
+	rmdir  $rootfs/bin
+else
+	rm -f $rootfs/bin
+fi
+
+# release /sbin
+if [ ! -L $rootfs/sbin ]; then
+	umount $rootfs/sbin
+	rmdir  $rootfs/sbin
+else
+	rm -f $rootfs/sbin
+fi
+
+# release /lib64
+if [ ! -L $rootfs/lib64 ]; then
+	umount $rootfs/lib64
+	rmdir  $rootfs/lib64
+else
+	rm -f $rootfs/lib64
+fi
+
+# release /var/lib
+for i in `lsdir /var/lib`; do
+	if [ -d $rootfs/var/lib/$i ] ; then
+		if [ x"$i" != x"fulcon" -a x"$i" != x"tmp" -a \
+				x"$i" != x"log" -a x"$i" != x"docker" -a \
+				x"$i" != x"libvirt" -a x"$i" != x"fulcon" ]; then
+			umount $rootfs/var/lib/$i
+			rmdir  $rootfs/var/lib/$i
+		else
+			rmdir  $rootfs/var/lib/$i
+		fi
+	fi
+	rm -f $rootfs/var/lib/$i
+done
+
+# release /var
+rm -rf $rootfs/var/log
+for i in `lsdir /var` ; do
+	if [ ! -L $rootfs/var/$i -a -d $rootfs/var/$i ] ; then
+		if [ x"$i" == x"lib" ]; then
+			rmdir  $rootfs/var/$i
+		else
+			umount $rootfs/var/$i
+			rmdir  $rootfs/var/$i
+		fi
+	fi
+	rm -f $rootfs/var/$i
+done
+
+rm -rf $rootfs/etc
+rm -rf $rootfs/home
+rm -rf $rootfs/lib
+rm -rf $rootfs/root
+rm -rf $rootfs/tmp
+
+for i in `lsdir /` ; do
+	if [ -d $rootfs/$i ] ; then
+		rmdir $rootfs/$i
+	fi
+	rm -f $rootfs/$i
+done
+
+exit 0

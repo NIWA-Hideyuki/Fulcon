@@ -1,0 +1,143 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+PATH=/usr/lib/fulcon/lib/:$PATH
+
+# BASE dir
+CONTAINER_DIR=/var/lib/fulcon/container
+
+# check root
+if [ ${EUID:-$UID} -ne 0 ] ; then
+  echo "error: Because you are not root, you cannot execute this command."
+  exit 1
+fi
+
+usage () {
+	echo "usage ; create-rootfs NAME"
+}
+
+# check arts
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+umask 022
+
+LXCNAME=$1
+
+rootfs=$CONTAINER_DIR/$LXCNAME/rootfs
+
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
+
+# create root dir
+mkdir -p $rootfs
+
+# create dir
+for i in `lsdir /`
+do
+	if [ -L /$i ] ; then
+		cp -a /$i $rootfs/$i
+	elif [ -d /$i ]; then
+		mkdir -p $rootfs/$i
+		DIRATTR=`stat --format='%a' /$i`
+		chmod $DIRATTR $rootfs/$i
+	fi
+done
+
+# create /bin
+if [ ! -L $rootfs/bin ]; then
+	mount --bind /bin $rootfs/bin
+fi
+
+# create /sbin
+if [ ! -L $rootfs//sbin ]; then
+	mount --bind /sbin $rootfs/sbin
+fi
+
+# create /lib
+if [ ! -L $rootfs/lib ]; then
+	cp -a /lib $rootfs
+	rm -rf /lib/modules
+	rm -rf /lib/firmware
+fi
+
+# create /lib64
+if [ ! -L $rootfs/lib64 ]; then
+	mount --bind /lib64 $rootfs/lib64
+fi
+
+# create /etc
+cp -a /etc $rootfs
+rm -rf $rootfs/etc/libvirt/{*,.*} 2> /dev/null
+
+# create /root
+mkdir -p $rootfs/root;
+for i in .bash_{profile,login} .profile .bash{rc,_logout} ; do
+	[ -f /root/$i ] && cp -p /root/$i $rootfs/root
+done;
+
+# create /home
+for i in `lsdir /home`
+do
+	mkdir -p $rootfs/home/$i
+	if [ -f /home/$i/.bashrc ]; then
+		cp -f /home/$i/.bashrc $rootfs/home/$i/.
+	fi
+	if [ -f /home/$i/.bash_logout ]; then
+		cp -f /home/$i/.bash_logout $rootfs/home/$i/.
+	fi
+	HMUID=`ls -ld /home/$i | awk '{print $3}'`
+	HMGID=`ls -ld /home/$i | awk '{print $4}'`
+	chown -R ${HMUID}.${HMGID} $rootfs/home/$i
+done
+
+# create /var
+for i in `lsdir /var` ; do
+	if [ -L /var/$i ] ; then
+		cp -a /var/$i $rootfs/var/$i
+	elif [ -d /var/$i ] ; then
+		mkdir -p $rootfs/var/$i
+		DIRATTR=`stat --format='%a' /var/$i`
+		chmod $DIRATTR $rootfs/var/$i
+		if [ x"$i" != x"log" -a x"$i" != x"lib" ]; then
+			mount --bind /var/$i $rootfs/var/$i
+		fi
+	fi
+done
+
+for i in `lsdir /var/lib`; do
+	if [ -L /var/lib/$i ] ; then
+		cp -a /var/lib/$i $rootfs/var/lib/$i
+	elif [ -d /var/lib/$i ] ; then
+		mkdir -p $rootfs/var/lib/$i
+		DIRATTR=`stat --format='%a' /var/lib/$i`
+		chmod $DIRATTR $rootfs/var/lib/$i
+		if [ x"$i" != x"fulcon" -a x"$i" != x"tmp" -a \
+				x"$i" != x"log" -a x"$i" != x"docker" -a \
+				x"$i" != x"libvirt" -a x"$i" != x"fulcon" ]; then
+			mount --bind /var/lib/$i $rootfs/var/lib/$i
+		fi
+	fi
+done
+
+# clear /var/log
+cp -pr /var/log $rootfs/var
+find $rootfs/var/log -type f -regex ".*[-.][0-9]+" -exec rm -f {} \;
+find $rootfs/var/log -type f -name *.gz -exec rm -f {} \;
+for i in `find $rootfs/var/log -type f`
+do
+	cat /dev/null > $i
+done
+
+# clear /etc/fstab
+cat /dev/null > $rootfs/etc/fstab
+
+# setup basic.target
+rm -f $rootfs/etc/systemd/system/default.target
+ln -s /lib/systemd/system/basic.target $rootfs/etc/systemd/system/default.target
+
+exit 0

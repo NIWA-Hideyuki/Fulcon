@@ -82,6 +82,8 @@ install-lib:
 	install -m 755 lib/net-ipv4 $(DESTDIR)$(libdir)/fulcon/lib/net-ipv4
 	install -m 755 lib/lib-image-catalog $(DESTDIR)$(libdir)/fulcon/lib/lib-image-catalog
 	install -m 755 lib/parmchk-num-kmg $(DESTDIR)$(libdir)/fulcon/lib/parmchk-num-kmg
+	install -m 755 lib/create-rootfs $(DESTDIR)$(libdir)/fulcon/lib/create-rootfs
+	install -m 755 lib/release-rootfs $(DESTDIR)$(libdir)/fulcon/lib/release-rootfs
 
 install-driver : install-driver-docker
 
