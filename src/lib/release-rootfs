@@ -35,6 +35,10 @@ lsdir() {
 
 # release root dir
 
+# release /usr
+umount $rootfs/usr
+rmdir  $rootfs/usr
+
 # release /bin
 if [ ! -L $rootfs/bin ]; then
 	umount $rootfs/bin

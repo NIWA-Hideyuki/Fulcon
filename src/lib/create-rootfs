@@ -48,6 +48,9 @@ do
 	fi
 done
 
+# create /usr
+mount --bind /usr $rootfs/usr
+
 # create /bin
 if [ ! -L $rootfs/bin ]; then
 	mount --bind /bin $rootfs/bin
@@ -61,8 +64,8 @@ fi
 # create /lib
 if [ ! -L $rootfs/lib ]; then
 	cp -a /lib $rootfs
-	rm -rf /lib/modules
-	rm -rf /lib/firmware
+	rm -rf $rootfs/lib/modules
+	rm -rf $rootfs/lib/firmware
 fi
 
 # create /lib64
