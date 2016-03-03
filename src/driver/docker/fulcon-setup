@@ -2,13 +2,15 @@
 
 # Copyright (C) 2015-2016 NIWA Hideyuki
 
+FULCONDIR=/var/lib/fulcon
 DOCKERFILEDIR=/var/lib/fulcon/driver/dockerfile
 OCFDIR=/var/lib/fulcon/OCF
+SLOTOS=slot-os
 
 usage()
 {
 	cd $DOCKERFILEDIR
-	echo "usage: setup [ -n ] [ -p ] IMAGENAME"
+	echo "usage: setup  [ [ -d ] [ -n ] [ -p ] IMAGENAME ] "
 	echo "Effective IMAGENAME:"
 	for i in *
 	do
@@ -19,10 +21,12 @@ usage()
 # check options
 FLG_N=0
 FLG_P=0
+FLG_D=0
 
 while getopts np OPT
 do
   case $OPT in
+    "d" ) FLG_D=1 ;;
     "n" ) FLG_N=1 ;;
     "p" ) FLG_P=1 ;;
     \?  ) usage; exit -1;;
@@ -31,12 +35,24 @@ done
 
 shift `expr $OPTIND - 1`
 
-if [ $# -ne 1 ]; then
+if [ $FLG_D -eq 0 -a $FLG_N -eq 0 -a $# -eq 1 -a x"$1" != x"setup"  ]; then
+	usage
+	exit -1
+elif [ $# -ne 1 ]; then
 	usage
 	exit -1
 fi
 
-IMAGENAME=$1
+if [ $FLG_D -eq 1 -a $FLG_N -eq 1 ]; then
+	echo "error: -d and -n cannot be specified at the same time"
+	exit -1
+fi
+
+if [ $FLG_D -eq 1 -o $FLG_N -eq 1 ]; then
+	IMAGENAME=$1
+else
+	IMAGENAME=$SLOTOS
+fi
 
 ls $DOCKERFILEDIR/* >& /dev/null
 if [ $? -ne 0 ]; then
@@ -136,24 +152,49 @@ generate_new_image()
 	cd ..
 }
 
-cd $DOCKERFILEDIR
-BUILDRESULT=""
-MATCHFLG=0
-for i in *
-do
-	if [ x"$IMAGENAME" == x"$i" ]; then
-		MATCHFLG=1
-		if [ $FLG_N -eq 1 ]; then
-			setup_new_image $i
-		else
-			download_new_image $i
-		fi
+setup_slot_image() 
+{
+	trap 'release-rootfs >& /dev/null ; exit -1' 0
+	create-rootfs $SLOTOS
+	pushd  $FULCONDIR/container/$SLOTOS/rootfs >& /dev/null
+	echo "New OS image is generated from HOST. "
+	echo "Please wait for a few minutes."
+	tar -c . | docker import - fulcon/$SLOTOS >& /dev/null
+	if [ $? -ne 0 ]; then
+		echo "error: can't create a $SLOTOS image"
+		popd >& /dev/null
+		release-rootfs $SLOTOS
+		trap 0
+		exit -1
 	fi
-done
+	popd >& /dev/null
+	release-rootfs $SLOTOS
+	trap 0
+	echo "Generated new image."
+}
 
-if [ $MATCHFLG -eq 0 ]; then
-	usage
-	exit -1
+if [ $FLG_D -eq 0 -a $FLG_N -eq 0 ]; then
+	setup_slot_image
+else
+	cd $DOCKERFILEDIR
+	BUILDRESULT=""
+	MATCHFLG=0
+	for i in *
+	do
+		if [ x"$IMAGENAME" == x"$i" ]; then
+			MATCHFLG=1
+			if [ $FLG_D -eq 1 ]; then
+				download_new_image $i
+			elif [ $FLG_N -eq 1 ]; then
+				setup_new_image $i
+			fi
+		fi
+	done
+
+	if [ $MATCHFLG -eq 0 ]; then
+		usage
+		exit -1
+	fi
 fi
 
 (docker rmi `docker images | grep '<none>' | awk '{printf "%s ",$3}'`) >& /dev/null
