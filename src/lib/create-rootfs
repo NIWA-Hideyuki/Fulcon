@@ -139,6 +139,35 @@ done
 # clear /etc/fstab
 cat /dev/null > $rootfs/etc/fstab
 
+# setup systemd
+rm -f $rootfs/etc/systemd/system/plymouth-quit.service
+ln -s /dev/null $rootfs/etc/systemd/system/plymouth-quit.service
+
+rm -f $rootfs/etc/systemd/system/plymouth-quit-wait.service
+ln -s /dev/null  $rootfs/etc/systemd/system/plymouth-quit-wait.service
+
+rm -f $rootfs/etc/systemd/system/plymouth-read-write.service
+ln -s /dev/null $rootfs/etc/systemd/system/plymouth-read-write.service
+
+rm -f $rootfs/etc/systemd/system/plymouth-halt.service
+ln -s /dev/null $rootfs/etc/systemd/system/plymouth-halt.service
+
+rm -f $rootfs/etc/systemd/system/plymouth-poweroff.service
+ln -s /dev/null $rootfs/etc/systemd/system/plymouth-poweroff.service
+
+rm -f  $rootfs/etc/systemd/system/plymouth-reboot.service
+ln -s /dev/null $rootfs/etc/systemd/system/plymouth-reboot.service
+
+rm -f  $rootfs/etc/systemd/system/plymouth-start.service
+ln -s /dev/null $rootfs/etc/systemd/system/plymouth-start.service
+
+rm -f $rootfs/etc/systemd/system/avahi-daemon.service
+ln -s /dev/null $rootfs/etc/systemd/system/avahi-daemon.service
+
+rm -f $rootfs/etc/systemd/system/chronyd.service
+ln -s $rootfs/etc/systemd/system/chronyd.service
+
+
 # setup basic.target
 rm -f $rootfs/etc/systemd/system/default.target
 ln -s /lib/systemd/system/basic.target $rootfs/etc/systemd/system/default.target
