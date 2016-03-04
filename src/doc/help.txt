@@ -129,13 +129,16 @@ set-default-image [ IMAGE_NAME ]
 set-passwd NAME USERNAME  
      User's password in the container is set.  
   
-setup [ -n ] [ -p ] IMAGE_NAME  
-     The image is newly made.  
+setup [[ -d ][ -n ] [ -p ] IMAGE_NAME ]
+     The image is newly made.
+     -d
+          New image is downloaded from docker repositry.
      -n
           Generates a new image from a Dockerfile.
      -p  
           Proxy is set.  
           The value of the environment variable "Http_proxy, https_proxy, and ftp_proxy" is used.  
+     The image is generated from HOST if there is no argument.
   
 update-prog [ -c IMAGE ] COMMAND 
      The same command is carried out by more than one container.  
