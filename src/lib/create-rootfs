@@ -130,7 +130,7 @@ done
 # clear /var/log
 cp -pr /var/log $rootfs/var
 find $rootfs/var/log -type f -regex ".*[-.][0-9]+" -exec rm -f {} \;
-find $rootfs/var/log -type f -name *.gz -exec rm -f {} \;
+find $rootfs/var/log -type f -name '*.gz' -exec rm -f {} \;
 for i in `find $rootfs/var/log -type f`
 do
 	cat /dev/null > $i

@@ -159,7 +159,7 @@ setup_slot_image()
 	pushd  $FULCONDIR/container/$SLOTOS/rootfs >& /dev/null
 	echo "New OS image is generated from HOST. "
 	echo "Please wait for a few minutes."
-	tar -c . | docker import - fulcon/$SLOTOS >& /dev/null
+	tar -c . 2> /dev/null | docker import - fulcon/$SLOTOS >& /dev/null
 	if [ $? -ne 0 ]; then
 		echo "error: can't create a $SLOTOS image"
 		popd >& /dev/null
