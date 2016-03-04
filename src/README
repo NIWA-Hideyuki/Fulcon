@@ -15,47 +15,37 @@ Fulcon can handle CentOS 7 and Ubuntu 15.04
 
 ubuntu
 
-$  sudo apt-get install docker.io  
-$  sudo apt-get install python-ipy  
-$  sudo apt-get install bridge-utils  
+$  sudo apt-get install docker.io python-ipy bridge-utils  
 $  sudo dpkg -i fulcon_0.3_amd64.deb
 
 CentOS
 
-$  sudo yum install docker-io  
-$  sudo yum install python-IPy  
-$  sudo yum install bridge-utils  
+$  sudo yum install docker-io python-IPy bridge-utils  
 $  sudo rpm -ivh fulcon-0.3-1.el7.centos.x86_64.rpm
  
 ### Building:
 
 ubuntu
 
-$  sudo apt-get install docker.io  
-$  sudo apt-get install python-ipy  
-$  sudo apt-get install bridge-utils  
-  
+$  sudo apt-get install docker.io python-ipy bridge-utils  
 $  tar xzf fulcon.tgz  
 $  cd fulcon  
 $  sudo make install  
   
 CentOS 7  
   
-$  sudo yum install docker-io  
-$  sudo yum install python-IPy  
-$  sudo yum install bridge-utils  
-  
+$  sudo yum install docker-io python-IPy bridge-utils  
 $  tar xzf fulcon.tgz  
 $  cd fulcon  
-$ sudo make install  
+$  sudo make install  
   
 ### Setup:  
   
 1) The image of CentOS 7, Ubuntu15.04 and Ubuntu15.10 is prepared.  
   
-$  sudo fulcon setup centos7  
-$  sudo fulcon setup ubuntu1504  
-$  sudo fulcon setup ubuntu1510  
+$  sudo fulcon setup -d centos7  
+$  sudo fulcon setup -d ubuntu1504  
+$  sudo fulcon setup -d ubuntu1510  
   
 It takes the minute to several ten completion.
 It only has to execute only the kind of the image to be used.

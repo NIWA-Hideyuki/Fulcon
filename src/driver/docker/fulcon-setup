@@ -23,7 +23,7 @@ FLG_N=0
 FLG_P=0
 FLG_D=0
 
-while getopts np OPT
+while getopts dnp OPT
 do
   case $OPT in
     "d" ) FLG_D=1 ;;
