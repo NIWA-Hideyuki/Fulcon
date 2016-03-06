@@ -1,0 +1,38 @@
+#!/bin/bash 
+
+# Fulcon/slot-os Virtual-Platform
+# Copyright (C) 2016 NIWA Hideyuki
+
+# check root
+if [ ${EUID:-$UID} -ne 0 ] ; then
+  echo "error: Because you are not root, you cannot execute this command."
+  exit 1
+fi
+
+export PATH=/usr/lib/slot-os/sbin:/usr/lib/fulcon/sbin:$PATH
+export FULCONDIR=/var/lib/fulcon
+export SLOTOSDIR=/var/lib/slot-os
+
+mkdir -p /var/lib/slot-os
+
+FLG_H=0
+
+while getopts h OPT
+do
+  case $OPT in
+    "h" ) FLG_H=1 ;;
+  esac
+done
+shift `expr $OPTIND - 1`
+
+if [ $# -eq 0 ] ; then
+	less /usr/lib/slot-os/doc/help.txt
+else
+  if [ -f /usr/lib/slot-os/sbin/$1 ]; then
+    . /usr/lib/slot-os/sbin/$*
+  else
+    echo "error: unknown command:" $1
+  fi
+fi
+
+exit 0

@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
+SLOTOSDIR=/var/lib/slot-os
+
+usage()
+{
+	echo "usage: sysgen NUMBER NAME"
+}
+
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
+
+
+if [ $# -ne 2 ]; then
+	usage
+	exit -1
+fi
+
+NUM=$1
+NAME=$2
+
+if [ ! -x $SLOTOSDIR/slot/$NUM ]; then
+	printf "error: slot%02s is not exist" $NUM
+	exit -1
+fi
+
+fulcon sysgen $NAME
+if [ $? -ne 0 ] ; then
+	echo "error: $NAME is not able to start"
+	exit -1
+fi
+
+echo $NAME > $SLOTOSDIR/slot/$NUM/fulcon
+
+fulcon resource  \
+	-c `cat $SLOTOSDIR/slot/$NUM/cpu` \
+	-n `cat $SLOTOSDIR/slot/$NUM/cpuset` \
+	-m `cat $SLOTOSDIR/slot/$NUM/memory` \
+	$NAME
+
+

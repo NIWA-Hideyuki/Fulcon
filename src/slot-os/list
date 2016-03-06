@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
+SLOTOSDIR=/var/lib/slot-os
+
+usage()
+{
+	echo "usage: list"
+}
+
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
+
+
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+for i in `lsdir $SLOTOSDIR/slot`
+do
+	CNAME=`cat $SLOTOSDIR/slot/$i/fulcon`
+	STATUS=`fulcon list | awk '{if($1=="'$CNAME'")printf "%s",$2}'`
+	if [ x"$STATUS" == x"" ]; then
+		STATUS="NONE"
+		IPADDR=""
+		cat /dev/null > $SLOTOSDIR/slot/$i/fulcon
+		CNAME='-'
+	else
+		if [ x"$STATUS" == x"RUNNING" ]; then
+			IPADDR=`fulcon net-info $CNAME | \
+			awk '$1=="inet" && $2!="127.0.0.1/8"{printf "%s ", $2}'`
+		else
+			IPADDR=""
+		fi
+	fi
+
+	printf "slot%02d :%8s %10s %s %% %5s %7s " \
+		$i $STATUS $CNAME \
+		`cat $SLOTOSDIR/slot/$i/cpu` \
+		`cat $SLOTOSDIR/slot/$i/cpuset` \
+		`cat $SLOTOSDIR/slot/$i/memory`
+	echo $IPADDR
+
+done
+
+

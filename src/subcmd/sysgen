@@ -5,6 +5,8 @@
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
+RCODE=0
+
 usage()
 {
 	echo "usage: sysgen [ -c IMAGE ] NAME NAME ..."
@@ -56,9 +58,12 @@ if [ $FLG_N -eq 1 ]; then
 		do
 			N=`printf "%04d" $i`
 			lib-sysgen $OPT_FLG $NAME$N $IMAGENAME
+			if [ $? -ne 0 ]; then
+				RCODE=-1
+			fi
 			mkdir -p $FULCONDIR/container/$NAME$N
 		done;
-		exit 0
+		exit $RCODE
 	else
 		echo "REPEAT_NUMBER must be [1...999]"
 		exit -1
@@ -82,8 +87,11 @@ for i in $NAMES
 do
 	mkdir -p $FULCONDIR/container/$i
 	lib-sysgen $OPT_FLG $i $IMAGENAME
+	if [ $? -ne 0 ]; then
+		RCODE=-1
+	fi
 done
 
-exit 0
+exit $RCODE
 
 

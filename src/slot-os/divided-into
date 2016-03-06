@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# Copyright (C) 2015-2016 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
+SLOTOSDIR=/var/lib/slot-os
+
+
+usage()
+{
+	echo "usage: divided-into NUMBER"
+}
+
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
+
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+# check args
+NUM=$1
+expr $NUM - 1 >& /dev/null
+if [ $? -ge 2 ]; then
+	usage
+	exit -1
+fi
+NUMSAVE=$NUM
+NUM=`expr $NUM - 1`
+if [ $NUM -lt 0 ]; then
+	usage
+	exit -1
+fi
+
+mkdir -p $SLOTOS/slot
+for i in `seq 0 $NUM`
+do
+	mkdir -p $SLOTOSDIR/slot/$i
+	echo '-' > $SLOTOSDIR/slot/$i/fulcon
+	echo `expr 100 / $NUMSAVE` > $SLOTOSDIR/slot/$i/cpu
+	cat /sys/fs/cgroup/cpuset/cpuset.cpus > $SLOTOSDIR/slot/$i/cpuset
+	echo 512m > $SLOTOSDIR/slot/$i/memory
+done
+
+cd  $SLOTOSDIR/slot/
+for i in `ls -1`
+do
+	if [ ! $i -le $NUM ]; then
+		rm $SLOTOSDIR/slot/$i/*
+		rmdir $SLOTOSDIR/slot/$i
+	fi
+done
+
+
+exit 0
