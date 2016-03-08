@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Copyright (C) 2015-2016 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
+. fulcon-setup2 $@
+
+exit 0

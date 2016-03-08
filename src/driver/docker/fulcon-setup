@@ -22,6 +22,7 @@ usage()
 FLG_N=0
 FLG_P=0
 FLG_D=0
+FLG_S=0
 
 while getopts dnp OPT
 do
@@ -152,49 +153,24 @@ generate_new_image()
 	cd ..
 }
 
-setup_slot_image() 
-{
-	trap 'release-rootfs >& /dev/null ; exit -1' 0
-	create-rootfs $SLOTOS
-	pushd  $FULCONDIR/container/$SLOTOS/rootfs >& /dev/null
-	echo "New OS image is generated from HOST. "
-	echo "Please wait for a few minutes."
-	tar -c . 2> /dev/null | docker import - fulcon/$SLOTOS >& /dev/null
-	if [ $? -ne 0 ]; then
-		echo "error: can't create a $SLOTOS image"
-		popd >& /dev/null
-		release-rootfs $SLOTOS
-		trap 0
-		exit -1
-	fi
-	popd >& /dev/null
-	release-rootfs $SLOTOS
-	trap 0
-	echo "Generated new image."
-}
-
-if [ $FLG_D -eq 0 -a $FLG_N -eq 0 ]; then
-	setup_slot_image
-else
-	cd $DOCKERFILEDIR
-	BUILDRESULT=""
-	MATCHFLG=0
-	for i in *
-	do
-		if [ x"$IMAGENAME" == x"$i" ]; then
-			MATCHFLG=1
-			if [ $FLG_D -eq 1 ]; then
-				download_new_image $i
-			elif [ $FLG_N -eq 1 ]; then
-				setup_new_image $i
-			fi
+cd $DOCKERFILEDIR
+BUILDRESULT=""
+MATCHFLG=0
+for i in *
+do
+	if [ x"$IMAGENAME" == x"$i" ]; then
+		MATCHFLG=1
+		if [ $FLG_D -eq 1 ]; then
+			download_new_image $i
+		elif [ $FLG_N -eq 1 ]; then
+			setup_new_image $i
 		fi
-	done
-
-	if [ $MATCHFLG -eq 0 ]; then
-		usage
-		exit -1
 	fi
+done
+
+if [ $MATCHFLG -eq 0 ]; then
+	usage
+	exit -1
 fi
 
 (docker rmi `docker images | grep '<none>' | awk '{printf "%s ",$3}'`) >& /dev/null

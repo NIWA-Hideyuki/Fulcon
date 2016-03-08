@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
+SLOTOSDIR=/var/lib/slot-os
+
+usage()
+{
+	echo "usage: stop NUMBER ..."
+}
+
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
+
+
+if [ $# -lt 1 ]; then
+	usage
+	exit -1
+fi
+
+RCODE=0
+
+SNUMS=$1
+for SNUM in $SNUMS
+do
+	if [ ! -x $SLOTOSDIR/slot/$i ]; then
+		printf "error: slot%2d is not exist" $SNUM
+		RCODE=-1
+	fi
+
+	NAME=`cat $SLOTOSDIR/slot/$SNUM/fulcon`
+	if [ x"$NAME" == "-" ]; then
+		printf "error: slot%2d has not a container" $SNUM
+		RCODE=-1
+	fi
+
+	fulcon stop $NAME
+
+done
+
+exit $RCODE
+

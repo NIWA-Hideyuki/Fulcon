@@ -33,6 +33,9 @@ lsdir() {
   ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
 }
 
+# clear rootfs
+release-rootfs $LXCNAME
+
 # create root dir
 mkdir -p $rootfs
 
@@ -40,7 +43,9 @@ mkdir -p $rootfs
 for i in `lsdir /`
 do
 	if [ -L /$i ] ; then
-		cp -a /$i $rootfs/$i
+		if [ ! -x $rootfs/$i ]; then
+			cp -a /$i $rootfs/$i
+		fi
 	elif [ -d /$i ]; then
 		mkdir -p $rootfs/$i
 		DIRATTR=`stat --format='%a' /$i`
@@ -49,27 +54,33 @@ do
 done
 
 # create /usr
+umount $rootfs/usr >& /dev/null
 mount --bind /usr $rootfs/usr
 
 # create /bin
 if [ ! -L $rootfs/bin ]; then
+	umount $rootfs/bin >& /dev/null
 	mount --bind /bin $rootfs/bin
 fi
 
 # create /sbin
-if [ ! -L $rootfs//sbin ]; then
+if [ ! -L $rootfs/sbin ]; then
+	umount $rootfs/sbin >& /dev/null
 	mount --bind /sbin $rootfs/sbin
 fi
 
 # create /lib
 if [ ! -L $rootfs/lib ]; then
-	cp -a /lib $rootfs
-	rm -rf $rootfs/lib/modules
-	rm -rf $rootfs/lib/firmware
+	if [ ! -x $rootfs/lib ]; then
+		cp -a /lib $rootfs
+		rm -rf $rootfs/lib/modules
+		rm -rf $rootfs/lib/firmware
+	fi
 fi
 
 # create /lib64
 if [ ! -L $rootfs/lib64 ]; then
+	umount $rootfs/lib64 >& /dev/null
 	mount --bind /lib64 $rootfs/lib64
 fi
 
@@ -107,6 +118,7 @@ for i in `lsdir /var` ; do
 		DIRATTR=`stat --format='%a' /var/$i`
 		chmod $DIRATTR $rootfs/var/$i
 		if [ x"$i" != x"log" -a x"$i" != x"lib" ]; then
+			umount $rootfs/var/$i >& /dev/null
 			mount --bind /var/$i $rootfs/var/$i
 		fi
 	fi
@@ -121,7 +133,8 @@ for i in `lsdir /var/lib`; do
 		chmod $DIRATTR $rootfs/var/lib/$i
 		if [ x"$i" != x"fulcon" -a x"$i" != x"tmp" -a \
 				x"$i" != x"log" -a x"$i" != x"docker" -a \
-				x"$i" != x"libvirt" -a x"$i" != x"fulcon" ]; then
+				x"$i" != x"libvirt" -a x"$i" != x"slot-os" ]; then
+			umount $rootfs/var/lib/$i >& /dev/null
 			mount --bind /var/lib/$i $rootfs/var/lib/$i
 		fi
 	fi
@@ -138,6 +151,12 @@ done
 
 # clear /etc/fstab
 cat /dev/null > $rootfs/etc/fstab
+
+# disable selinux
+if [ -x /sys/fs/selinux ]; then
+	printf "\numount /sys/fs/selinux\n" >> $rootfs/etc/rc.d/rc.local
+	chmod +x $rootfs/etc/rc.d/rc.local
+fi
 
 # setup systemd
 rm -f $rootfs/etc/systemd/system/plymouth-quit.service
@@ -173,8 +192,25 @@ ln -s /dev/null $rootfs/etc/systemd/system/systemd-modules-load.service
 rm -f $rootfs/etc/systemd/system/abrtd.service
 ln -s /dev/null $rootfs/etc/systemd/system/abrtd.service
 
-# setup basic.target
+rm -f $rootfs/etc/systemd/system/getty.target
+rm -f $rootfs/etc/systemd/system/getty.target.wants/*
+ln -s /dev/null $rootfs/etc/systemd/system/getty.target
+
+rm -f $rootfs/etc/systemd/system/graphical.target
+rm -f $rootfs/etc/systemd/system/graphical.target.wants/*
+ln -s /dev/null $rootfs/etc/systemd/system/graphical.target
+
+rm -f $rootfs/etc/systemd/system/sysinit.target.wants/*
+
+rm -f $rootfs/etc/systemd/system/basic.target.wants/*
+rm -f $rootfs/etc/systemd/system/default.target.wants/*
+rm -f $rootfs/etc/systemd/system/multi-user.target.wants/*
+ln -s /usr/lib/systemd/system/sshd.service $rootfs/etc/systemd/system/multi-user.target.wants/sshd.service
+rm -f $rootfs/etc/systemd/system/graphical.target.wants/*
+
+# setup multi-user.target
 rm -f $rootfs/etc/systemd/system/default.target
-ln -s /lib/systemd/system/basic.target $rootfs/etc/systemd/system/default.target
+ln -s /lib/systemd/system/multi-user.target $rootfs/etc/systemd/system/default.target
+
 
 exit 0

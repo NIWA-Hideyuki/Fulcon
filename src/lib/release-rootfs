@@ -36,29 +36,33 @@ lsdir() {
 # release root dir
 
 # release /usr
-umount $rootfs/usr
-rmdir  $rootfs/usr
+if [ -x $rootfs/usr/bin ] ; then
+	umount $rootfs/usr >& /dev/null
+fi
+rmdir  $rootfs/usr >& /dev/null
 
 # release /bin
 if [ ! -L $rootfs/bin ]; then
-	umount $rootfs/bin
-	rmdir  $rootfs/bin
+	if [ -x $rootfs/bin/ls ]; then
+		umount $rootfs/bin >& /dev/null
+	fi
+	rmdir  $rootfs/bin >& /dev/null
 else
 	rm -f $rootfs/bin
 fi
 
 # release /sbin
 if [ ! -L $rootfs/sbin ]; then
-	umount $rootfs/sbin
-	rmdir  $rootfs/sbin
+	umount $rootfs/sbin >& /dev/null
+	rmdir  $rootfs/sbin >& /dev/null
 else
 	rm -f $rootfs/sbin
 fi
 
 # release /lib64
 if [ ! -L $rootfs/lib64 ]; then
-	umount $rootfs/lib64
-	rmdir  $rootfs/lib64
+	umount $rootfs/lib64 >& /dev/null
+	rmdir  $rootfs/lib64 >& /dev/null
 else
 	rm -f $rootfs/lib64
 fi
@@ -67,42 +71,46 @@ fi
 for i in `lsdir /var/lib`; do
 	if [ -d $rootfs/var/lib/$i ] ; then
 		if [ x"$i" != x"fulcon" -a x"$i" != x"tmp" -a \
-				x"$i" != x"log" -a x"$i" != x"docker" -a \
-				x"$i" != x"libvirt" -a x"$i" != x"fulcon" ]; then
-			umount $rootfs/var/lib/$i
-			rmdir  $rootfs/var/lib/$i
+				x"$i" != x"docker" -a \
+				x"$i" != x"libvirt" -a x"$i" != x"slot-os" ]; then
+			umount $rootfs/var/lib/$i >& /dev/null
+			rmdir  $rootfs/var/lib/$i >& /dev/null
 		else
 			rmdir  $rootfs/var/lib/$i
 		fi
 	fi
-	rm -f $rootfs/var/lib/$i
 done
 
 # release /var
 rm -rf $rootfs/var/log
 for i in `lsdir /var` ; do
-	if [ ! -L $rootfs/var/$i -a -d $rootfs/var/$i ] ; then
+	if [ -L $rootfs/var/$i ] ; then
+		rm -f $rootfs/var/$i
+	elif [ -d $rootfs/var/$i ] ; then
 		if [ x"$i" == x"lib" ]; then
-			rmdir  $rootfs/var/$i
+			rmdir  $rootfs/var/$i >& /dev/null
 		else
-			umount $rootfs/var/$i
-			rmdir  $rootfs/var/$i
+			umount $rootfs/var/$i >& /dev/null
+			rmdir  $rootfs/var/$i >& /dev/null
 		fi
 	fi
-	rm -f $rootfs/var/$i
 done
 
+rm -f  $rootfs/run/run
+rm -rf $rootfs/run
 rm -rf $rootfs/etc
 rm -rf $rootfs/home
 rm -rf $rootfs/lib
 rm -rf $rootfs/root
 rm -rf $rootfs/tmp
+rm -rf $rootfs/.autorelabel
 
 for i in `lsdir /` ; do
-	if [ -d $rootfs/$i ] ; then
+	if [ -L $rootfs/$i ] ; then
+		rm -f $rootfs/$i
+	elif [ -d $rootfs/$i ] ; then
 		rmdir $rootfs/$i
 	fi
-	rm -f $rootfs/$i
 done
 
 exit 0
