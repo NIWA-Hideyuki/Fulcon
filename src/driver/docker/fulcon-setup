@@ -5,7 +5,6 @@
 FULCONDIR=/var/lib/fulcon
 DOCKERFILEDIR=/var/lib/fulcon/driver/dockerfile
 OCFDIR=/var/lib/fulcon/OCF
-SLOTOS=slot-os
 
 usage()
 {
@@ -36,7 +35,7 @@ done
 
 shift `expr $OPTIND - 1`
 
-if [ $FLG_D -eq 0 -a $FLG_N -eq 0 -a $# -eq 1 -a x"$1" != x"setup"  ]; then
+if [ $FLG_D -eq 0 -a $FLG_N -eq 0 -a $# -eq 1 -a x"$1" == x"setup"  ]; then
 	usage
 	exit -1
 elif [ $# -ne 1 ]; then
@@ -49,11 +48,7 @@ if [ $FLG_D -eq 1 -a $FLG_N -eq 1 ]; then
 	exit -1
 fi
 
-if [ $FLG_D -eq 1 -o $FLG_N -eq 1 ]; then
-	IMAGENAME=$1
-else
-	IMAGENAME=$SLOTOS
-fi
+IMAGENAME=$1
 
 ls $DOCKERFILEDIR/* >& /dev/null
 if [ $? -ne 0 ]; then
@@ -160,10 +155,10 @@ for i in *
 do
 	if [ x"$IMAGENAME" == x"$i" ]; then
 		MATCHFLG=1
-		if [ $FLG_D -eq 1 ]; then
-			download_new_image $i
-		elif [ $FLG_N -eq 1 ]; then
+		if [ $FLG_N -eq 1 ]; then
 			setup_new_image $i
+		else
+			download_new_image $i
 		fi
 	fi
 done
