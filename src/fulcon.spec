@@ -31,11 +31,13 @@ make install libdir=%{_prefix}/lib DESTDIR=$RPM_BUILD_ROOT
 
 %files
 %{_sbindir}/fulcon
+%{_sbindir}/slot-os
 %{_prefix}/lib/fulcon
+%{_prefix}/lib/slot-os
 %{_localstatedir}/lib/fulcon
 
 %changelog
-* Sun Feb 29 2016 NIWA Hideyuki <niwa.niwa@nifty.ne.jp>
+* Mon Feb 29 2016 NIWA Hideyuki <niwa.niwa@nifty.ne.jp>
 - New release 0.2
 * Thu Jan 14 2016 NIWA Hideyuki <niwa.niwa@nifty.ne.jp>
 - New Build. First release 0.1

@@ -12,11 +12,12 @@ docdir ?= ${datarootdir}/doc/fulcon-${VERSION}
 
 fulcon :
 
-install : install-cmd install-subcmd install-lib install-driver install-doc
+install : install-cmd install-subcmd install-lib install-slot-os install-driver install-doc
 
 install-cmd :
 	mkdir -p $(DESTDIR)$(sbindir)/sbin
 	install -m 755 cmd/fulcon $(DESTDIR)$(sbindir)/fulcon
+	install -m 755 cmd/fulcon $(DESTDIR)$(sbindir)/slot-os
 
 install-subcmd : 
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/sbin
@@ -39,6 +40,7 @@ install-subcmd :
 	install -m 755 subcmd/net-info $(DESTDIR)$(libdir)/fulcon/sbin/net-info
 	install -m 755 subcmd/resource $(DESTDIR)$(libdir)/fulcon/sbin/resource
 	install -m 755 subcmd/setup $(DESTDIR)$(libdir)/fulcon/sbin/setup
+	install -m 755 subcmd/setup2 $(DESTDIR)$(libdir)/fulcon/sbin/setup2
 	install -m 755 subcmd/load-ocf $(DESTDIR)$(libdir)/fulcon/sbin/load-ocf
 	install -m 755 subcmd/save-ocf $(DESTDIR)$(libdir)/fulcon/sbin/save-ocf
 	install -m 755 subcmd/ls-ocf $(DESTDIR)$(libdir)/fulcon/sbin/ls-ocf
@@ -85,6 +87,16 @@ install-lib:
 	install -m 755 lib/create-rootfs $(DESTDIR)$(libdir)/fulcon/lib/create-rootfs
 	install -m 755 lib/release-rootfs $(DESTDIR)$(libdir)/fulcon/lib/release-rootfs
 
+install-slot-os:
+	mkdir -p $(DESTDIR)$(libdir)/slot-os/sbin
+	install -m 755 slot-os/console $(DESTDIR)$(libdir)/slot-os/sbin/console
+	install -m 755 slot-os/divided-into $(DESTDIR)$(libdir)/slot-os/sbin/divided-into
+	install -m 755 slot-os/erase $(DESTDIR)$(libdir)/slot-os/sbin/erase
+	install -m 755 slot-os/list $(DESTDIR)$(libdir)/slot-os/sbin/list
+	install -m 755 slot-os/start $(DESTDIR)$(libdir)/slot-os/sbin/start
+	install -m 755 slot-os/stop $(DESTDIR)$(libdir)/slot-os/sbin/stop
+	install -m 755 slot-os/sysgen $(DESTDIR)$(libdir)/slot-os/sbin/sysgen
+
 install-driver : install-driver-docker
 
 install-driver-docker : install-dockerfile
@@ -114,6 +126,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/fulcon-load-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-load-ocf
 	install -m 755 driver/docker/fulcon-save-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-save-ocf
 	install -m 755 driver/docker/fulcon-setup $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-setup
+	install -m 755 driver/docker/fulcon-setup2 $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-setup2
 	install -m 755 driver/docker/find-id $(DESTDIR)$(libdir)/fulcon/driver/docker/find-id
 
 install-dockerfile :
