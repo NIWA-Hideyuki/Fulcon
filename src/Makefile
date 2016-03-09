@@ -98,6 +98,7 @@ install-slot-os:
 	install -m 755 slot-os/sysgen $(DESTDIR)$(libdir)/slot-os/sbin/sysgen
 	install -m 755 slot-os/suspend $(DESTDIR)$(libdir)/slot-os/sbin/suspend
 	install -m 755 slot-os/resume $(DESTDIR)$(libdir)/slot-os/sbin/resume
+	install -m 755 slot-os/update-prog $(DESTDIR)$(libdir)/slot-os/sbin/update-prog
 	install -m 755 slot-os/update $(DESTDIR)$(libdir)/slot-os/sbin/update
 
 install-driver : install-driver-docker
