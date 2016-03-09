@@ -58,7 +58,7 @@ do
 		
 	echo $IMAGE | grep 'slot-os' >& /dev/null
 	if [ $? -eq 0 ]; then
-		if [ -f /etc/centos-release ]; then
+		if [ -f /etc/redhat-release ]; then
 			update_centos
 		else
 			update_ubuntu
