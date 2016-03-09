@@ -12,6 +12,11 @@ fi
 export PATH=/usr/lib/fulcon/sbin:$PATH
 export FULCONDIR=/var/lib/fulcon
 
+if [ ! -x /lib/modules ]; then
+	echo "error: It is in the container."
+	exit -1
+fi
+
 mkdir -p /var/lib/fulcon
 
 FLG_H=0
