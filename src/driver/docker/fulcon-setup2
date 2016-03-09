@@ -19,7 +19,7 @@ setup_slot_image()
 	create-rootfs $SLOTOS
 	pushd  $FULCONDIR/container/$SLOTOS/rootfs >& /dev/null
 	echo "New OS image is generated from HOST."
-	echo "Please wait for ten-odd minutes."
+	echo "It takes long time for this processing."
 	echo "This processing must not interrupt or not turn off power."
 	tar -c . 2> /dev/null | docker import - fulcon/$SLOTOS >& /dev/null
 	if [ $? -ne 0 ]; then
