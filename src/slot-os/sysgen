@@ -30,7 +30,7 @@ if [ ! -x $SLOTOSDIR/slot/$NUM ]; then
 	exit -1
 fi
 
-fulcon sysgen $NAME
+fulcon sysgen -c fulcon/slot-os $NAME
 if [ $? -ne 0 ] ; then
 	echo "error: $NAME is not able to start"
 	exit -1
