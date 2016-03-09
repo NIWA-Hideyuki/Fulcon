@@ -17,7 +17,7 @@ install : install-cmd install-subcmd install-lib install-slot-os install-driver 
 install-cmd :
 	mkdir -p $(DESTDIR)$(sbindir)/sbin
 	install -m 755 cmd/fulcon $(DESTDIR)$(sbindir)/fulcon
-	install -m 755 cmd/fulcon $(DESTDIR)$(sbindir)/slot-os
+	install -m 755 cmd/slot-os $(DESTDIR)$(sbindir)/slot-os
 
 install-subcmd : 
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/sbin
@@ -90,7 +90,7 @@ install-lib:
 install-slot-os:
 	mkdir -p $(DESTDIR)$(libdir)/slot-os/sbin
 	install -m 755 slot-os/console $(DESTDIR)$(libdir)/slot-os/sbin/console
-	install -m 755 slot-os/divided-into $(DESTDIR)$(libdir)/slot-os/sbin/divided-into
+	install -m 755 slot-os/init $(DESTDIR)$(libdir)/slot-os/sbin/init
 	install -m 755 slot-os/erase $(DESTDIR)$(libdir)/slot-os/sbin/erase
 	install -m 755 slot-os/list $(DESTDIR)$(libdir)/slot-os/sbin/list
 	install -m 755 slot-os/start $(DESTDIR)$(libdir)/slot-os/sbin/start

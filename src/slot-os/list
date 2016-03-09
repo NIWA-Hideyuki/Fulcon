@@ -22,10 +22,17 @@ if [ $# -ne 1 ]; then
 	exit -1
 fi
 
-for i in `lsdir $SLOTOSDIR/slot`
+if [ ! -x $SLOTOSDIR/slot -o ! -x $SLOTOSDIR/slot/0 ]; then
+	echo "error: slot is not set."
+	exit -1
+fi
+
+LISTFILE=`mktemp slot-os-list.XXXXXX`
+fulcon list > $LISTFILE
+for i in `lsdir $SLOTOSDIR/slot | sort`
 do
 	CNAME=`cat $SLOTOSDIR/slot/$i/fulcon`
-	STATUS=`fulcon list | awk '{if($1=="'$CNAME'")printf "%s",$2}'`
+	STATUS=`cat $LISTFILE | awk '{if($1=="'$CNAME'")printf "%s",$2}'`
 	if [ x"$STATUS" == x"" ]; then
 		STATUS="NONE"
 		IPADDR=""
@@ -49,4 +56,6 @@ do
 
 done
 
+rm $LISTFILE
 
+exit 0

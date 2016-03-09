@@ -71,11 +71,9 @@ fi
 
 # create /lib
 if [ ! -L $rootfs/lib ]; then
-	if [ ! -x $rootfs/lib ]; then
-		cp -a /lib $rootfs
-		rm -rf $rootfs/lib/modules
-		rm -rf $rootfs/lib/firmware
-	fi
+	cp -a /lib $rootfs
+	rm -rf $rootfs/lib/modules
+	rm -rf $rootfs/lib/firmware
 fi
 
 # create /lib64
@@ -201,6 +199,9 @@ rm -f $rootfs/etc/systemd/system/graphical.target.wants/*
 ln -s /dev/null $rootfs/etc/systemd/system/graphical.target
 
 rm -f $rootfs/etc/systemd/system/sysinit.target.wants/*
+
+rm -f $rootfs/etc/systemd/system/systemd-udevd.service
+ln -s /dev/null $rootfs/etc/systemd/system/systemd-udevd.service
 
 rm -f $rootfs/etc/systemd/system/basic.target.wants/*
 rm -f $rootfs/etc/systemd/system/default.target.wants/*
