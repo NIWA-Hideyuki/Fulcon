@@ -24,18 +24,20 @@ fi
 
 RCODE=0
 
-SNUMS=$1
+SNUMS=$*
 for SNUM in $SNUMS
 do
 	if [ ! -x $SLOTOSDIR/slot/$i ]; then
-		printf "error: slot%2d is not exist" $SNUM
+		printf "error: slot%2d is not exist\n" $SNUM
 		RCODE=-1
+		continue
 	fi
 
 	NAME=`cat $SLOTOSDIR/slot/$SNUM/fulcon`
-	if [ x"$NAME" == "-" ]; then
-		printf "error: slot%2d has not a container" $SNUM
+	if [ x"$NAME" == x"-" ]; then
+		printf "error: slot%2d has not a container\n" $SNUM
 		RCODE=-1
+		continue
 	fi
 
 	fulcon start $NAME

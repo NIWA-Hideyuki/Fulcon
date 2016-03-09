@@ -209,6 +209,12 @@ rm -f $rootfs/etc/systemd/system/multi-user.target.wants/*
 ln -s /usr/lib/systemd/system/sshd.service $rootfs/etc/systemd/system/multi-user.target.wants/sshd.service
 rm -f $rootfs/etc/systemd/system/graphical.target.wants/*
 
+rm -f $rootfs/etc/systemd/system/irqbalance.service
+ln -s /dev/null $rootfs/etc/systemd/system/irqbalance.service
+
+rm -f $rootfs/etc/rc?.d/*irqbalance
+rm -f $rootfs/etc/rc?.d/*kerneloops
+
 # setup multi-user.target
 rm -f $rootfs/etc/systemd/system/default.target
 ln -s /lib/systemd/system/multi-user.target $rootfs/etc/systemd/system/default.target
