@@ -58,10 +58,10 @@ do
 		
 	echo $IMAGE | grep 'slot-os' >& /dev/null
 	if [ $? -eq 0 ]; then
-		if [ -x /etc/centos-release ]; then
-			update_ubuntu
-		else
+		if [ -f /etc/centos-release ]; then
 			update_centos
+		else
+			update_ubuntu
 		fi
 	fi
 done
