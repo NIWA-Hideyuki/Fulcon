@@ -36,16 +36,12 @@ lsdir() {
 # release root dir
 
 # release /usr
-if [ -x $rootfs/usr/bin ] ; then
-	umount $rootfs/usr >& /dev/null
-fi
+umount $rootfs/usr >& /dev/null
 rmdir  $rootfs/usr >& /dev/null
 
 # release /bin
 if [ ! -L $rootfs/bin ]; then
-	if [ -x $rootfs/bin/ls ]; then
-		umount $rootfs/bin >& /dev/null
-	fi
+	umount $rootfs/bin >& /dev/null
 	rmdir  $rootfs/bin >& /dev/null
 else
 	rm -f $rootfs/bin

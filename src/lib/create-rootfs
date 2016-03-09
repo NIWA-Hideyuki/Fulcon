@@ -43,7 +43,7 @@ mkdir -p $rootfs
 for i in `lsdir /`
 do
 	if [ -L /$i ] ; then
-		if [ ! -x $rootfs/$i ]; then
+		if [ ! -f $rootfs/$i ]; then
 			cp -a /$i $rootfs/$i
 		fi
 	elif [ -d /$i ]; then
@@ -151,7 +151,7 @@ done
 cat /dev/null > $rootfs/etc/fstab
 
 # disable selinux
-if [ -x /sys/fs/selinux ]; then
+if [ -d /sys/fs/selinux ]; then
 	printf "\numount /sys/fs/selinux\n" >> $rootfs/etc/rc.d/rc.local
 	chmod +x $rootfs/etc/rc.d/rc.local
 fi
