@@ -34,7 +34,7 @@ do
 	fi
 
 	NAME=`cat $SLOTOSDIR/slot/$SNUM/fulcon`
-	if [ x"$NAME" == x"-" ]; then
+	if [ x"$NAME" == x"-" -o x"$NAME" == x"" ]; then
 		printf "error: slot%2d has not a container\n" $SNUM
 		RCODE=-1
 		continue
