@@ -101,6 +101,12 @@ install-slot-os:
 	install -m 755 slot-os/update-prog $(DESTDIR)$(libdir)/slot-os/sbin/update-prog
 	install -m 755 slot-os/update $(DESTDIR)$(libdir)/slot-os/sbin/update
 	install -m 755 slot-os/deploy $(DESTDIR)$(libdir)/slot-os/sbin/deploy
+	install -m 755 slot-os/net-add $(DESTDIR)$(libdir)/slot-os/sbin/net-add
+	install -m 755 slot-os/net-del $(DESTDIR)$(libdir)/slot-os/sbin/net-del
+	install -m 755 slot-os/net-info $(DESTDIR)$(libdir)/slot-os/sbin/net-info
+	install -m 755 slot-os/br-add $(DESTDIR)$(libdir)/slot-os/sbin/br-add
+	install -m 755 slot-os/br-del $(DESTDIR)$(libdir)/slot-os/sbin/br-del
+	install -m 755 slot-os/br-info $(DESTDIR)$(libdir)/slot-os/sbin/br-info
 
 install-driver : install-driver-docker
 
