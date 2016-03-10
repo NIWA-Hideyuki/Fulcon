@@ -100,6 +100,7 @@ install-slot-os:
 	install -m 755 slot-os/resume $(DESTDIR)$(libdir)/slot-os/sbin/resume
 	install -m 755 slot-os/update-prog $(DESTDIR)$(libdir)/slot-os/sbin/update-prog
 	install -m 755 slot-os/update $(DESTDIR)$(libdir)/slot-os/sbin/update
+	install -m 755 slot-os/deploy $(DESTDIR)$(libdir)/slot-os/sbin/deploy
 
 install-driver : install-driver-docker
 
