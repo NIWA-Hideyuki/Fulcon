@@ -16,6 +16,20 @@ if [ $# -ne 2 ]; then
 fi
 
 BRNO=$1
+if [ $BRNO -eq 0 ]; then
+	echo "error: fulcon0 is booked"
+	exit -1
+elif [ $BRNO -lt 0 ]; then
+	echo "error: Negative value : $BRNO"
+	exit -1
+fi
+
+ip a show fulcon$BRNO >& /dev/null
+if [ $? -eq 0 ]; then
+	echo "error: Overlapping bridge : fulcon$BRNO"
+	exit -1
+fi
+
 net-ipv4 $2 >& /dev/null
 if [ $? -eq 0 ]; then
 	NETDEV=""
