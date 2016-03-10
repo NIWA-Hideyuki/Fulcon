@@ -16,11 +16,15 @@ Fulcon can handle CentOS 7 and Ubuntu 15.04
 ubuntu
 
 $  sudo apt-get install docker.io python-ipy bridge-utils  
+$  sudo systemctl enable docker.service
+$  sudo systemctl start docker.service
 $  sudo dpkg -i fulcon_0.3_amd64.deb
 
 CentOS
 
 $  sudo yum install docker-io python-IPy bridge-utils  
+$  sudo systemctl enable docker.service
+$  sudo systemctl start docker.service
 $  sudo rpm -ivh fulcon-0.3-1.el7.centos.x86_64.rpm
  
 ### Building:
@@ -28,6 +32,8 @@ $  sudo rpm -ivh fulcon-0.3-1.el7.centos.x86_64.rpm
 ubuntu
 
 $  sudo apt-get install docker.io python-ipy bridge-utils  
+$  sudo systemctl enable docker.service
+$  sudo systemctl start docker.service
 $  tar xzf fulcon.tgz  
 $  cd fulcon  
 $  sudo make install  
@@ -35,6 +41,8 @@ $  sudo make install
 CentOS 7  
   
 $  sudo yum install docker-io python-IPy bridge-utils  
+$  sudo systemctl enable docker.service
+$  sudo systemctl start docker.service
 $  tar xzf fulcon.tgz  
 $  cd fulcon  
 $  sudo make install  
