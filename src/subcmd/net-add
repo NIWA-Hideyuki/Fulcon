@@ -12,7 +12,7 @@ umask 022
 # function usage
 usage()
 {
-	echo "usage: net-add [ -d NETDEV ] [ -g GATEWAY ] [ -b BRIDGE_NUMBER ] NIC_NUMBER CONTAINER_NAME IPADDR/MASK [ MAC1 MAC2 ]"
+	echo "usage: net-add [ -d NETDEV ] [ -g GATEWAY ] [ -b BRIDGE_NUMBER ] CONTAINER_NAME IPADDR/MASK NIC_NUMBER [ MAC1 MAC2 ]"
 }
 
 NETARGS=$@
@@ -64,16 +64,16 @@ if [ $? -gt 1 ]; then
 fi
 LXCBR="fulcon"$LXCBR
 
-NUM=$1
-LXCNAME=$2
-LXCBRIP=`net-ipv4 -g $3`
+LXCNAME=$1
+LXCBRIP=`net-ipv4 -g $2`
 if [ $? -ne 0 ]; then
 	echo $3 "must be IP_address/Mask format"
 	exit -1
 fi
+NUM=$3
 
-LXCIP=`echo $3 | awk -F / '{printf "%s",$1}'`
-LXCMASK=`echo $3 | awk -F / '{printf "%s",$2}'`
+LXCIP=`echo $2 | awk -F / '{printf "%s",$1}'`
+LXCMASK=`echo $2 | awk -F / '{printf "%s",$2}'`
 
 if [ x$LXCGATEWAY == x"" ]; then
 	LXCGATEWAY=$LXCBRIP

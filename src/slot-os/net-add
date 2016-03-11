@@ -11,7 +11,7 @@ umask 022
 # function usage
 usage()
 {
-	echo "usage: net-add [ -d NETDEV ] [ -g GATEWAY ] [ -b BRIDGE_NUMBER ] NIC_NUMBER SLOT_NUMBER IPADDR/MASK "
+	echo "usage: net-add [ -d NETDEV ] [ -g GATEWAY ] [ -b BRIDGE_NUMBER ] SLOT_NUMBER IPADDR/MASK NIC_NUMBER "
 }
 
 lsdir() {
@@ -39,9 +39,9 @@ if [ $# -ne 3 ]; then
 	exit -1
 fi
 
-NICNO=$1
-SLOTNO=$2
-IPADDR=$3
+SLOTNO=$1
+IPADDR=$2
+NICNO=$3
 if [ ! -d $SLOTOSDIR/slot/$SLOTNO ]; then
 	echo "error: $SLOTNO is not exist"
 	exit -1

@@ -10,7 +10,7 @@ SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: net-del NIC_NUMBER SLOT_NUMBER"
+	echo "usage: net-del SLOT_NUMBER NIC_NUMBER"
 }
 
 # check args
@@ -19,8 +19,8 @@ if [ $# -ne 2 ]; then
 	exit -1
 fi
 
-NICNUM=$1
-SLOTNO=$2
+SLOTNO=$1
+NICNUM=$2
 NAME=`cat $SLOTOSDIR/slot/$SLOTNO/fulcon`
 
 fulcon net-del $NICNUM $NAME
