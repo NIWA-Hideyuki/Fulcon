@@ -27,12 +27,12 @@ if [ ! -x $SLOTOSDIR/slot -o ! -x $SLOTOSDIR/slot/0 ]; then
 	exit -1
 fi
 
-LISTFILE=`mktemp /tmp/slot-os-list.XXXXXX`
-fulcon list > $LISTFILE
+LISTALL=`fulcon list | awk '{printf "%s:%s:%s\n",$1,$2,$3}'`
+
 for i in `lsdir $SLOTOSDIR/slot | sort`
 do
 	CNAME=`cat $SLOTOSDIR/slot/$i/fulcon`
-	STATUS=`cat $LISTFILE | awk '{if($1=="'$CNAME'")printf "%s",$2}'`
+	STATUS=`echo $LISTALL | awk -F :  '{if($1=="'$CNAME'")printf "%s",$2}'`
 	if [ x"$STATUS" == x"" ]; then
 		STATUS="NONE"
 		IPADDR=""
@@ -55,7 +55,5 @@ do
 	echo $IPADDR
 
 done
-
-rm -f $LISTFILE
 
 exit 0
