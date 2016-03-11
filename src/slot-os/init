@@ -36,12 +36,15 @@ if [ $NUM -lt 0 ]; then
 	exit -1
 fi
 
+CPUNUM=`cat /sys/fs/cgroup/cpuset/cpuset.cpus | awk -F - '{print $NF}' | awk -F , '{print $NF}'`
+CPUNUM=`expr $CPUNUM + 1`
+
 mkdir -p $SLOTOS/slot
 for i in `seq 0 $NUM`
 do
 	mkdir -p $SLOTOSDIR/slot/$i
 	echo '-' > $SLOTOSDIR/slot/$i/fulcon
-	echo `expr 100 / $NUMSAVE` > $SLOTOSDIR/slot/$i/cpu
+	echo `expr $CPUNUM '*' 100 / $NUMSAVE` > $SLOTOSDIR/slot/$i/cpu
 	cat /sys/fs/cgroup/cpuset/cpuset.cpus > $SLOTOSDIR/slot/$i/cpuset
 	echo 512m > $SLOTOSDIR/slot/$i/memory
 done
