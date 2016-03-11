@@ -8,6 +8,27 @@ PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 SLOTOSDIR=/var/lib/slot-os
 
 
-fulcon net-del $*
+usage()
+{
+	echo "usage: net-del NIC_NUMBER SLOT_NUMBER"
+}
 
+# check args
+if [ $# -ne 2 ]; then
+	usage
+	exit -1
+fi
+
+NICNUM=$1
+SLOTNO=$2
+NAME=`cat $SLOTOSDIR/slot/$SLOTNO/fulcon`
+
+fulcon net-del $NICNUM $NAME
+
+if [ $? -eq 0 ]; then
+	rm -rf  $SLOTOSDIR/slot/$SLOTNO/net
+	cp -pr /var/lib/fulcon/container/$NAME/net $SLOTOSDIR/slot/$SLOTNO/
+fi
+
+exit 0
 

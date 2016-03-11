@@ -110,7 +110,7 @@ $  sudo fulcon del-user webap-server tom
  
 #### 3.Virtual NIC addition  
   
-$  sudo fulcon net-add webap-server 192.168.17.2/24  
+$  sudo fulcon net-add 1 webap-server 192.168.17.2/24  
   
 Information of network is able to be taken  by "fulcon net-info".  
  
@@ -123,7 +123,7 @@ IP-address specifies it within the range of same netmask as the shared device.
 In the following example, when it is NIC "eth1" and the address is 
 "192.168.0.2/24", "192.168.0.12/24" is allocated in the container.
  
-$ sudo fulcon net-add -d eth1 webap-server 192.168.0.12/24
+$ sudo fulcon net-add -d eth1 1 webap-server 192.168.0.12/24
   
 #### 4.Attache console to the container.
   
@@ -234,11 +234,8 @@ ls-image
 ls-ocf  
      The list of the OCF image is displayed.  
   
-net-add -n VETH_NUMBER [-d NIC_DEVICE] [-g GATEWAY] [-b BRIDGE_NUMBER ] CONTAINER_NAME IP_ADDR/MASK  
+net-add [-d NIC_DEVICE] [-g GATEWAY] [-b BRIDGE_NUMBER ] VETH_NUMBER CONTAINER_NAME IP_ADDR/MASK  
      NIC is added to the container.   
-     -n VETH_NUMBER  
-          NIC that combines "Container name and specified number" is added.  
-          ex) VETH_NUMBER is 1 and container is "abc" -> nic "abc1"  
      -d NIC_DEVICE  
           The device to connect it to an external network is specified.   
      -g GATEWAY
@@ -246,10 +243,13 @@ net-add -n VETH_NUMBER [-d NIC_DEVICE] [-g GATEWAY] [-b BRIDGE_NUMBER ] CONTAINE
      -b BRIDGE_NUMBER
           BRIDGE that combines "'fulcon' and specified number" is added.  
           ex) BRIDGE_NUMBER is 2 -> nic "fulcon2"  
+     VETH_NUMBER  
+          NIC that combines "Container name and specified number" is added.  
+          ex) VETH_NUMBER is 1 and container is "abc" -> nic "abc1"  
   
-net-del -n VETH_NUMBER CONTAINER_NAME  
+net-del VETH_NUMBER CONTAINER_NAME  
      NIC is deleted from the container.   
-     -n VETH_NUMBER  
+     VETH_NUMBER  
           NIC that combines "Container name and specified number" is added.  
           ex) VETH_NUMBER is 1 and container is "abc" -> nic "abc1"  
   

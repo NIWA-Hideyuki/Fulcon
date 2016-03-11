@@ -15,34 +15,17 @@ fi
 
 usage()
 {
-	echo "usage: net-del -n NUMBER CONTAINER_NAME"
+	echo "usage: net-del NIC_NUMBER CONTAINER_NAME"
 }
 
-# check options
-FLG_N=0 ; NUM=""
-
-while getopts n: OPT ; do
-  case $OPT in
-  n) FLG_N=1 ; NUM=$OPTARG ;;
-  \? ) usage; exit -1;;
-  esac
-done
-shift $((OPTIND - 1))
-
 # check args
-if [ $# -ne 1 ]; then
+if [ $# -ne 2 ]; then
 	usage
 	exit -1
 fi
 
-# check number
-if [ $FLG_N -ne 1 ]; then
-	usage
-	echo 'error: It is necessary to specify "-n NUMBER"'
-	exit -1
-fi
-
-LXCNAME=$1
+NUM=$1
+LXCNAME=$2
 brctl show  |& egrep ${LXCNAME}${NUM} >& /dev/null
 if [ $? -ne 0 ]; then
 	echo "error: can't find" ${LXCNAME}${NUM}

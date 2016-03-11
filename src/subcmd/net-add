@@ -12,21 +12,19 @@ umask 022
 # function usage
 usage()
 {
-	echo "usage: net-add -n NUMBER  [ -d NETDEV ] [ -g GATEWAY ] [ -b BRIDGE_NUMBER ] CONTAINER_NAME IPADDR/MASK [ MAC1 MAC2 ]"
+	echo "usage: net-add [ -d NETDEV ] [ -g GATEWAY ] [ -b BRIDGE_NUMBER ] NIC_NUMBER CONTAINER_NAME IPADDR/MASK [ MAC1 MAC2 ]"
 }
 
 NETARGS=$@
 
 # check options
 FLG_D=0 ; NETDEV=""
-FLG_N=0 ; NUM=""
 FLG_G=0 ; LXCGATEWAY=""
 FLG_B=0 ; LXCBR="0"
 
-while getopts d:n:g:b: OPT ; do
+while getopts d:g:b: OPT ; do
   case $OPT in
   d) FLG_D=1 ; NETDEV=$OPTARG ;;
-  n) FLG_N=1 ; NUM=$OPTARG ;;
   g) FLG_G=1 ; LXCGATEWAY=$OPTARG ;;
   b) FLG_B=1 ; LXCBR=$OPTARG ;;
   \? ) usage; exit -1;;
@@ -35,23 +33,16 @@ done
 shift $((OPTIND - 1))
 
 # check args
-if [ $# -ne 2 -a $# -ne 4 ]; then
+if [ $# -ne 3 -a $# -ne 5 ]; then
 	usage
-	exit -1
-fi
-
-# check number
-if [ $FLG_N -ne 1 ]; then
-	usage
-	echo 'error: It is necessary to specify "-n NUMBER"'
 	exit -1
 fi
 
 # get mac address
-if [ $# -eq 4 ]; then
+if [ $# -eq 5 ]; then
 	MACFLG=1
-	MAC1=$3
-	MAC2=$4
+	MAC1=$4
+	MAC2=$5
 else
 	MACFLG=0
 	MAC1=""
@@ -73,15 +64,16 @@ if [ $? -gt 1 ]; then
 fi
 LXCBR="fulcon"$LXCBR
 
-LXCNAME=$1
-LXCBRIP=`net-ipv4 -g $2`
+NUM=$1
+LXCNAME=$2
+LXCBRIP=`net-ipv4 -g $3`
 if [ $? -ne 0 ]; then
-	echo $2 "must be IP_address/Mask format"
+	echo $3 "must be IP_address/Mask format"
 	exit -1
 fi
 
-LXCIP=`echo $2 | awk -F / '{printf "%s",$1}'`
-LXCMASK=`echo $2 | awk -F / '{printf "%s",$2}'`
+LXCIP=`echo $3 | awk -F / '{printf "%s",$1}'`
+LXCMASK=`echo $3 | awk -F / '{printf "%s",$2}'`
 
 if [ x$LXCGATEWAY == x"" ]; then
 	LXCGATEWAY=$LXCBRIP
@@ -114,7 +106,7 @@ ip link add name ${LXCNAME}${NUM} type veth peer name vg${LXCNAME}${NUM} >& /dev
 
 # set/get MAC1
 if [ x"$MAC1" != x"" ]; then
-	ip link set ${LXCNAME}${NUM} address $MAC1
+	ip link set ${LXCNAME}${NUM} address $MAC1 
 else
 	MAC1=`ip addr show ${LXCNAME}${NUM} | egrep link/ether | awk '{print $2}'`
 fi

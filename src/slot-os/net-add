@@ -4,10 +4,69 @@
 
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
-
 SLOTOSDIR=/var/lib/slot-os
 
+umask 022
 
-fulcon net-add $*
+# function usage
+usage()
+{
+	echo "usage: net-add [ -d NETDEV ] [ -g GATEWAY ] [ -b BRIDGE_NUMBER ] NIC_NUMBER SLOT_NUMBER IPADDR/MASK "
+}
 
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
 
+# check options
+FLG_D=0 ; NETDEV=""
+FLG_G=0 ; LXCGATEWAY=""
+FLG_B=0 ; LXCBR="0"
+
+while getopts d:g:b: OPT ; do
+  case $OPT in
+  d) FLG_D=1 ; NETDEV=$OPTARG ;;
+  g) FLG_G=1 ; LXCGATEWAY=$OPTARG ;;
+  b) FLG_B=1 ; LXCBR=$OPTARG ;;
+  \? ) usage; exit -1;;
+  esac
+done
+shift $((OPTIND - 1))
+
+# check args
+if [ $# -ne 3 ]; then
+	usage
+	exit -1
+fi
+
+NICNO=$1
+SLOTNO=$2
+IPADDR=$3
+if [ ! -d $SLOTOSDIR/slot/$SLOTNO ]; then
+	echo "error: $SLOTNO is not exist"
+	exit -1
+fi
+
+NAME=`cat $SLOTOSDIR/slot/$SLOTNO/fulcon`
+
+NEWOPT=""
+if [ $FLG_D -ne 0 ]; then
+	NEWOPT="$NEWOPT -d $NETDEV"
+fi
+if [ $FLG_G -ne 0 ]; then
+	NEWOPT="$NEWOPT -g $LXCGATEWAY"
+fi
+if [ $FLG_B -ne 0 ]; then
+	NEWOPT="$NEWOPT -b $LXCBR"
+fi
+
+NEWOPT="$NEWOPT $NICNO $NAME $IPADDR"
+
+fulcon net-add $NEWOPT
+
+if [ $? -eq 0 ]; then
+	rm -rf  $SLOTOSDIR/slot/$SLOTNO/net
+	cp -pr /var/lib/fulcon/container/$NAME/net $SLOTOSDIR/slot/$SLOTNO/
+fi
+
+exit 0
