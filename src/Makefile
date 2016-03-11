@@ -107,6 +107,7 @@ install-slot-os:
 	install -m 755 slot-os/br-add $(DESTDIR)$(libdir)/slot-os/sbin/br-add
 	install -m 755 slot-os/br-del $(DESTDIR)$(libdir)/slot-os/sbin/br-del
 	install -m 755 slot-os/br-info $(DESTDIR)$(libdir)/slot-os/sbin/br-info
+	install -m 755 slot-os/resource $(DESTDIR)$(libdir)/slot-os/sbin/resource
 
 install-driver : install-driver-docker
 

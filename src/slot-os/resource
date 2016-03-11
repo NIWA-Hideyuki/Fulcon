@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
+SLOTOSDIR=/var/lib/slot-os
+
+usage()
+{
+	echo "usage: resource [-c CPU] [-n CPUSET] [-m MEM] NUMBER ... "
+}
+
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
+
+
+# check options
+FLG_C=0; CPU=""
+FLG_N=0; CPUSET=""
+FLG_M=0; MEM=""
+
+ARGS=""
+
+while getopts c:m:n: OPT
+do
+  case $OPT in
+    "c" ) FLG_C=1 ; CPU=$OPTARG ; ARGS="$ARGS -c $CPU" ;;
+    "m" ) FLG_M=1 ; MEM=$OPTARG ; ARGS="$ARGS -m $MEM" ;;
+    "n" ) FLG_N=1 ; CPUSET=$OPTARG ; ARGS="$ARGS -n $CPUSET" ;;
+    \?  ) usage; exit -1;;
+  esac
+done
+
+shift `expr $OPTIND - 1`
+
+
+SNUMS=$*
+for SNUM in $SNUMS
+do
+	if [ ! -x $SLOTOSDIR/slot/$SNUM ]; then
+		printf "error: slot%2d is not exist\n" $SNUM
+		RCODE=-1
+		continue
+	fi
+
+	if [ $FLG_C -ne 0 ]; then
+		echo $CPU > $SLOTOSDIR/slot/$SNUM/cpu
+	fi
+	if [ $FLG_N -ne 0 ]; then
+		echo $CPUSET > $SLOTOSDIR/slot/$SNUM/cpuset
+	fi
+	if [ $FLG_M -ne 0 ]; then
+		echo $MEM > $SLOTOSDIR/slot/$SNUM/memory
+	fi
+
+done
+
+exit $RCODE
+
