@@ -41,7 +41,6 @@ do
 	fi
 
 	fulcon erase $NAME
-	rm -rf $SLOTOSDIR/slot/$SNUM/net
 
 	echo '-' > $SLOTOSDIR/slot/$SNUM/fulcon
 done

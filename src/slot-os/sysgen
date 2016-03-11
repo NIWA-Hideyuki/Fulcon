@@ -36,7 +36,13 @@ if [ $? -ne 0 ] ; then
 	exit -1
 fi
 
+if [ -f $SLOTOSDIR/slot/$NUM/lastname ]; then
+	OLDNAME=`cat $SLOTOSDIR/slot/$NUM/lastname`
+else
+	OLDNAME=$NAME
+fi
 echo $NAME > $SLOTOSDIR/slot/$NUM/fulcon
+echo $NAME > $SLOTOSDIR/slot/$NUM/lastname
 
 fulcon resource  \
 	-c `cat $SLOTOSDIR/slot/$NUM/cpu` \
@@ -44,4 +50,16 @@ fulcon resource  \
 	-m `cat $SLOTOSDIR/slot/$NUM/memory` \
 	$NAME
 
+OLDPATH=$PATH
+PATH=/usr/lib/fulcon/sbin:$PATH
+if [ -d $SLOTOSDIR/slot/$NUM/net ]; then
+	for i in `lsdir $SLOTOSDIR/slot/$NUM/net`
+	do
+		NEWFILE=`echo $i | sed -e "s/$OLDNAME/$NAME/"`
+		sed -i -e "s/ $OLDNAME / $NAME /" $SLOTOSDIR/slot/$NUM/net/$i
+		mv $SLOTOSDIR/slot/$NUM/net/$i $SLOTOSDIR/slot/$NUM/net/$NEWFILE >& /dev/null
+		bash $SLOTOSDIR/slot/$NUM/net/$NEWFILE
+	done
+fi
+PATH=$OLDPATH
 
