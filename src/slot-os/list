@@ -47,7 +47,7 @@ do
 		fi
 	fi
 
-	printf "slot%02d :%8s %10s %s %% %5s %7s " \
+	printf "slot%02d :%8s %10s %3s %% %5s %7s " \
 		$i $STATUS $CNAME \
 		`cat $SLOTOSDIR/slot/$i/cpu` \
 		`cat $SLOTOSDIR/slot/$i/cpuset` \
