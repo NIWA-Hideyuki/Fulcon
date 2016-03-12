@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
+SLOTOSDIR=/var/lib/slot-os
+
+usage()
+{
+	echo "usage: backup-restore SLOT_NUMBER NAME BACKUP_IMAGE"
+}
+
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
+
+
+if [ $# -ne 3 ]; then
+	usage
+	exit -1
+fi
+
+NUM=$1
+NAME=$2
+IMAGE=$3
+
+echo $IMAGE | egrep ^fulcon/ >& /dev/null
+if [ $? -eq 1 ]; then
+	IMAGE="fulcon/$IMAGE"
+fi
+
+SLOTNUM=`printf "slot%02d" $NUM`
+
+slot-os list | \
+  awk 'BEGIN{r=0}{if($1=="'$SLOTNUM'" && $3!="NONE")r=-1}END{exit(r)}'
+if [ $? -ne 0 ]; then
+	echo "error: $SLOTNUM isn't empty."
+	exit -1
+fi
+
+slot-os sysgen $NUM $NAME $IMAGE
+

@@ -38,6 +38,10 @@ if [ x"$NAME" == x"" ]; then
 fi
 
 BACKUP=`printf "fulcon/slot%02d.%s.%s" $NUM $NAME $NEWNAME`
+BACKUPNAME=`printf "slot%02d.%s.%s" $NUM $NAME $NEWNAME`
 
 fulcon clone $NAME $BACKUP
+
+echo "backup image :" $BACKUPNAME
+
 

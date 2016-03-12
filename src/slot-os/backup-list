@@ -22,4 +22,4 @@ if [ $# -ne 1 ]; then
 	exit -1
 fi
 
-fulcon ls-image | egrep slot
+fulcon ls-image | egrep slot | sed -e "s/fulcon\///" | awk '{print $1}'

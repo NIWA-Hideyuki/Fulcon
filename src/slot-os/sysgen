@@ -16,33 +16,59 @@ lsdir() {
   ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
 }
 
-
-if [ $# -ne 2 ]; then
+ARGN=$#
+if [ $ARGN -ne 2 -a $ARGN -ne 3 ]; then
 	usage
 	exit -1
 fi
 
 NUM=$1
 NAME=$2
+if [ $ARGN -eq 3 ]; then
+	IMAGE=$3
+else
+	IMAGE=fulcon/slot-os
+fi
 
+# check image
+RCK=0
+if [ `slot-os backup-list | wc -l` -eq 0 ]; then
+	echo "error: The image which can be carried out isn't found."
+	exit -1
+fi	
+for i in `slot-os backup-list`
+do
+	if [ x"$i" == x"$IMAGE" ]; then
+		RCK=1
+		break
+	fi
+done
+if [ $RCK -eq 0 ]; then
+	echo "error: $IMAGE is not found"
+	exit -1
+fi
+
+# check slot number
 if [ ! -x $SLOTOSDIR/slot/$NUM ]; then
 	printf "error: slot%02s is not exist" $NUM
 	exit -1
 fi
 
-fulcon sysgen -c fulcon/slot-os $NAME
+# container is generated
+fulcon sysgen -c $IMAGE $NAME
 if [ $? -ne 0 ] ; then
 	echo "error: $NAME is not able to start"
 	exit -1
 fi
 
+# make a slot
 if [ -f $SLOTOSDIR/slot/$NUM/lastname ]; then
 	OLDNAME=`cat $SLOTOSDIR/slot/$NUM/lastname`
 else
 	OLDNAME=$NAME
 fi
 echo $NAME > $SLOTOSDIR/slot/$NUM/fulcon
-echo $NAME > $SLOTOSDIR/slot/$NUM/lastname
+echo $OLDNAME > $SLOTOSDIR/slot/$NUM/lastname
 
 fulcon resource  \
 	-c `cat $SLOTOSDIR/slot/$NUM/cpu` \
@@ -50,6 +76,7 @@ fulcon resource  \
 	-m `cat $SLOTOSDIR/slot/$NUM/memory` \
 	$NAME
 
+# start network
 OLDPATH=$PATH
 PATH=/usr/lib/fulcon/sbin:$PATH
 if [ -d $SLOTOSDIR/slot/$NUM/net ]; then

@@ -32,7 +32,11 @@ LISTALL=`fulcon list | awk '{printf "%s:%s:%s\n",$1,$2,$3}'`
 for i in `lsdir $SLOTOSDIR/slot | sort`
 do
 	CNAME=`cat $SLOTOSDIR/slot/$i/fulcon`
-	STATUS=`echo $LISTALL | awk -F :  '{if($1=="'$CNAME'")printf "%s",$2}'`
+	STATUS=""
+	for j in `echo $LISTALL`
+	do 
+		STATUS=$STATUS`echo $j | awk -F :  '{if($1=="'$CNAME'")printf "%s",$2}'`
+	done
 	if [ x"$STATUS" == x"" ]; then
 		STATUS="NONE"
 		IPADDR=""
