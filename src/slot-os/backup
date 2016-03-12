@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
+SLOTOSDIR=/var/lib/slot-os
+
+usage()
+{
+	echo "usage: backup NUMBER NEW_NAME"
+}
+
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
+
+
+if [ $# -ne 2 ]; then
+	usage
+	exit -1
+fi
+
+NUM=$1
+NEWNAME=$2
+
+if [ ! -x $SLOTOSDIR/slot/$NUM ]; then
+	printf "error: slot%02s is not exist" $NUM
+	exit -1
+fi
+
+NAME=`cat $SLOTOSDIR/slot/$NUM/fulcon`
+
+if [ x"$NAME" == x"" ]; then
+	printf "error: slot%02d is empty\n" $NUM
+	exit -1
+fi
+
+BACKUP=`printf "slot%02d.%s.%s" $NUM $NAME $NEWNAME`
+echo $BACKUP
+#fulcon clone $NAME $BACKUP
+
