@@ -60,7 +60,7 @@ if [ $FLG_B -ne 0 ]; then
 	NEWOPT="$NEWOPT -b $LXCBR"
 fi
 
-NEWOPT="$NEWOPT $NICNO $NAME $IPADDR"
+NEWOPT="$NEWOPT $NAME $IPADDR $NICNO "
 
 fulcon net-add $NEWOPT
 

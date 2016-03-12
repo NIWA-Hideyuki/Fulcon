@@ -4,10 +4,47 @@
 
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
-
 SLOTOSDIR=/var/lib/slot-os
 
+umask 022
 
-fulcon net-info $*
+# function usage
+usage()
+{
+	echo "usage: net-dev"
+}
+
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
+
+# check args
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+net-slot-info()
+{
+	for i in `lsdir $SLOTOSDIR/slot`
+	do
+		SLOT=$i
+		NAME=`cat $SLOTOSDIR/slot/$SLOT/fulcon`
+		if [ x"$NAME" != x"" ]; then
+			fulcon net-info $NAME | egrep eth0 | egrep inet | \
+			  awk '{printf "slot%02d eth0\t%s\n",'$SLOT',$2}'
+		fi
+		if [ -d $SLOTOSDIR/slot/$SLOT/net ]; then
+			for j in `lsdir $SLOTOSDIR/slot/$SLOT/net`
+			do
+				cat $SLOTOSDIR/slot/$SLOT/net/$j | \
+				  awk '{printf "slot%02d %s%s\t%s\n",'$SLOT',$2,$4,$3}'
+			done
+		fi
+	done
+}
 
 
+net-slot-info
+
+exit 0
