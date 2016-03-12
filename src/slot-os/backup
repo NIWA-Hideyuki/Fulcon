@@ -37,7 +37,7 @@ if [ x"$NAME" == x"" ]; then
 	exit -1
 fi
 
-BACKUP=`printf "slot%02d.%s.%s" $NUM $NAME $NEWNAME`
-echo $BACKUP
-#fulcon clone $NAME $BACKUP
+BACKUP=`printf "fulcon/slot%02d.%s.%s" $NUM $NAME $NEWNAME`
+
+fulcon clone $NAME $BACKUP
 
