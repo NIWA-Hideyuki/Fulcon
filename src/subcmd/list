@@ -9,7 +9,7 @@ NUMOFARGS=$#
 
 usage()
 {
-	echo "usage: list"
+	echo "usage: list { NAME }"
 }
 
 if [ $NUMOFARGS -ne 1 ]; then
@@ -20,8 +20,7 @@ fi
 if [ x"$1" == x"list" ]; then
 	lib-list
 else
-	usage
-	exit -1
+	lib-list | awk '{if($1=="'$1'")print}'
 fi
 
 exit 0
