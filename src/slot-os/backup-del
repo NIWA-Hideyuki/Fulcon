@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
+SLOTOSDIR=/var/lib/slot-os
+
+usage()
+{
+	echo "usage: backup-del IMAGE_NAME"
+}
+
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
+
+
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+if [ $# -eq 1 -a x"$1" == x"backup-del" ]; then
+	usage
+	exit -1
+fi
+
+IMAGENAME=$1
+IMAGE="fulcon/$IMAGENAME"
+
+if [ x"$IMAGENAME" == x"slot-os" ]; then
+	echo "error: slot-os image can not be deleted"
+	exit -1
+fi
+
+R=0
+if [ x"`fulcon list`" != x"" ]; then
+	for i in `fulcon list | awk '{printf "%s:%s\n",$1,$3}'`
+	do
+		LISTNAME=`echo $i | awk -F : '{print $1}'`
+		LISTIMAGE=`echo $i | awk -F : '{print $2}'`
+		if [ x"$LISTIMAGE" == x"$IMAGE" ]; then
+			echo "error: $IMAGENAME is used in $LISTNAME"
+			R=1
+		fi
+	done
+fi
+
+if [ $R -ne 0 ]; then
+	exit -1
+fi
+
+fulcon del-image $IMAGE >& /dev/null
+if [ $? -ne 0 ]; then
+	echo "error: can not be deleted"
+else
+	echo "backup deleted :" $IMAGENAME
+fi
+
+exit 0

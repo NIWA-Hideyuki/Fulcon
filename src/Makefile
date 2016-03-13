@@ -111,6 +111,7 @@ install-slot-os:
 	install -m 755 slot-os/backup $(DESTDIR)$(libdir)/slot-os/sbin/backup
 	install -m 755 slot-os/backup-list $(DESTDIR)$(libdir)/slot-os/sbin/backup-list
 	install -m 755 slot-os/backup-restore $(DESTDIR)$(libdir)/slot-os/sbin/backup-restore
+	install -m 755 slot-os/backup-del $(DESTDIR)$(libdir)/slot-os/sbin/backup-del
 
 install-driver : install-driver-docker
 
