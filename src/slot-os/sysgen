@@ -38,7 +38,7 @@ if [ `slot-os backup-list | wc -l` -eq 0 ]; then
 fi	
 for i in `slot-os backup-list`
 do
-	if [ x"$i" == x"$IMAGE" ]; then
+	if [ x"fulcon/$i" == x"$IMAGE" ]; then
 		RCK=1
 		break
 	fi
@@ -83,9 +83,8 @@ if [ -d $SLOTOSDIR/slot/$NUM/net ]; then
 	for i in `lsdir $SLOTOSDIR/slot/$NUM/net`
 	do
 		NEWFILE=`echo $i | sed -e "s/$OLDNAME/$NAME/"`
-		sed -i -e "s/ $OLDNAME / $NAME /" $SLOTOSDIR/slot/$NUM/net/$i
 		mv $SLOTOSDIR/slot/$NUM/net/$i $SLOTOSDIR/slot/$NUM/net/$NEWFILE >& /dev/null
-		bash $SLOTOSDIR/slot/$NUM/net/$NEWFILE
+		bash $SLOTOSDIR/slot/$NUM/net/$NEWFILE $NAME
 	done
 fi
 PATH=$OLDPATH
