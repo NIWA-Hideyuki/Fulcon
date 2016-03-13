@@ -43,20 +43,37 @@ mkdir -p $SLOTOS/slot
 for i in `seq 0 $NUM`
 do
 	mkdir -p $SLOTOSDIR/slot/$i
-	echo '-' > $SLOTOSDIR/slot/$i/fulcon
+	if [ ! -f $SLOTOSDIR/slot/$i/fulcon ]; then
+		echo '-' > $SLOTOSDIR/slot/$i/fulcon
+		cat /sys/fs/cgroup/cpuset/cpuset.cpus > $SLOTOSDIR/slot/$i/cpuset
+		echo 512m > $SLOTOSDIR/slot/$i/memory
+	fi
 	echo `expr $CPUNUM '*' 100 / $NUMSAVE` > $SLOTOSDIR/slot/$i/cpu
-	cat /sys/fs/cgroup/cpuset/cpuset.cpus > $SLOTOSDIR/slot/$i/cpuset
-	echo 512m > $SLOTOSDIR/slot/$i/memory
 done
 
 cd  $SLOTOSDIR/slot/
 for i in `ls -1`
 do
 	if [ ! $i -le $NUM ]; then
-		rm $SLOTOSDIR/slot/$i/*
+		slot-os erase $i
+		rm -f $SLOTOSDIR/slot/$i/*
 		rmdir $SLOTOSDIR/slot/$i
 	fi
 done
 
+for i in `seq 0 $NUM`
+do
+	SLOTNAME=`printf "slot%02d" $i`
+	if [ x"`slot-os list $i | awk '{print $3}'`" == x"NONE" ]; then
+		echo create $SLOTNAME
+		slot-os sysgen $i $SLOTNAME >& /dev/null
+		slot-os stop $i >& /dev/null
+	else
+		echo initialized $SLOTNAME
+	fi
+done
+
+echo
+slot-os list
 
 exit 0
