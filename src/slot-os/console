@@ -23,6 +23,8 @@ if [ $# -ne 1 ]; then
 fi
 
 SNUM=$1
+SNUM=`echo $SNUM | sed -e 's/slot//'` 
+SNUM=`expr $SNUM + 0`
 if [ ! -x $SLOTOSDIR/slot/$i ]; then
 	printf "error: slot%2d is not exist" $SNUM
 	exit -1

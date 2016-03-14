@@ -17,7 +17,7 @@ else
 fi
 
 start_docker() {
-	docker run -d ${OPTCPUSET}=${CPUSET} ${OPTCPUSHARE} 100 -m 512m \
+	docker create  ${OPTCPUSET}=${CPUSET} ${OPTCPUSHARE} 100 -m 512m \
 	--name $NAME --hostname $NAME \
 	-v /sys/fs/cgroup:/sys/fs/cgroup:ro \
 	--privileged \

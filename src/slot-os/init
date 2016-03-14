@@ -67,7 +67,6 @@ do
 	if [ x"`slot-os list $i | awk '{print $3}'`" == x"NONE" ]; then
 		echo create $SLOTNAME
 		slot-os sysgen $i $SLOTNAME >& /dev/null
-		slot-os stop $i >& /dev/null
 	else
 		echo initialized $SLOTNAME
 	fi

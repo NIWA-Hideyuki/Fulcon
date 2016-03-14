@@ -33,11 +33,8 @@ fi
 
 SLOTNUM=`printf "slot%02d" $NUM`
 
-slot-os list | \
-  awk 'BEGIN{r=0}{if($1=="'$SLOTNUM'" && $3!="NONE")r=-1}END{exit(r)}'
-if [ $? -ne 0 ]; then
-	echo "error: $SLOTNUM isn't empty."
-	exit -1
+if [ x"'slot-os list $SLOTNUM`" != x"" ]; then
+	slot-os erase $SLOTNUM
 fi
 
 slot-os sysgen $NUM $NAME $IMAGE
