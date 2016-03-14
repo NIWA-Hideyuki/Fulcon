@@ -9,7 +9,7 @@ SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: backup-restore SLOT_NUMBER NAME BACKUP_IMAGE"
+	echo "usage: backup-restore SLOT_NUMBER BACKUP_IMAGE"
 }
 
 lsdir() {
@@ -23,13 +23,15 @@ if [ $# -ne 3 ]; then
 fi
 
 NUM=$1
-NAME=$2
-IMAGE=$3
+IMAGE=$2
 
 echo $IMAGE | egrep ^fulcon/ >& /dev/null
 if [ $? -eq 1 ]; then
 	IMAGE="fulcon/$IMAGE"
 fi
+
+NUM=`echo $NUM | sed -e 's/slot//'` 
+NUM=`expr $NUM + 0`
 
 SLOTNUM=`printf "slot%02d" $NUM`
 
@@ -37,5 +39,5 @@ if [ x"'slot-os list $SLOTNUM`" != x"" ]; then
 	slot-os erase $SLOTNUM
 fi
 
-slot-os sysgen $NUM $NAME $IMAGE
+slot-os sysgen $NUM $IMAGE
 

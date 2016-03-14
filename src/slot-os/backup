@@ -30,6 +30,8 @@ if [ ! -x $SLOTOSDIR/slot/$NUM ]; then
 	exit -1
 fi
 
+NUM=`echo $NUM | sed -e 's/slot//'` 
+NUM=`expr $NUM + 0`
 NAME=`cat $SLOTOSDIR/slot/$NUM/fulcon`
 
 if [ x"$NAME" == x"" ]; then
@@ -37,8 +39,8 @@ if [ x"$NAME" == x"" ]; then
 	exit -1
 fi
 
-BACKUP=`printf "fulcon/slot%02d.%s.%s" $NUM $NAME $NEWNAME`
-BACKUPNAME=`printf "slot%02d.%s.%s" $NUM $NAME $NEWNAME`
+BACKUP=`printf "fulcon/slot%02d.%s" $NUM $NEWNAME`
+BACKUPNAME=`printf "slot%02d.%s" $NUM $NEWNAME`
 
 fulcon clone $NAME $BACKUP
 
