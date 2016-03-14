@@ -17,7 +17,7 @@ lsdir() {
 }
 
 
-if [ $# -ne 3 ]; then
+if [ $# -ne 2 ]; then
 	usage
 	exit -1
 fi
@@ -35,8 +35,8 @@ NUM=`expr $NUM + 0`
 
 SLOTNUM=`printf "slot%02d" $NUM`
 
-if [ x"'slot-os list $SLOTNUM`" != x"" ]; then
-	slot-os erase $SLOTNUM
+if [ x"`slot-os list $SLOTNUM`" != x"" ]; then
+	slot-os erase $NUM
 fi
 
 slot-os sysgen $NUM $IMAGE
