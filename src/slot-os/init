@@ -10,7 +10,7 @@ SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: divided-into NUMBER"
+	echo "usage: init NUMBER"
 }
 
 lsdir() {
@@ -65,8 +65,8 @@ for i in `seq 0 $NUM`
 do
 	SLOTNAME=`printf "slot%02d" $i`
 	if [ x"`slot-os list $i | awk '{print $3}'`" == x"NONE" ]; then
-		echo create $SLOTNAME
-		slot-os sysgen $i $SLOTNAME >& /dev/null
+		echo -n "create "
+		slot-os sysgen $i
 	else
 		echo initialized $SLOTNAME
 	fi

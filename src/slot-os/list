@@ -17,30 +17,12 @@ lsdir() {
 }
 
 
-if [ $# -ne 1 ]; then
-	usage
-	exit -1
-fi
-
-if [ x"$1" != x"list" ]; then
-	SLOTN=$1
-	slot-os list | awk '{if($1=="'$SLOTN'")print}'
-	exit 0
-fi
-
-
-if [ ! -x $SLOTOSDIR/slot -o ! -x $SLOTOSDIR/slot/0 ]; then
-	echo "error: slot is not set."
-	exit -1
-fi
-
-LISTALL=`fulcon list | awk '{printf "%s:%s:%s\n",$1,$2,$3}'`
-
-for i in `lsdir $SLOTOSDIR/slot | sort`
-do
+list1()
+{
+	i=$1
 	CNAME=`cat $SLOTOSDIR/slot/$i/fulcon`
 	STATUS=""
-	for j in `echo $LISTALL`
+	for j in `fulcon list | awk '{printf "%s:%s:%s\n",$1,$2,$3}'`
 	do 
 		STATUS=$STATUS`echo $j | awk -F :  '{if($1=="'$CNAME'")printf "%s",$2}'`
 	done
@@ -64,7 +46,36 @@ do
 		`cat $SLOTOSDIR/slot/$i/cpuset` \
 		`cat $SLOTOSDIR/slot/$i/memory`
 	echo $IPADDR
+}
 
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+if [ x"$1" != x"list" ]; then
+	NUM=$1
+	NUM=`echo $NUM | sed -e 's/slot//'` 
+	NUM=`expr $NUM + 0`
+
+	if [ -d $SLOTOSDIR/slot/$NUM ]; then
+		list1 $NUM
+		exit 0
+	else
+		printf "error: slot%02d is not exist\n" $NUM
+		exit -1
+	fi
+fi
+
+
+if [ ! -x $SLOTOSDIR/slot -o ! -x $SLOTOSDIR/slot/0 ]; then
+	echo "error: slot is not set."
+	exit -1
+fi
+
+for i in `lsdir $SLOTOSDIR/slot | sort`
+do
+	list1 $i
 done
 
 exit 0

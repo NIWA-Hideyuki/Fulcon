@@ -9,7 +9,7 @@ SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: sysgen NUMBER NAME"
+	echo "usage: sysgen NUMBER"
 }
 
 lsdir() {
@@ -17,18 +17,27 @@ lsdir() {
 }
 
 ARGN=$#
-if [ $ARGN -ne 2 -a $ARGN -ne 3 ]; then
+if [ $ARGN -ne 1 -a $ARGN -ne 2 ]; then
+	usage
+	exit -1
+fi
+
+if [ $ARGN -eq 1 -a x"$1" == x"sysgen" ]; then
 	usage
 	exit -1
 fi
 
 NUM=$1
-NAME=$2
-if [ $ARGN -eq 3 ]; then
-	IMAGE=$3
-else
+
+if [ $ARGN -eq 1 ]; then
 	IMAGE=fulcon/slot-os
+else
+	IMAGE=$2
 fi
+
+NUM=`echo $NUM | sed -e 's/slot//'` 
+NUM=`expr $NUM + 0`
+NAME=`printf "slot%02d" $NUM`
 
 # check image
 RCK=0
