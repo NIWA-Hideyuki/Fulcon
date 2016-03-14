@@ -31,12 +31,19 @@ if [ x"$CNAME" == x"net-info" ]; then
 		cd  $FULCONDIR/container
 		for i in `fulcon list | awk '{printf "%s\n",$1}'`
 		do
+			STAT=`fulcon list $i | awk '{print $2}'`
+			if [ x"$STAT" != x"RUNNING" ]; then
+				continue
+			fi
 			display_info $i
 		done
 	fi
 	exit 0
 else
-	display_info $CNAME
+	STAT=`fulcon list $CNAME | awk '{print $2}'`
+	if [ x"$STAT" == x"RUNNING" ]; then
+		display_info $CNAME
+	fi
 fi
 
 exit 0

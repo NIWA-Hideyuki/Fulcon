@@ -189,7 +189,8 @@ mkdir -p $FULCONDIR/container/$LXCNAME/net
 if [ $MACFLG -eq 1 ]; then
 	echo "net-add $NETARGS" > $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM 
 else
-	echo "net-add $NETARGS '$MAC1' '$MAC2'" > $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM 
+	echo "net-add $NETARGS $MAC1 $MAC2" > $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM 
+cat $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM 
 fi
 chmod 755 $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM
 

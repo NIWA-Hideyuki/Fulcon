@@ -5,6 +5,7 @@
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
+FULCONDIR=/var/lib/fulcon
 SLOTOSDIR=/var/lib/slot-os
 
 
@@ -23,11 +24,13 @@ SLOTNO=$1
 NICNUM=$2
 NAME=`cat $SLOTOSDIR/slot/$SLOTNO/fulcon`
 
-fulcon net-del $NICNUM $NAME
+if [ x"`fulcon list $NAME | awk '{print $2}'`" != x"STOPPED" ]; then
+	fulcon net-del $NAME $NICNUM
+fi
 
 if [ $? -eq 0 ]; then
-	rm -rf  $SLOTOSDIR/slot/$SLOTNO/net
-	cp -pr /var/lib/fulcon/container/$NAME/net $SLOTOSDIR/slot/$SLOTNO/
+	rm -f  $SLOTOSDIR/slot/$SLOTNO/net/$NAME$NICNUM
+	rm -f  $FULCONDIR/container/$NAME/net/$NAME$NICNUM
 fi
 
 exit 0

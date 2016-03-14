@@ -11,6 +11,10 @@ usage()
 	echo "       start [-n REPEAT_NUMBER] NAME  ..."
 }
 
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
+
 # check options
 OPT_FLG=""
 FLG_N=0
@@ -45,7 +49,7 @@ if [ $FLG_N -eq 1 ]; then
 			NETDIR=$FULCONDIR/container/$NAME$N/net
 			ls $NETDIR/* >& /dev/null
 			if [ $? -eq 0 ]; then
-				for j in `ls -1 $NETDIR`
+				for j in `lsdir $NETDIR`
 				do
 					bash $NETDIR/$j $NAME
 				done
@@ -81,7 +85,7 @@ do
 	NETDIR=$FULCONDIR/container/$i/net/
 	ls $NETDIR/* >& /dev/null
 	if [ $? -eq 0 ]; then
-		for j in `ls -1 $NETDIR`
+		for j in `lsdir $NETDIR`
 		do
 			bash $NETDIR/$j $i
 		done

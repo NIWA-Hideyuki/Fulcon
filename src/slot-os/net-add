@@ -4,6 +4,7 @@
 
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+FULCONDIR=/var/lib/fulcon
 SLOTOSDIR=/var/lib/slot-os
 
 umask 022
@@ -62,10 +63,15 @@ fi
 
 NEWOPT="$NEWOPT $NAME $IPADDR $NICNO "
 
-fulcon net-add $NEWOPT
+if [ x"`fulcon list $NAME | awk '{print $2}'`" != x"STOPPED" ]; then
+	fulcon net-add $NEWOPT
+fi
 
+NEWOPT="\$1 `echo $NEWOPT | cut -d ' ' -f 2-`"
 if [ $? -eq 0 ]; then
-	rm -rf  $SLOTOSDIR/slot/$SLOTNO/net
+	mkdir -p $FULCONDIR/container/$NAME/net/
+	echo "net-add $NEWOPT" > $FULCONDIR/container/$NAME/net/$NAME$NICNO
+	echo "net-add $NEWOPT" > $SLOTOSDIR/slot/$SLOTNO/net/$NAME$NICNO
 	cp -pr /var/lib/fulcon/container/$NAME/net $SLOTOSDIR/slot/$SLOTNO/
 fi
 

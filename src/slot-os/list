@@ -33,7 +33,13 @@ list1()
 			IPADDR=`fulcon net-info $CNAME | \
 			awk '$1=="inet" && $2!="127.0.0.1/8"{printf "%s ", $2}'`
 		else
+			mkdir -p $SLOTOSDIR/slot/$i/net
 			IPADDR=""
+			for k in `lsdir $SLOTOSDIR/slot/$i/net`
+			do
+				IP1=`awk '{printf "%s ",$3}' $SLOTOSDIR/slot/$i/net/$k`
+				IPADDR="$IPADDR $IP1"
+			done
 		fi
 	fi
 

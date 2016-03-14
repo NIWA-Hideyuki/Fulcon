@@ -48,7 +48,11 @@ do
 		cat /sys/fs/cgroup/cpuset/cpuset.cpus > $SLOTOSDIR/slot/$i/cpuset
 		echo 512m > $SLOTOSDIR/slot/$i/memory
 	fi
-	echo `expr $CPUNUM '*' 100 / $NUMSAVE` > $SLOTOSDIR/slot/$i/cpu
+	CPUPER=`expr $CPUNUM '*' 100 / $NUMSAVE`
+	if [ $CPUPER -gt 100 ]; then
+		CPUPER=100
+	fi
+	echo $CPUPER > $SLOTOSDIR/slot/$i/cpu
 done
 
 cd  $SLOTOSDIR/slot/
@@ -56,8 +60,7 @@ for i in `ls -1`
 do
 	if [ ! $i -le $NUM ]; then
 		slot-os erase $i
-		rm -f $SLOTOSDIR/slot/$i/*
-		rmdir $SLOTOSDIR/slot/$i
+		rm -rf $SLOTOSDIR/slot/$i
 	fi
 done
 
