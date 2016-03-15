@@ -73,7 +73,7 @@ fi
 
 
 if [ ! -x $SLOTOSDIR/slot -o ! -x $SLOTOSDIR/slot/0 ]; then
-	echo "error: slot is not set."
+	echo "error: slot is not building."
 	exit -1
 fi
 

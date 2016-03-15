@@ -31,7 +31,7 @@ if [ $? -ge 2 ]; then
 fi
 NUMSAVE=$NUM
 NUM=`expr $NUM - 1`
-if [ $NUM -lt 0 ]; then
+if [ $NUM -lt -1 ]; then
 	usage
 	exit -1
 fi
