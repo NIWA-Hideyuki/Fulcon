@@ -10,7 +10,7 @@ SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: init NUMBER"
+	echo "usage: build NUMBER"
 }
 
 lsdir() {
