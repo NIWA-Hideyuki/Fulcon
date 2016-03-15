@@ -72,7 +72,7 @@ if [ $? -eq 0 ]; then
 	mkdir -p $FULCONDIR/container/$NAME/net/
 	echo "net-add $NEWOPT" > $FULCONDIR/container/$NAME/net/$NAME$NICNO
 	echo "net-add $NEWOPT" > $SLOTOSDIR/slot/$SLOTNO/net/$NAME$NICNO
-	cp -pr /var/lib/fulcon/container/$NAME/net $SLOTOSDIR/slot/$SLOTNO/
+	cp -pr $FULCONDIR/container/$NAME/net $SLOTOSDIR/slot/$SLOTNO/
 fi
 
 exit 0

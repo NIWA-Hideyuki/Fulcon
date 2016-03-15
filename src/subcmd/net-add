@@ -184,13 +184,14 @@ net-add-setup()
 }
 
 # setup container address
-NETARGS="\$1 `echo $NETARGS | cut -d ' ' -f 2-`"
+NETARGS="`echo $NETARGS | cut -d ' ' -f 2-`"
 mkdir -p $FULCONDIR/container/$LXCNAME/net
 if [ $MACFLG -eq 1 ]; then
-	echo "net-add $NETARGS" > $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM 
+	rm -f $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM 
+	echo 'net-add $1' "$NETARGS" > $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM 
 else
-	echo "net-add $NETARGS $MAC1 $MAC2" > $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM 
-cat $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM 
+	rm -f $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM 
+	echo 'net-add $1' "$NETARGS $MAC1 $MAC2" > $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM 
 fi
 chmod 755 $FULCONDIR/container/$LXCNAME/net/$LXCNAME$NUM
 

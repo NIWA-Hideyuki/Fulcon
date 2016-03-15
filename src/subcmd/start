@@ -30,7 +30,6 @@ done
 
 shift `expr $OPTIND - 1`
 
-
 if [ $FLG_N -eq 1 ]; then
 	if [ $# -ne 1 ]; then
 		usage
