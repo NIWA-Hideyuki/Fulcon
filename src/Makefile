@@ -90,7 +90,7 @@ install-lib:
 install-slot-os:
 	mkdir -p $(DESTDIR)$(libdir)/slot-os/sbin
 	install -m 755 slot-os/console $(DESTDIR)$(libdir)/slot-os/sbin/console
-	install -m 755 slot-os/init $(DESTDIR)$(libdir)/slot-os/sbin/init
+	install -m 755 slot-os/build $(DESTDIR)$(libdir)/slot-os/sbin/build
 	install -m 755 slot-os/erase $(DESTDIR)$(libdir)/slot-os/sbin/erase
 	install -m 755 slot-os/list $(DESTDIR)$(libdir)/slot-os/sbin/list
 	install -m 755 slot-os/start $(DESTDIR)$(libdir)/slot-os/sbin/start
