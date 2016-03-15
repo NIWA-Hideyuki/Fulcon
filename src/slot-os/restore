@@ -3,13 +3,13 @@
 # Copyright (C) 2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+PATH=/usr/lib/slot-os/lib:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: backup-restore SLOT_NUMBER BACKUP_IMAGE"
+	echo "usage: restore SLOT_NUMBER BACKUP_IMAGE"
 }
 
 lsdir() {
@@ -36,8 +36,8 @@ NUM=`expr $NUM + 0`
 SLOTNUM=`printf "slot%02d" $NUM`
 
 if [ x"`slot-os list $SLOTNUM`" != x"" ]; then
-	slot-os erase $NUM
+	slot-os slot-erase $NUM
 fi
 
-slot-os sysgen $NUM $IMAGE
+slot-os slot-sysgen $NUM $IMAGE
 

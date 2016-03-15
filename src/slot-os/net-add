@@ -3,7 +3,7 @@
 # Copyright (C) 2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+PATH=/usr/lib/slot-os/lib:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 FULCONDIR=/var/lib/fulcon
 SLOTOSDIR=/var/lib/slot-os
 

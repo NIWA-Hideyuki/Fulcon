@@ -3,7 +3,7 @@
 # Copyright (C) 2015-2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+PATH=/usr/lib/slot-os/lib:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 SLOTOSDIR=/var/lib/slot-os
 
@@ -59,7 +59,7 @@ cd  $SLOTOSDIR/slot/
 for i in `ls -1`
 do
 	if [ ! $i -le $NUM ]; then
-		slot-os erase $i
+		slot-os slot-erase $i
 		rm -rf $SLOTOSDIR/slot/$i
 	fi
 done
@@ -69,7 +69,7 @@ do
 	SLOTNAME=`printf "slot%02d" $i`
 	if [ x"`slot-os list $i | awk '{print $3}'`" == x"NONE" ]; then
 		echo -n "create "
-		slot-os sysgen $i
+		slot-os slot-sysgen $i
 	else
 		echo initialized $SLOTNAME
 	fi

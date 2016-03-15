@@ -89,13 +89,12 @@ install-lib:
 
 install-slot-os:
 	mkdir -p $(DESTDIR)$(libdir)/slot-os/sbin
+	mkdir -p $(DESTDIR)$(libdir)/slot-os/lib
 	install -m 755 slot-os/console $(DESTDIR)$(libdir)/slot-os/sbin/console
 	install -m 755 slot-os/build $(DESTDIR)$(libdir)/slot-os/sbin/build
-	install -m 755 slot-os/erase $(DESTDIR)$(libdir)/slot-os/sbin/erase
 	install -m 755 slot-os/list $(DESTDIR)$(libdir)/slot-os/sbin/list
 	install -m 755 slot-os/start $(DESTDIR)$(libdir)/slot-os/sbin/start
 	install -m 755 slot-os/stop $(DESTDIR)$(libdir)/slot-os/sbin/stop
-	install -m 755 slot-os/sysgen $(DESTDIR)$(libdir)/slot-os/sbin/sysgen
 	install -m 755 slot-os/suspend $(DESTDIR)$(libdir)/slot-os/sbin/suspend
 	install -m 755 slot-os/resume $(DESTDIR)$(libdir)/slot-os/sbin/resume
 	install -m 755 slot-os/update-prog $(DESTDIR)$(libdir)/slot-os/sbin/update-prog
@@ -110,8 +109,11 @@ install-slot-os:
 	install -m 755 slot-os/resource $(DESTDIR)$(libdir)/slot-os/sbin/resource
 	install -m 755 slot-os/backup $(DESTDIR)$(libdir)/slot-os/sbin/backup
 	install -m 755 slot-os/backup-list $(DESTDIR)$(libdir)/slot-os/sbin/backup-list
-	install -m 755 slot-os/backup-restore $(DESTDIR)$(libdir)/slot-os/sbin/backup-restore
 	install -m 755 slot-os/backup-del $(DESTDIR)$(libdir)/slot-os/sbin/backup-del
+	install -m 755 slot-os/restore $(DESTDIR)$(libdir)/slot-os/sbin/restore
+	install -m 755 slot-os/help $(DESTDIR)$(libdir)/slot-os/sbin/help
+	install -m 755 slot-os/lib/slot-sysgen $(DESTDIR)$(libdir)/slot-os/lib/slot-sysgen
+	install -m 755 slot-os/lib/slot-erase $(DESTDIR)$(libdir)/slot-os/lib/slot-erase
 
 install-driver : install-driver-docker
 
