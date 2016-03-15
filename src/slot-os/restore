@@ -36,8 +36,8 @@ NUM=`expr $NUM + 0`
 SLOTNUM=`printf "slot%02d" $NUM`
 
 if [ x"`slot-os list $SLOTNUM`" != x"" ]; then
-	slot-os slot-erase $NUM
+	slot-erase $NUM
 fi
 
-slot-os slot-sysgen $NUM $IMAGE
+slot-sysgen $NUM $IMAGE
 

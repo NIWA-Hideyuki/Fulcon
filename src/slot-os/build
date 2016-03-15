@@ -59,7 +59,7 @@ cd  $SLOTOSDIR/slot/
 for i in `ls -1`
 do
 	if [ ! $i -le $NUM ]; then
-		slot-os slot-erase $i
+		slot-erase $i
 		rm -rf $SLOTOSDIR/slot/$i
 	fi
 done
@@ -69,7 +69,7 @@ do
 	SLOTNAME=`printf "slot%02d" $i`
 	if [ x"`slot-os list $i | awk '{print $3}'`" == x"NONE" ]; then
 		echo -n "create "
-		slot-os slot-sysgen $i
+		slot-sysgen $i
 	else
 		echo initialized $SLOTNAME
 	fi
