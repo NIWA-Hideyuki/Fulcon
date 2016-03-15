@@ -31,7 +31,7 @@ setup_slot_image()
 	popd >& /dev/null
 	release-rootfs $SLOTOS
 	trap 0
-	echo "Generated new image."
+	echo "Generated new image : $SLOTOS"
 }
 
 setup_slot_image

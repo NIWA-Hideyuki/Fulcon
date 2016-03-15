@@ -111,6 +111,7 @@ install-slot-os:
 	install -m 755 slot-os/backup-list $(DESTDIR)$(libdir)/slot-os/sbin/backup-list
 	install -m 755 slot-os/backup-del $(DESTDIR)$(libdir)/slot-os/sbin/backup-del
 	install -m 755 slot-os/restore $(DESTDIR)$(libdir)/slot-os/sbin/restore
+	install -m 755 slot-os/make-base-image $(DESTDIR)$(libdir)/slot-os/sbin/make-base-image
 	install -m 755 slot-os/help $(DESTDIR)$(libdir)/slot-os/sbin/help
 	install -m 755 slot-os/lib/slot-sysgen $(DESTDIR)$(libdir)/slot-os/lib/slot-sysgen
 	install -m 755 slot-os/lib/slot-erase $(DESTDIR)$(libdir)/slot-os/lib/slot-erase

@@ -22,7 +22,7 @@ list1()
 	i=$1
 	CNAME=`cat $SLOTOSDIR/slot/$i/fulcon`
 	STATUS=`fulcon list $CNAME | awk '{print $2}'`
-	IMAGE=`fulcon list $CNAME | awk '{print $3}'`
+	IMAGE=`fulcon list $CNAME | awk '{print $3}' | awk -F / '{print $2}'`
 	if [ x"$STATUS" == x"" ]; then
 		STATUS="NONE"
 		IPADDR=""
