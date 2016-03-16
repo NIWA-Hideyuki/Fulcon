@@ -43,7 +43,7 @@ list1()
 		fi
 	fi
 
-	printf "%2d :%8s %10s %3s %% %5s %7s %s " \
+	printf "%2d : %8s %s %3s %% %3s %s %s " \
 		$i $STATUS $CNAME \
 		`cat $SLOTOSDIR/slot/$i/cpu` \
 		`cat $SLOTOSDIR/slot/$i/cpuset` \

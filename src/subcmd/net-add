@@ -49,12 +49,42 @@ else
 	MAC2=""
 fi
 
-# check bridges
+LXCNAME=$1
+LXCBRIP=`net-ipv4 -g $2`
+if [ $? -ne 0 ]; then
+	echo $3 "must be IP_address/Mask format"
+	exit -1
+fi
+NUM=$3
+
+# check unnecessary bridges
 for i in `brctl show | egrep fulcon | awk '(NF==3){print $1}'`
 do
 	ip link set $i down
 	brctl delbr $i
 done
+
+RBR=0
+BRNO=0
+BNO=0
+for i in `brctl show | egrep fulcon | awk '{print $1}'`
+do
+	BIP=`ip a show $i | awk '$1=="inet"{print $2}'`
+	BIP=`net-ipv4 -g $BIP`
+	BNO=`echo $i | sed -e "s/fulcon//"`
+	if [ x"$BIP" == x"$LXCBRIP" ]; then
+		RBR=1
+		break
+	fi
+	if [ $BNO -gt $BRNO ]; then
+		BRNO=$BNO
+	fi
+done
+if [ $RBR -eq 0 ]; then
+	LXCBR=`expr $BRNO + 1`
+else
+	LXCBR=$BNO
+fi
 
 # check a BRIDGE_NUMBER
 expr "$LXCBR" + 1 >& /dev/null
@@ -64,16 +94,9 @@ if [ $? -gt 1 ]; then
 fi
 LXCBR="fulcon"$LXCBR
 
-LXCNAME=$1
-LXCBRIP=`net-ipv4 -g $2`
-if [ $? -ne 0 ]; then
-	echo $3 "must be IP_address/Mask format"
-	exit -1
-fi
-NUM=$3
-
 LXCIP=`echo $2 | awk -F / '{printf "%s",$1}'`
 LXCMASK=`echo $2 | awk -F / '{printf "%s",$2}'`
+
 
 if [ x$LXCGATEWAY == x"" ]; then
 	LXCGATEWAY=$LXCBRIP

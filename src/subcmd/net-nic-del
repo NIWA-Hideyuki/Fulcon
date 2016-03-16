@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
+usage()
+{
+	echo "usage: net-nic-del NET_DEVICE"
+}
+
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+if [ $# -eq 1 -a x"$1" == x"net-nic-del" ]; then
+	usage
+	exit -1
+fi
+
+NETDEV=$1
+# 
+for i in `brctl show | egrep fulcon | awk '{print $1}'`
+do
+	if [ x"`brctl show $i | egrep $NETDEV`" != x"" ]; then
+		ip link set $i down
+		brctl delbr $i
+	fi
+done

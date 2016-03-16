@@ -38,6 +38,8 @@ install-subcmd :
 	install -m 755 subcmd/net-add $(DESTDIR)$(libdir)/fulcon/sbin/net-add
 	install -m 755 subcmd/net-del $(DESTDIR)$(libdir)/fulcon/sbin/net-del
 	install -m 755 subcmd/net-info $(DESTDIR)$(libdir)/fulcon/sbin/net-info
+	install -m 755 subcmd/net-nic-add $(DESTDIR)$(libdir)/fulcon/sbin/net-nic-add
+	install -m 755 subcmd/net-nic-del $(DESTDIR)$(libdir)/fulcon/sbin/net-nic-del
 	install -m 755 subcmd/resource $(DESTDIR)$(libdir)/fulcon/sbin/resource
 	install -m 755 subcmd/setup $(DESTDIR)$(libdir)/fulcon/sbin/setup
 	install -m 755 subcmd/setup2 $(DESTDIR)$(libdir)/fulcon/sbin/setup2
@@ -103,6 +105,8 @@ install-slot-os:
 	install -m 755 slot-os/net-add $(DESTDIR)$(libdir)/slot-os/sbin/net-add
 	install -m 755 slot-os/net-del $(DESTDIR)$(libdir)/slot-os/sbin/net-del
 	install -m 755 slot-os/net-info $(DESTDIR)$(libdir)/slot-os/sbin/net-info
+	install -m 755 slot-os/net-nic-add $(DESTDIR)$(libdir)/slot-os/sbin/net-nic-add
+	install -m 755 slot-os/net-nic-del $(DESTDIR)$(libdir)/slot-os/sbin/net-nic-del
 	install -m 755 slot-os/br-add $(DESTDIR)$(libdir)/slot-os/sbin/br-add
 	install -m 755 slot-os/br-del $(DESTDIR)$(libdir)/slot-os/sbin/br-del
 	install -m 755 slot-os/br-info $(DESTDIR)$(libdir)/slot-os/sbin/br-info
