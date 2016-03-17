@@ -79,11 +79,11 @@ fi
 echo $NAME > $SLOTOSDIR/slot/$NUM/fulcon
 echo $OLDNAME > $SLOTOSDIR/slot/$NUM/lastname
 
-fulcon resource  \
-	-c `cat $SLOTOSDIR/slot/$NUM/cpu` \
-	-n `cat $SLOTOSDIR/slot/$NUM/cpuset` \
-	-m `cat $SLOTOSDIR/slot/$NUM/memory` \
-	$NAME
+#fulcon resource  \
+#	-c `cat $SLOTOSDIR/slot/$NUM/cpu` \
+#	-n `cat $SLOTOSDIR/slot/$NUM/cpuset` \
+#	-m `cat $SLOTOSDIR/slot/$NUM/memory` \
+#	$NAME
 
 # start network
 OLDPATH=$PATH

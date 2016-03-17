@@ -5,10 +5,10 @@
 LIBDIR="/var/lib/fulcon/"
 
 MEMSETDIR="/sys/fs/cgroup/memory"
-if [ -x $MEMSETDIR/system.slice/docker.service/docker ]; then
+if [ -d $MEMSETDIR/system.slice/docker.service/docker ]; then
 	MEMSETDIR="$MEMSETDIR/system.slice/docker.service/docker/"
 	MEMSETSUFFIX=""
-elif [ -x $MEMSETDIR/docker ]; then
+elif [ -d $MEMSETDIR/docker ]; then
 	MEMSETDIR=$MEMSETDIR/docker
 	MEMSETSUFFIX=""
 else

@@ -5,10 +5,10 @@
 LIBDIR="/var/lib/fulcon/"
 
 CPUSETDIR="/sys/fs/cgroup/cpuset"
-if [ -x $CPUSETDIR/system.slice/docker.service/docker ]; then
+if [ -d $CPUSETDIR/system.slice/docker.service/docker ]; then
 	CPUSETDIR=$CPUSETDIR/system.slice/docker.service/docker
 	CPUSETSUFFIX=""
-elif [ -x $CPUSETDIR/docker ]; then
+elif [ -d $CPUSETDIR/docker ]; then
 	CPUSETDIR=$CPUSETDIR/docker
 	CPUSETSUFFIX=""
 else
