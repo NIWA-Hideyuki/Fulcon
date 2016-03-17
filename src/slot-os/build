@@ -75,7 +75,4 @@ do
 	fi
 done
 
-echo
-slot-os list
-
 exit 0

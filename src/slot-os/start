@@ -5,6 +5,7 @@
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/slot-os/lib:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
+FULCONDIR=/var/lib/fulcon
 SLOTOSDIR=/var/lib/slot-os
 
 usage()
@@ -45,11 +46,11 @@ do
 		continue
 	fi
 
-	fulcon start $NAME >& /dev/null &
+	fulcon start $NAME >& /dev/null
 
+	rm -rf $SLOTOSDIR/slot/$SNUM/net
+	cp -pr $FULCONDIR/container/$NAME/net $SLOTOSDIR/slot/$SNUM/
 done
-
-wait
 
 exit $RCODE
 

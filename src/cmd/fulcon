@@ -33,7 +33,8 @@ if [ $# -eq 0 ] ; then
 	less /usr/lib/fulcon/doc/help.txt
 else
   if [ -f /usr/lib/fulcon/sbin/$1 ]; then
-    . /usr/lib/fulcon/sbin/$*
+    EXLINE=`echo /usr/lib/fulcon/sbin/$* | sed -e 's/\$//g' -e 's/\`//g' -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g'`
+    . $EXLINE
   else
     echo "error: unknown command:" $1
   fi

@@ -20,10 +20,15 @@ if [ $# -eq 1 -a x"$1" == x"net-nic-add" ]; then
 fi
 
 NETDEV=$1
+ip a show $NETDEV >& /dev/null
+if [ $? -ne 0 ]; then
+	echo "error: can't" $NETDEV "does not exist"
+	exit -1
+fi
+
 BRNO="-1"
 IPMASK=`ip a show $NETDEV | egrep "inet " | awk '{print $2}'`
 IPG=`net-ipv4 -g $IPMASK`
-MAXBRNO=0
 # 
 for i in `brctl show | egrep fulcon | awk '{print $1}'`
 do
@@ -34,48 +39,18 @@ do
 		BRNO=$BNO
 		break
 	fi
-	if [ $MAXBRNO -lt $BRNO ]; then
-		MAXBRNO=$BRNO
-	fi
 done
+
 if [ $BRNO -eq -1 ]; then
-	BRNO=`expr $MAXBRNO + 1`
-fi
-
-if [ $BRNO -eq 0 ]; then
-	echo "error: fulcon0 is booked"
-	exit -1
-elif [ $BRNO -lt 0 ]; then
-	echo "error: Negative value : $BRNO"
-	exit -1
-fi
-
-ip a show $NETDEV >& /dev/null
-if [ $? -ne 0 ]; then
-	echo "error: can't" $NETDEV "does not exist"
-	exit -1
-fi
-
-# check a BRIDGE_NUMBER
-expr "$BRNO" + 1 >& /dev/null
-if [ $? -gt 1 ]; then
-	echo "error: BRIDGE_NUMBER is not a integer"
-	exit -1
-fi
-
-# check a device name
-if [ x"$NETDEV" != x"" ]; then
-	ip a show $NETDEV >& /dev/null
-	if [ $? -ne 0 ]; then
-		echo "can't find a NET_DEVICE:" $NETDEV
-		exit -1
-	fi
-fi
-
-
-# check a exist bridge
-brctl show | grep fulcon${BRNO} >& /dev/null
-if [ $? -eq 1 ]; then
+	BRNO=1
+	while : 
+	do
+		ip a show fulcon$BRNO >& /dev/null
+		if [ $? -ne 0 ]; then
+			break
+		fi
+		BRNO=`expr $BRNO + 1`
+	done
 	brctl addbr fulcon$BRNO
 	ip link set fulcon$BRNO up
 	echo "generated new BRIDGE : fulcon"$BRNO
@@ -89,10 +64,12 @@ fi
 
 # set ip address for bridge, add interface to net_device
 ip addr add $IPMASK dev fulcon$BRNO
-if [ x"$NETDEV" != x"" ]; then
-	brctl addif fulcon$BRNO $NETDEV
+brctl addif fulcon$BRNO $NETDEV
 
-	# set promisc mode to net_device
-	ip link set $NETDEV promisc on
-fi
+ip addr del $IPMASK dev $NETDEV
+ifconfig $NETDEV 0.0.0.0 up
 
+# set promisc mode to net_device
+ip link set $NETDEV promisc on
+
+exit 0

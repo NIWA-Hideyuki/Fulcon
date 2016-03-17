@@ -36,6 +36,7 @@ if [ $FLG_N -eq 1 ]; then
 		exit -1
 	fi
 	NAME=$1
+	NAME=`echo $NAME | sed -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g'`
 	if [ $RNUM -gt 0 -a $RNUM -lt 1000 ]; then
 		for i in `seq $RNUM`
 		do
@@ -50,7 +51,8 @@ if [ $FLG_N -eq 1 ]; then
 			if [ $? -eq 0 ]; then
 				for j in `lsdir $NETDIR`
 				do
-					bash $NETDIR/$j $NAME
+					sed -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g' $NETDIR/$j
+					net-add $NAME$N `cut -d ' ' -f 3- $NETDIR/$j`
 				done
 			fi
 		done;
@@ -74,6 +76,7 @@ if [ x"$NAMES" == x"start" ]; then
 	exit -1
 fi
 
+NAMES=`echo $NAMES | sed -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g'`
 for i in $NAMES
 do
 	lib-start $OPT_FLG $i
@@ -86,7 +89,9 @@ do
 	if [ $? -eq 0 ]; then
 		for j in `lsdir $NETDIR`
 		do
-			bash $NETDIR/$j $i
+			sed -e 's/\$//g' -e 's/`//g' -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g' $NETDIR/$j
+			fulcon net-add $i `cut -d ' ' -f 3- $NETDIR/$j`
+			fulcon net-info $i >& /dev/null
 		done
 	fi
 done

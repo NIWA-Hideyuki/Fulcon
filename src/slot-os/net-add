@@ -70,8 +70,7 @@ fi
 NEWOPT="\$1 `echo $NEWOPT | cut -d ' ' -f 2-`"
 if [ $? -eq 0 ]; then
 	mkdir -p $FULCONDIR/container/$NAME/net/
-	echo "net-add $NEWOPT" > $FULCONDIR/container/$NAME/net/$NAME$NICNO
-	echo "net-add $NEWOPT" > $SLOTOSDIR/slot/$SLOTNO/net/$NAME$NICNO
+	echo "net-add $NEWOPT" > $FULCONDIR/container/$NAME/net/${NAME}_${NICNO}
 	cp -pr $FULCONDIR/container/$NAME/net $SLOTOSDIR/slot/$SLOTNO/
 fi
 

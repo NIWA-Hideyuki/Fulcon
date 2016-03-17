@@ -61,7 +61,7 @@ if [ $FLG_N -eq 1 ]; then
 			if [ $? -ne 0 ]; then
 				RCODE=-1
 			fi
-			mkdir -p $FULCONDIR/container/$NAME$N
+			mkdir -p $FULCONDIR/container/$NAME$N/net
 		done;
 		exit $RCODE
 	else
@@ -85,7 +85,7 @@ fi
 
 for i in $NAMES
 do
-	mkdir -p $FULCONDIR/container/$i
+	mkdir -p $FULCONDIR/container/$i/net
 	lib-sysgen $OPT_FLG $i $IMAGENAME
 	if [ $? -ne 0 ]; then
 		RCODE=-1

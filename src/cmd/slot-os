@@ -34,7 +34,8 @@ if [ $# -eq 0 ] ; then
 	less /usr/lib/slot-os/doc/help.txt
 else
   if [ -f /usr/lib/slot-os/sbin/$1 ]; then
-    . /usr/lib/slot-os/sbin/$*
+    EXLINE=`echo /usr/lib/slot-os/sbin/$* | sed -e 's/\$//g' -e 's/\`//g' -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g'`
+    . $EXLINE
   else
     echo "error: unknown command:" $1
   fi
