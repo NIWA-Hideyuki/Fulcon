@@ -116,95 +116,92 @@ if [ x$NETDEV != x"" ]; then
 	fi
 fi
 
-LXCPROC=`fulcon-find-proc ${LXCNAME}`
-if [ $? -ne 0 ]; then
-	echo "error: can't find" ${LXCNAME}
-	exit -1
-fi
-
-mkdir -p /var/run/netns/
-ln -s /proc/${LXCPROC}/ns/net /var/run/netns/${LXCNAME}_${NUM}
-
-ip link add name ${LXCNAME}_${NUM} type veth peer name vg${LXCNAME}_${NUM} >& /dev/null
-
-# set/get MAC1
-if [ x"$MAC1" != x"" ]; then
-	ip link set ${LXCNAME}_${NUM} address $MAC1 
-else
-	MAC1=`ip addr show ${LXCNAME}_${NUM} | egrep link/ether | awk '{print $2}'`
-fi
-
-ip link set ${LXCNAME}_${NUM} up
-
-brctl show $LXCBR |& egrep 'No such device' >& /dev/null
-if [ $? -eq 0 ]; then
-	brctl addbr $LXCBR
-	ip link set $LXCBR up
-	BR_BRCAST=`net-ipv4 -b ${LXCBRIP}/${LXCMASK}`
-	ip addr add ${LXCBRIP}/${LXCMASK} broadcast $BR_BRCAST dev $LXCBR
-	ip link set $LXCBR promisc on
-fi
-brctl addif $LXCBR ${LXCNAME}_${NUM} >& /dev/null
-
-# setting up of IP address
-LXCFBROADCAST=`net-ipv4 -b "${LXCIP}/${LXCMASK}"`
-ip link set vg${LXCNAME}_${NUM} netns ${LXCNAME}_${NUM} >& /dev/null
-
-# get/set MAC2
-if [ x"$MAC2" != x"" ]; then
-	ip netns exec "${LXCNAME}_${NUM}" ip link set vg${LXCNAME}_${NUM} address $MAC2
-else
-	MAC2=`ip netns exec "${LXCNAME}_${NUM}" ip addr show vg${LXCNAME}_${NUM} | egrep link/ether | awk '{print $2}'`
-fi
-
-# Setting of network in container
-ip netns exec ${LXCNAME}_${NUM} ip link set vg${LXCNAME}_${NUM} up
-IPFLG=""
-while [ x${IPFLG} == x"inet6" -o x${IPFLG} != x"inet" ]; 
-do
-	IPFLG=`ip netns exec "${LXCNAME}_${NUM}" ip addr show vg${LXCNAME}_${NUM} | awk 'NR==3{print $1}'`
-	ip netns exec "${LXCNAME}_${NUM}" ip addr add ${LXCIP}/${LXCMASK} dev vg${LXCNAME}_${NUM} broadcast $LXCFBROADCAST >& /dev/null
-	OLDIPADR=`ip netns exec "${LXCNAME}_${NUM}" ip addr show vg${LXCNAME}_${NUM} | awk 'NR==3{print $2}'`
-	sleep 1
-done
-while [ x${OLDIPADR} != x${LXCIP}/${LXCMASK} ]; 
-do 
-	OLDIPADR=`ip netns exec "${LXCNAME}_${NUM}" ip addr show vg${LXCNAME}_${NUM} | awk 'NR==3{print $2}'`
-	if [ x${OLDIPADR} != x${LXCIP}/${LXCMASK} ]; then
-		ip netns exec ${LXCNAME}_${NUM} ip addr del ${OLDIPADR} dev vg${LXCNAME}_${NUM}
-		ip netns exec ${LXCNAME}_${NUM} ip addr add ${LXCIP}/${LXCMASK} dev vg${LXCNAME}_${NUM} broadcast $LXCFBROADCAST >& /dev/null
-	fi
-	sleep 1
-done
-
-# setting up of gateway
-if [ x$LXCGATEWAY != x"" ]; then
-	ip netns exec ${LXCNAME}_${NUM} ip route delete default >& /dev/null
-	IPADDR=$LXCGATEWAY
-	IPMASK=$LXCMASK
-	ip netns exec ${LXCNAME}_${NUM} ip route add default via ${IPADDR}
-fi
-
-rm -f /var/run/netns/${LXCNAME}_${NUM}
-
-if [ x$NETDEV != x"" ]; then
-	# setting of promiscuous mode
-	ip addr del $LXCBRIP dev $NETDEV >& /dev/null
-	ip addr add 0.0.0.0 dev $NETDEV >& /dev/null
-	ip link set $NETDEV promisc on
-
-	brctl show $LXCBR | egrep -w $NETDEV >& /dev/null
-	if [ $? -ne 0 ]; then
-		brctl addif $LXCBR $NETDEV 
-	fi
-fi
-
-echo "${LXCNAME}_${NUM} ${LXCIP}/${IPMASK}"
-
-net-add-setup()
+setup_network()
 {
-	NASETUP=
+	mkdir -p /var/run/netns/
+	ln -s /proc/${LXCPROC}/ns/net /var/run/netns/${LXCNAME}_${NUM}
+
+	ip link add name ${LXCNAME}_${NUM} type veth peer name vg${LXCNAME}_${NUM} >& /dev/null
+
+	# set/get MAC1
+	if [ x"$MAC1" != x"" ]; then
+		ip link set ${LXCNAME}_${NUM} address $MAC1 
+	else
+		MAC1=`ip addr show ${LXCNAME}_${NUM} | egrep link/ether | awk '{print $2}'`
+	fi
+
+	ip link set ${LXCNAME}_${NUM} up
+
+	brctl show $LXCBR |& egrep 'No such device' >& /dev/null
+	if [ $? -eq 0 ]; then
+		brctl addbr $LXCBR
+		ip link set $LXCBR up
+		BR_BRCAST=`net-ipv4 -b ${LXCBRIP}/${LXCMASK}`
+		ip addr add ${LXCBRIP}/${LXCMASK} broadcast $BR_BRCAST dev $LXCBR
+		ip link set $LXCBR promisc on
+	fi
+	brctl addif $LXCBR ${LXCNAME}_${NUM} >& /dev/null
+
+	# setting up of IP address
+	LXCFBROADCAST=`net-ipv4 -b "${LXCIP}/${LXCMASK}"`
+	ip link set vg${LXCNAME}_${NUM} netns ${LXCNAME}_${NUM} >& /dev/null
+
+	# get/set MAC2
+	if [ x"$MAC2" != x"" ]; then
+		ip netns exec "${LXCNAME}_${NUM}" ip link set vg${LXCNAME}_${NUM} address $MAC2
+	else
+		MAC2=`ip netns exec "${LXCNAME}_${NUM}" ip addr show vg${LXCNAME}_${NUM} | egrep link/ether | awk '{print $2}'`
+	fi
+
+	# Setting of network in container
+	ip netns exec ${LXCNAME}_${NUM} ip link set vg${LXCNAME}_${NUM} up
+	IPFLG=""
+	while [ x${IPFLG} == x"inet6" -o x${IPFLG} != x"inet" ]; 
+	do
+		IPFLG=`ip netns exec "${LXCNAME}_${NUM}" ip addr show vg${LXCNAME}_${NUM} | awk 'NR==3{print $1}'`
+		ip netns exec "${LXCNAME}_${NUM}" ip addr add ${LXCIP}/${LXCMASK} dev vg${LXCNAME}_${NUM} broadcast $LXCFBROADCAST >& /dev/null
+		OLDIPADR=`ip netns exec "${LXCNAME}_${NUM}" ip addr show vg${LXCNAME}_${NUM} | awk 'NR==3{print $2}'`
+		sleep 1
+	done
+	while [ x${OLDIPADR} != x${LXCIP}/${LXCMASK} ]; 
+	do 
+		OLDIPADR=`ip netns exec "${LXCNAME}_${NUM}" ip addr show vg${LXCNAME}_${NUM} | awk 'NR==3{print $2}'`
+		if [ x${OLDIPADR} != x${LXCIP}/${LXCMASK} ]; then
+			ip netns exec ${LXCNAME}_${NUM} ip addr del ${OLDIPADR} dev vg${LXCNAME}_${NUM}
+			ip netns exec ${LXCNAME}_${NUM} ip addr add ${LXCIP}/${LXCMASK} dev vg${LXCNAME}_${NUM} broadcast $LXCFBROADCAST >& /dev/null
+		fi
+		sleep 1
+	done
+
+	# setting up of gateway
+	if [ x$LXCGATEWAY != x"" ]; then
+		ip netns exec ${LXCNAME}_${NUM} ip route delete default >& /dev/null
+		IPADDR=$LXCGATEWAY
+		IPMASK=$LXCMASK
+		ip netns exec ${LXCNAME}_${NUM} ip route add default via ${IPADDR}
+	fi
+
+	rm -f /var/run/netns/${LXCNAME}_${NUM}
+
+	if [ x$NETDEV != x"" ]; then
+		# setting of promiscuous mode
+		ip addr del $LXCBRIP dev $NETDEV >& /dev/null
+		ip addr add 0.0.0.0 dev $NETDEV >& /dev/null
+		ip link set $NETDEV promisc on
+
+		brctl show $LXCBR | egrep -w $NETDEV >& /dev/null
+		if [ $? -ne 0 ]; then
+			brctl addif $LXCBR $NETDEV 
+		fi
+	fi
+
+	echo "${LXCNAME}_${NUM} ${LXCIP}/${IPMASK}"
 }
+
+LXCPROC=`fulcon-find-proc ${LXCNAME}`
+if [ $? -eq 0 ]; then
+	setup_network
+fi
 
 # setup container address
 NETARGS="`echo $NETARGS | cut -d ' ' -f 2-`"

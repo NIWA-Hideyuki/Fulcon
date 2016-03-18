@@ -26,22 +26,30 @@ fi
 
 LXCNAME=$1
 NUM=$2
+
+network_delete()
+{
+	ip link delete ${LXCNAME}_${NUM} type veth 
+	echo "deleted" ${LXCNAME}_${NUM}
+
+	# delete a IP address for container
+	rm -f $FULCONDIR/container/${LXCNAME}/net/${LXCNAME}_${NUM}
+
+	# check bridges
+	for i in `brctl show | egrep fulcon | awk '(NF==3){print $1}'`
+	do
+		ip link set $i down
+		brctl delbr $i
+	done
+}
+
 brctl show  |& egrep ${LXCNAME}_${NUM} >& /dev/null
-if [ $? -ne 0 ]; then
-	echo "error: can't find" ${LXCNAME}_${NUM}
-	exit -1
+if [ $? -eq 0 ]; then
+	network_delete
 fi
-ip link delete ${LXCNAME}_${NUM} type veth 
-echo "deleted" ${LXCNAME}_${NUM}
 
-# delete a IP address for container
-rm -f $FULCONDIR/container/${LXCNAME}/net/${LXCNAME}_${NUM}
-
-# check bridges
-for i in `brctl show | egrep fulcon | awk '(NF==3){print $1}'`
-do
-	ip link set $i down
-	brctl delbr $i
-done
+if [ -d $FULCONDIR/container/$LXCNAME/net ]; then
+	rm -f $FULCONDIR/container/$LXCNAME/net/${LXCNAME}_${NUM}
+fi
 
 exit 0
