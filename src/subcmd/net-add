@@ -211,9 +211,9 @@ NETARGS="`echo $NETARGS | cut -d ' ' -f 2-`"
 mkdir -p $FULCONDIR/container/$LXCNAME/net
 rm -f $FULCONDIR/container/$LXCNAME/net/$LXCNAME_$NUM 
 if [ $MACFLG -eq 1 ]; then
-	echo 'net-add $1' "$NETARGS" > $FULCONDIR/container/$LXCNAME/net/$LXCNAME_$NUM 
+	echo 'net-add $1' "$NETARGS" > $FULCONDIR/container/$LXCNAME/net/${LXCNAME}_${NUM}
 else
-	echo 'net-add $1' "$NETARGS $MAC1 $MAC2" > $FULCONDIR/container/$LXCNAME/net/$LXCNAME_$NUM 
+	echo 'net-add $1' "$NETARGS $MAC1 $MAC2" > $FULCONDIR/container/$LXCNAME/net/${LXCNAME}_${NUM}
 fi
 
 exit 0
