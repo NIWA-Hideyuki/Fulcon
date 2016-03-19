@@ -33,8 +33,7 @@ do
 			# network information
 			IPADDR=`driver-net-info $NAME | \
 			  awk '$1=="inet" && $2!="127.0.0.1/8"{printf "%s ", $2}'`
-
-			printf "%s\t\tRUNNING\t\t%s %s\n" $NAME $IMAGE $IPADDR
+			printf "%s\t\tRUNNING\t\t%s $IPADDR\n" $NAME $IMAGE
 		else
 			# network information
 			mkdir -p $FULCONDIR/slot/$i/net
@@ -48,10 +47,10 @@ do
 			echo $PAUSED | egrep -w $i >& /dev/null
 			if [ $? -eq 0 ]; then
 				STATUS="PAUSED"
-				printf "%s\t\tPAUSED\t\t%s %s\n" $NAME $IMAGE $IPADDR
+				printf "%s\t\tPAUSED\t\t%s$IPADDRs\n" $NAME $IMAGE
 			else
 				STATUS="STOPPED"
-				printf "%s\t\tSTOPPED\t\t%s %s\n" $NAME $IMAGE $IPADDR
+				printf "%s\t\tSTOPPED\t\t%s$IPADDR\n" $NAME $IMAGE
 			fi
 		fi
 
