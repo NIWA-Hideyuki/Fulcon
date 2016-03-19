@@ -16,11 +16,11 @@ usage()
 
 setup_slot_image() 
 {
-	create-rootfs $SLOTOS
 	pushd  $FULCONDIR/container/$SLOTOS/rootfs >& /dev/null
 	echo "New OS image is generated from HOST."
 	echo "It takes long time for this processing."
 	echo "This processing must not interrupt or not turn off power."
+	create-rootfs $SLOTOS
 	tar -c . 2> /dev/null | docker import - fulcon/$SLOTOS >& /dev/null
 	if [ $? -ne 0 ]; then
 		echo "error: can't create a $SLOTOS image"
@@ -47,8 +47,8 @@ if [ $? -ne 0 ]; then
 fi
 
 if [ x"$DEFAULTIMAGE" == x"" ]; then
-	fulcon set-default-image "fulcon/$IMAGENAME"
-	echo "fulcon/"$IMAGENAME "is set to the default image."
+	fulcon set-default-image "fulcon/$SLOTOS"
+	echo "fulcon/"$SLOTOS "is set to the default image."
 fi
 
 exit 0
