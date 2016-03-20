@@ -29,8 +29,8 @@ if [ x"`fulcon list $NAME | awk '{print $2}'`" != x"STOPPED" ]; then
 fi
 
 if [ $? -eq 0 ]; then
-	rm -f  $SLOTOSDIR/slot/$SLOTNO/net/$NAME$NICNUM
-	rm -f  $FULCONDIR/container/$NAME/net/$NAME$NICNUM
+	rm -f  $SLOTOSDIR/slot/$SLOTNO/net/${NAME}_${NICNUM}
+	rm -f  $FULCONDIR/container/$NAME/net/${NAME}_${NICNUM}
 fi
 
 exit 0
