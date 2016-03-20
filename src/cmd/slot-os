@@ -13,11 +13,6 @@ export PATH=/usr/lib/slot-os/sbin:/usr/lib/fulcon/sbin:$PATH
 export FULCONDIR=/var/lib/fulcon
 export SLOTOSDIR=/var/lib/slot-os
 
-if [ ! -x /lib/modules ]; then
-	echo "error: It is in the container."
-	exit -1
-fi
-
 mkdir -p /var/lib/slot-os
 
 FLG_H=0
