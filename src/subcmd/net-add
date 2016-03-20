@@ -206,7 +206,7 @@ fi
 # setup container address
 NETARGS="`echo $NETARGS | cut -d ' ' -f 2-`"
 mkdir -p $FULCONDIR/container/$LXCNAME/net
-rm -f $FULCONDIR/container/$LXCNAME/net/$LXCNAME_$NUM 
+rm -f $FULCONDIR/container/$LXCNAME/net/${LXCNAME}_${NUM}
 if [ $MACFLG -eq 1 ]; then
 	echo 'net-add $1' "$NETARGS" > $FULCONDIR/container/$LXCNAME/net/${LXCNAME}_${NUM}
 else
