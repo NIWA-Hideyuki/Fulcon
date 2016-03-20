@@ -9,7 +9,7 @@ SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: deploy COMMAND"
+	echo "usage: deploy SRC_FILE DEST_PATH"
 }
 
 lsdir() {
