@@ -1,5 +1,7 @@
-Fulcon-VirtualPlatform 0.3	Copyright (C) 2015-2016 NIWA Hideyuki
+Fulcon / Slot-OS Platform 0.3	Copyright (C) 2015-2016 NIWA Hideyuki
 	Apache License Version 2.0
+
+fulcon command:
   
 ### ALL Sub command:
   
@@ -64,7 +66,7 @@ erase -n REPEAT_NUMBER CONTAINER_NAME
           ex) "AB" and 3 : AB0001, AB0002, AB0003  
   
 help  
-     Use is displayed.  
+     Help is displayed.  
   
 image-catalog  
      The list of the registered image is displayed.  

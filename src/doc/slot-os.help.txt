@@ -1,0 +1,91 @@
+Fulcon / Slot-OS Platform 0.3    Copyright (C) 2015-2016 NIWA Hideyuki
+    Apache License Version 2.0
+
+slot-os command: 
+  
+### ALL Sub command:
+  
+backup NUMBER NEW_NAME
+     slot in NUMBER is backuped. A backup will be slotXX.NEW_NAME.
+
+backup-del IMAGE_NAME
+     A backup of IMAGE_NAME is erased.
+
+backup-list
+     A list of backups is indicated.
+
+build NUMBER
+     HOST is separated in NUMBER and slot is made.
+     When 0 is specified, all slot is erased.
+
+list [ NAME ]
+     The list of the made slot is displayed.  
+
+
+deploy SRC_FILE DEST_PATH 
+     SRC_FILE on the HOST is copied in DEST_PATH of all slot.  
+
+
+help
+     Help is displayed.  
+
+
+list [ SLOT_NUMBER ]
+     The list of the made slot is displayed.  
+
+make-base-image
+     fulcon/slot-os image is generated from HOST.
+     It even takes tens of minutes for completion.
+
+net-add SLOT_NUMBER IPADDR/MASK NIC_NUMBER 
+     NIC is added to the slot.   
+
+net-del SLOT_NUMBER NIC_NUMBER
+     NIC is deleted from the slot.   
+
+net-info
+     Information on the network where NIC that adds it is connected is displayed.  
+
+
+resource [-c CPU] [-n CPUSET] [-m MEM] NUMBER ... 
+     The resource allocated in the slot is displayed if there is no "-c, -n, -m" option.  
+     -c CPU  
+          The ratio of allocated CPU is % specified.   
+     -n CPUSET  
+          The allocated CPU number is specified.  
+     -m MEM  
+          The allocated memory size are specified.  
+          "M" and "G" can be used for the unit.  
+  
+
+restore SLOT_NUMBER BACKUP_IMAGE
+
+
+resume NUMBER ...
+     Resume does the slot in the state of PAUSED by suspend.  
+
+start NUMBER ...
+start all
+     The slot of the specified NUMBER is started.  
+
+
+stop NUMBER ...
+stop all
+     The slot of the specified NUMMBER is stopped.   
+
+
+suspend NUMBER ...
+     The NUMBER of the specified NUMBER is suspended.  
+
+
+update
+     All slot os packages are updated.   
+     "Yum update" is done in centos. In ubuntu,   
+     "Apt-get update" and "Apt-get upgrade" are done.   
+
+
+update-prog COMMAND
+     The command is carried out in all slot.
+
+
+

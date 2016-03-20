@@ -167,6 +167,8 @@ install-doc :
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/doc
 	install -m 644 doc/help.txt $(DESTDIR)$(libdir)/fulcon/doc/help.txt
 	install -m 644 README $(DESTDIR)$(libdir)/fulcon/doc/README
+	mkdir -p $(DESTDIR)$(libdir)/slot-os/doc
+	install -m 644 doc/slot-os.help.txt $(DESTDIR)$(libdir)/slot-os/doc/help.txt
 	mkdir -p $(DESTDIR)$(localstatedir)/lib/fulcon
 	install -m 644 doc/default-driver $(DESTDIR)$(localstatedir)/lib/fulcon/default-driver
 
