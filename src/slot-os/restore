@@ -25,6 +25,12 @@ fi
 NUM=$1
 IMAGE=$2
 
+slot-os backup-list | awk 'BEGIN{r=1}{if($1=="'$IMAGE'")r=0}END{exit(r)}'
+if [ $? -ne 0 ]; then
+	echo "error: $IMAGE is not exist in backup-list"
+	exit -1
+fi
+
 echo $IMAGE | egrep ^fulcon/ >& /dev/null
 if [ $? -eq 1 ]; then
 	IMAGE="fulcon/$IMAGE"
