@@ -16,20 +16,20 @@ lsdir() {
   ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
 }
 
-
 list1()
 {
 	i=$1
 	CNAME=`cat $SLOTOSDIR/slot/$i/fulcon`
-	STATUS=`fulcon list $CNAME | awk '{print $2}'`
-	IMAGE=`fulcon list $CNAME | awk '{print $3}' | awk -F / '{print $2}'`
+	LIST=`fulcon list $CNAME`
+	STATUS=`echo $LIST | awk '{print $2}'`
+	IMAGE=`echo $LIST | awk '{print $3}' | awk -F / '{print $2}'`
 	if [ x"$STATUS" == x"" ]; then
 		STATUS="NONE"
 		IPADDR=""
 		cat /dev/null > $SLOTOSDIR/slot/$i/fulcon
 		CNAME='-'
 	else
-		IPADDR=`fulcon net-info $CNAME | awk '{printf "%s ",$3}'`
+		IPADDR=`echo $LIST | cut -d ' ' -f 4-`
 	fi
 
 	if [ -d $SLOTOSDIR/slot/$i ]; then
@@ -43,6 +43,7 @@ list1()
 
 	echo $IPADDR
 }
+
 
 if [ $# -ne 1 ]; then
 	usage
@@ -65,13 +66,17 @@ fi
 
 
 if [ ! -x $SLOTOSDIR/slot -o ! -x $SLOTOSDIR/slot/0 ]; then
-	echo "error: slot is not building."
+	echo "error: there is no slot."
 	exit -1
 fi
 
-for i in `lsdir $SLOTOSDIR/slot | sort`
-do
-	list1 $i
-done
+if [ x"$1" == x"list" ]; then
+	for i in `lsdir $SLOTOSDIR/slot | sort`
+	do
+		list1 $i
+	done
+else
+		list1 $1
+fi
 
 exit 0
