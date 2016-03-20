@@ -24,31 +24,6 @@ if [ $# -ne 1 ]; then
 	exit -1
 fi
 
-net-slot-info()
-{
-	for i in `lsdir $SLOTOSDIR/slot`
-	do
-		SLOT=$i
-		NAME=`cat $SLOTOSDIR/slot/$SLOT/fulcon`
-		STAT=`fulcon list $NAME | awk '{print $2}'`
-		if [ x"$STAT" != x"RUNNING" ]; then
-			continue
-		fi
-		if [ x"$NAME" != x"" ]; then
-			fulcon net-info $NAME | egrep eth0 | egrep inet | \
-			  awk '{printf "slot%02d eth0\t\t%s\n",'$SLOT',$2}'
-		fi
-		if [ -d $SLOTOSDIR/slot/$SLOT/net ]; then
-			for j in `lsdir $SLOTOSDIR/slot/$SLOT/net`
-			do
-				cat $SLOTOSDIR/slot/$SLOT/net/$j | \
-				  awk '{printf "slot%02d vg%s_%s\t%s\n","'$SLOT'","'$NAME'",$4,$3}'
-			done
-		fi
-	done
-}
-
-
-net-slot-info | sort
+fulcon net-info | egrep '^slot'
 
 exit 0

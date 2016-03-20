@@ -4,10 +4,15 @@
 
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+FULCONDIR=/var/lib/fulcon
 
 usage()
 {
 	echo "usage: net-info NAME"
+}
+
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
 }
 
 if [ $# -ne 1 ]; then
@@ -25,25 +30,29 @@ display_info()
 	echo
 }
 
-if [ x"$CNAME" == x"net-info" ]; then
-	ls $FULCONDIR/container/* >& /dev/null
-	if [ $? -eq 0 ]; then
-		cd  $FULCONDIR/container
-		for i in `fulcon list | awk '{printf "%s\n",$1}'`
-		do
-			STAT=`fulcon list $i | awk '{print $2}'`
-			if [ x"$STAT" != x"RUNNING" ]; then
-				continue
+net-fulcon-info()
+{
+	for i in `lsdir $FULCONDIR/container`
+	do
+		NAME=$i
+		STAT=`fulcon list $NAME | awk '{print $2}'`
+		if [ x"$STAT" == x"RUNNING" ]; then
+			if [ x"$NAME" != x"" ]; then
+				display_info $NAME | egrep eth0 | egrep inet | \
+				  awk '{printf "%s\teth0\t\t%s\n","'$NAME'",$2}'
 			fi
-			display_info $i
-		done
-	fi
-	exit 0
-else
-	STAT=`fulcon list $CNAME | awk '{print $2}'`
-	if [ x"$STAT" == x"RUNNING" ]; then
-		display_info $CNAME
-	fi
-fi
+		fi
+		if [ -d $FULCONDIR/container/$NAME/net ]; then
+			for j in `lsdir $FULCONDIR/container/$NAME/net`
+			do
+				cat $FULCONDIR/container/$NAME/net/$j | \
+				  awk '{printf "%s\tvg%s_%s\t%s\n","'$NAME'","'$NAME'",$4,$3}'
+			done
+		fi
+	done
+}
+
+
+net-fulcon-info | sort
 
 exit 0
