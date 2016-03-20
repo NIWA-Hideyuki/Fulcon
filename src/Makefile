@@ -150,6 +150,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/fulcon-save-ocf $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-save-ocf
 	install -m 755 driver/docker/fulcon-setup $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-setup
 	install -m 755 driver/docker/fulcon-setup2 $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-setup2
+	install -m 755 driver/docker/fulcon-ip $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-ip
 	install -m 755 driver/docker/find-id $(DESTDIR)$(libdir)/fulcon/driver/docker/find-id
 
 install-dockerfile :

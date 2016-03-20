@@ -20,26 +20,36 @@ if [ $# -ne 1 ]; then
 	exit -1
 fi
 
-CNAME=$1
-
-display_info()
-{
-	i=$1
-	echo $i
-	fulcon-exec $i ip a show
-	echo
-}
+if [ x"$1" == x"net-info" ]; then
+	CNAME=""
+else
+	CNAME=$1
+fi
 
 net-fulcon-info()
 {
+	LISTS=`fulcon list | awk '{printf "%s:%s:%s\n",$1,$2,$3}'`
 	for i in `lsdir $FULCONDIR/container`
 	do
 		NAME=$i
-		STAT=`fulcon list $NAME | awk '{print $2}'`
+		if [ ! -d $FULCONDIR/container/$NAME/net ]; then
+			continue
+		fi
+		if [ x"$LISTS" != x"" ]; then
+			for k in `echo $LISTS`
+			do
+				NM=`echo $k | awk -F : '{print $1}'`
+				ST=`echo $k | awk -F : '{print $2}'`
+				if [ x"$NM" == x"$NAME" ]; then
+					STAT=$ST
+					break
+				fi
+			done
+		fi
 		if [ x"$STAT" == x"RUNNING" ]; then
 			if [ x"$NAME" != x"" ]; then
-				display_info $NAME | egrep eth0 | egrep inet | \
-				  awk '{printf "%s\teth0\t\t%s\n","'$NAME'",$2}'
+				fulcon-ip $NAME | \
+				  awk '{printf "%s\teth0\t\t%s\n","'$NAME'",$1}'
 			fi
 		fi
 		if [ -d $FULCONDIR/container/$NAME/net ]; then
@@ -52,7 +62,10 @@ net-fulcon-info()
 	done
 }
 
-
-net-fulcon-info | sort
+if [ x"$CNAME" == x"" ]; then
+	net-fulcon-info | sort
+else
+	net-fulcon-info | awk '{if($1=="'$CNAME'")print $0}' | sort
+fi
 
 exit 0

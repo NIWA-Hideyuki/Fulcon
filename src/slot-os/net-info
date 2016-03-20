@@ -11,7 +11,7 @@ umask 022
 # function usage
 usage()
 {
-	echo "usage: net-info"
+	echo "usage: net-info [ NAME ]"
 }
 
 lsdir() {
@@ -24,6 +24,10 @@ if [ $# -ne 1 ]; then
 	exit -1
 fi
 
-fulcon net-info | egrep '^slot'
+if [ x"$1" != x"net-info" ]; then
+	fulcon net-info | awk '{if($1=="'$1'")print $0}'
+else
+	fulcon net-info | egrep '^slot'
+fi
 
 exit 0
