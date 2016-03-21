@@ -16,6 +16,9 @@ add-user [ -n REAT_NUMBER ] [ -s ] CONTAINER_NAME USER [PASSWORD ]
      -s  
           The user gets administrator's rights.  
   
+auotstart NAME [ on | off ]
+     NAME is started automatically at the time of a system restart.
+
 br-add BRIDGE_NUMBER ( IPADDR/MASK | NET_DEVICE ]
      The IP-address or the device is registered in the bridge.
   

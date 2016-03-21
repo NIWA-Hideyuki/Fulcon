@@ -66,6 +66,10 @@ fi
 ip addr add $IPMASK dev fulcon$BRNO
 brctl addif fulcon$BRNO $NETDEV
 
+# set MAC
+MAC=`ip addr show $NETDEV | egrep link/ether | awk '{print $2}'`
+ip link set fulcon$BRNO address $MAC
+
 ip addr del $IPMASK dev $NETDEV
 ifconfig $NETDEV 0.0.0.0 up
 

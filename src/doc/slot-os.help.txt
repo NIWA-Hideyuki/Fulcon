@@ -5,6 +5,9 @@ slot-os command:
   
 ### ALL Sub command:
   
+auotstart NAME [ on | off ]
+     NAME is started automatically at the time of a system restart.
+
 backup NUMBER NEW_NAME
      slot in NUMBER is backuped. A backup will be slotXX.NEW_NAME.
 
