@@ -12,12 +12,13 @@ docdir ?= ${datarootdir}/doc/fulcon-${VERSION}
 
 fulcon :
 
-install : install-cmd install-subcmd install-lib install-slot-os install-driver install-doc
+install : install-cmd install-subcmd install-lib install-slot-os install-driver install-service install-doc
 
 install-cmd :
 	mkdir -p $(DESTDIR)$(sbindir)/sbin
 	install -m 755 cmd/fulcon $(DESTDIR)$(sbindir)/fulcon
 	install -m 755 cmd/slot-os $(DESTDIR)$(sbindir)/slot-os
+	install -m 755 cmd/fulcon-start $(DESTDIR)$(libdir)/fulcon/sbin/fulcon-start
 
 install-subcmd : 
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/sbin
@@ -164,6 +165,9 @@ install-dockerfile :
 	install -m 755 driver/docker/dockerfile/ubuntu1510/Dockerfile $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/ubuntu1510/Dockerfile
 	install -m 755 driver/docker/dockerfile/ubuntu1510/80proxy $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/ubuntu1510/80proxy
 
+install-service :
+	install -m 644 service/fulcon.service $(DESTDIR)/lib/systemd/system/fulcon.service
+
 install-doc :
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/doc
 	install -m 644 doc/help.txt $(DESTDIR)$(libdir)/fulcon/doc/help.txt
@@ -178,6 +182,7 @@ uninstall :
 	rm -f $(DESTDIR)$(sbindir)/fulcon
 	rm -rf $(DESTDIR)$(libdir)/fulcon
 	rm -rf $(DESTDIR)/$(docdir)
+	rm -f /lib/systemd/system/fulcon.service
 
 clean :
 
