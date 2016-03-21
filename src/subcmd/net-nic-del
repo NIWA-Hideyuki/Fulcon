@@ -4,6 +4,7 @@
 
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+FULCONDIR=/var/lib/fulcon
 
 usage()
 {
@@ -24,7 +25,20 @@ NETDEV=$1
 for i in `brctl show | egrep fulcon | awk '{print $1}'`
 do
 	if [ x"`brctl show $i | egrep $NETDEV`" != x"" ]; then
+		# reset MAC
+		MAC=`ip addr show $i | egrep link/ether | awk '{print $2}'`
+		ip link set $NETDEV address $MAC
+
+		# reset IP address
+		IP=`ip a show $i | egrep "inet " | awk '{print $2}'`
+		ip addr add $IP dev $NETDEV
+
+		# delete br
 		ip link set $i down
 		brctl delbr $i
 	fi
 done
+
+rm -f $FULCONDIR/br/$NETDEV
+
+exit 0

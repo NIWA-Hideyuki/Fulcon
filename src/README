@@ -19,6 +19,8 @@ $  sudo apt-get install docker.io python-ipy bridge-utils
 $  sudo systemctl enable docker.service
 $  sudo systemctl start docker.service
 $  sudo dpkg -i fulcon_0.3_amd64.deb
+$  sudo systemctl enable fulcon.service
+$  sudo systemctl start fulcon.service
 
 CentOS
 
@@ -26,6 +28,8 @@ $  sudo yum install docker-io python-IPy bridge-utils
 $  sudo systemctl enable docker.service
 $  sudo systemctl start docker.service
 $  sudo rpm -ivh fulcon-0.3-1.el7.centos.x86_64.rpm
+$  sudo systemctl enable fulcon.service
+$  sudo systemctl start fulcon.service
  
 ### Building:
 
@@ -37,6 +41,8 @@ $  sudo systemctl start docker.service
 $  tar xzf fulcon.tgz  
 $  cd fulcon  
 $  sudo make install  
+$  sudo systemctl enable fulcon.service
+$  sudo systemctl start fulcon.service
   
 CentOS 7  
   
@@ -46,6 +52,8 @@ $  sudo systemctl start docker.service
 $  tar xzf fulcon.tgz  
 $  cd fulcon  
 $  sudo make install  
+$  sudo systemctl enable fulcon.service
+$  sudo systemctl start fulcon.service
   
 ### Setup:  
   

@@ -4,6 +4,7 @@
 
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+FULCONDIR=/var/lib/fulcon
 
 usage()
 {
@@ -75,5 +76,10 @@ ifconfig $NETDEV 0.0.0.0 up
 
 # set promisc mode to net_device
 ip link set $NETDEV promisc on
+
+# when system is reboot, this setup is setting again
+mkdir -p $FULCONDIR/br
+echo "net-nic-add $NETDEV" > $FULCONDIR/br/$NETDEV
+
 
 exit 0

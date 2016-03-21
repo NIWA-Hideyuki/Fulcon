@@ -12,6 +12,14 @@ lsdir() {
   ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
 }
 
+# auto setup fulcon bridge
+for i in `lsdir $FULCONDIR/br`
+do
+	if [ -f $FULCONDIR/br/$i ]; then
+		fulcon net-nic-add $i
+	fi
+done
+
 # auto start fulcon container
 for i in `lsdir $FULCONDIR/container`
 do
