@@ -33,11 +33,12 @@ list1()
 	fi
 
 	if [ -d $SLOTOSDIR/slot/$i ]; then
-		printf "%2d : %8s %s %3s %% %3s %s %s " \
+		printf "%2d : %8s %s %3s%% %3s %s %3s %s " \
 			$i $STATUS $CNAME \
 			`cat $SLOTOSDIR/slot/$i/cpu` \
 			`cat $SLOTOSDIR/slot/$i/cpuset` \
 			`cat $SLOTOSDIR/slot/$i/memory` \
+			`slot-os autostart $i` \
 			$IMAGE
 	fi
 

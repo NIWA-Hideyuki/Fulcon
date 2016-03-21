@@ -60,6 +60,7 @@ install-subcmd :
 	install -m 755 subcmd/update $(DESTDIR)$(libdir)/fulcon/sbin/update
 	install -m 755 subcmd/deploy $(DESTDIR)$(libdir)/fulcon/sbin/deploy
 	install -m 755 subcmd/console $(DESTDIR)$(libdir)/fulcon/sbin/console
+	install -m 755 subcmd/autostart $(DESTDIR)$(libdir)/fulcon/sbin/autostart
 	install -m 755 subcmd/help $(DESTDIR)$(libdir)/fulcon/sbin/help
 
 install-lib:
@@ -117,6 +118,7 @@ install-slot-os:
 	install -m 755 slot-os/backup-del $(DESTDIR)$(libdir)/slot-os/sbin/backup-del
 	install -m 755 slot-os/restore $(DESTDIR)$(libdir)/slot-os/sbin/restore
 	install -m 755 slot-os/make-base-image $(DESTDIR)$(libdir)/slot-os/sbin/make-base-image
+	install -m 755 slot-os/autostart $(DESTDIR)$(libdir)/slot-os/sbin/autostart
 	install -m 755 slot-os/help $(DESTDIR)$(libdir)/slot-os/sbin/help
 	install -m 755 slot-os/lib/slot-sysgen $(DESTDIR)$(libdir)/slot-os/lib/slot-sysgen
 	install -m 755 slot-os/lib/slot-erase $(DESTDIR)$(libdir)/slot-os/lib/slot-erase

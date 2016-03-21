@@ -5,6 +5,7 @@
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/slot-os/lib:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
+FULCONDIR=/var/lib/fulcon
 SLOTOSDIR=/var/lib/slot-os
 
 usage()
@@ -41,9 +42,24 @@ NUM=`expr $NUM + 0`
 
 SLOTNUM=`printf "slot%02d" $NUM`
 
-if [ x"`slot-os list $SLOTNUM`" != x"" ]; then
-	slot-erase $NUM
+NAME=`cat $SLOTOSDIR/slot/$NUM/fulcon`
+
+fulcon erase $NAME
+slot-sysgen $NUM $IMAGE
+
+NAME=`cat $SLOTOSDIR/slot/$NUM/fulcon`
+
+if [ -d $SLOTOSDIR/slot/$NUM/net ]; then
+	cp -pr $SLOTOSDIR/slot/$NUM/net $FULCONDIR/container/$NAME/
 fi
 
-slot-sysgen $NUM $IMAGE
+if [ -f $SLOTOSDIR/slot/$NUM/autostart ]; then
+	fulcon autostart $NAME on
+	slot-os start $NUM
+else
+	fulcon autostart $NAME off
+fi
+
+exit 0
+
 
