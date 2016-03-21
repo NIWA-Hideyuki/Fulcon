@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+FULCONDIR=/var/lib/fulcon
+SLOTOSDIR=/var/lib/slot-os
+
+usage()
+{
+	echo "usage: auotstart SLOT_NUMBER [ on | off ]"
+}
+
+if [ $# -ne 2 -a $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+if [ $# -eq 1 -a x"$1" == x"autostart" ]; then
+	usage
+	exit -1
+fi
+
+NUM=$1
+NAME=`cat $SLOTOSDIR/slot/$NUM/fulcon`
+
+if [ $# -eq 1 ]; then
+	if [ -f $SLOTOSDIR/slot/$NUM/autostart ]; then
+		echo on
+	else
+		echo off
+	fi
+	exit 0
+fi
+
+ONOFF=$2
+
+if [ ! -d $FULCONDIR/container/$NAME ]; then
+	echo "error: $NAME is not exist"
+	exit -1
+fi
+
+if [ x"$ONOFF" == x"on" ]; then
+	touch $SLOTOSDIR/slot/$NUM/autostart
+	fulcon autostart $NAME on
+elif [ x"$ONOFF" == x"off" ]; then
+	rm -f  $SLOTOSDIR/slot/$NUM/autostart
+	fulcon autostart $NAME off
+else
+	echo "error: besides on/off"
+	exit -1
+fi
+
+
+exit 0
