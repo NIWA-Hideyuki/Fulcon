@@ -55,7 +55,6 @@ fi
 
 if [ -f $SLOTOSDIR/slot/$NUM/autostart ]; then
 	fulcon autostart $NAME on
-	slot-os start $NUM
 else
 	fulcon autostart $NAME off
 fi
