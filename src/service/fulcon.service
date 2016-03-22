@@ -1,0 +1,12 @@
+[Unit]
+Description=Fulcon/Slot-OS Platform
+After=network.target docker.service
+
+[Service]
+ExecStart=/usr/lib/fulcon/sbin/fulcon-start
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

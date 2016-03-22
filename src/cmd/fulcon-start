@@ -13,6 +13,7 @@ lsdir() {
 }
 
 # auto setup fulcon bridge
+mkdir -p $FULCONDIR/br
 for i in `lsdir $FULCONDIR/br`
 do
 	if [ -f $FULCONDIR/br/$i ]; then
