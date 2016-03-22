@@ -67,9 +67,9 @@ done
 for i in `seq 0 $NUM`
 do
 	SLOTNAME=`printf "slot%02d" $i`
-	if [ x"`slot-os list $i | awk '{print $3}'`" == x"NONE" ]; then
+	if [ x"`cat $SLOTOSDIR/slot/$i/fulcon`" == x"-" ]; then
 		echo -n "create "
-		slot-sysgen $i 
+		slot-sysgen $SLOTNAME
 	else
 		echo initialized $SLOTNAME
 	fi

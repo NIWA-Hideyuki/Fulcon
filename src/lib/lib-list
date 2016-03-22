@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 # Copyright (C) 2015-2016 NIWA Hideyuki
 
@@ -6,7 +6,7 @@ FULCONDIR=/var/lib/fulcon
 
 usage()
 {
-	echo "usage: lib-list "
+	echo "usage: lib-list [ NAME ]"
 }
 
 lsdir() {
@@ -21,12 +21,13 @@ driver-net-info()
 RUNNING=`fulcon-list-running | awk '{printf "%s ",$1}'`
 PAUSED=`fulcon-list-paused | awk '{printf "%s ",$1}'`
 ALLCONT=`fulcon-list-all | awk '{printf "%s ",$1}'`
-for i in $ALLCONT
-do
-	NAME=$i
-	if [ -f /var/lib/fulcon/container/$i/imagename ]; then
-		IMAGE=`cat /var/lib/fulcon/container/$i/imagename`
-		echo $RUNNING | egrep -w $i >& /dev/null
+
+list1()
+{
+	NAME=$1
+	if [ -f /var/lib/fulcon/container/$NAME/imagename ]; then
+		IMAGE=`cat /var/lib/fulcon/container/$NAME/imagename`
+		echo $RUNNING | egrep -w $NAME >& /dev/null
 		if [ $? -eq 0 ]; then
 			STATUS="RUNNING"
 
@@ -36,15 +37,15 @@ do
 			printf "%s\t\tRUNNING\t\t%s $IPADDR\n" $NAME $IMAGE
 		else
 			# network information
-			mkdir -p $FULCONDIR/slot/$i/net
+			mkdir -p $FULCONDIR/slot/$NAME/net
 			IPADDR=""
-			for k in `lsdir $FULCONDIR/container/$i/net`
+			for k in `lsdir $FULCONDIR/container/$NAME/net`
 			do
-				IP1=`awk '{printf "%s ",$3}' $FULCONDIR/container/$i/net/$k`
+				IP1=`awk '{printf "%s ",$3}' $FULCONDIR/container/$NAME/net/$k`
 				IPADDR="$IPADDR $IP1"
 			done
 
-			echo $PAUSED | egrep -w $i >& /dev/null
+			echo $PAUSED | egrep -w $NAME >& /dev/null
 			if [ $? -eq 0 ]; then
 				STATUS="PAUSED"
 				printf "%s\t\tPAUSED\t\t%s$IPADDRs\n" $NAME $IMAGE
@@ -53,9 +54,17 @@ do
 				printf "%s\t\tSTOPPED\t\t%s$IPADDR\n" $NAME $IMAGE
 			fi
 		fi
-
 	fi
-done | sort
+}
+
+if [ $# -eq 1 ]; then
+	list1 $1
+else
+	for i in $ALLCONT
+	do
+		list1 $i
+	done | sort
+fi
 
 exit 0
 

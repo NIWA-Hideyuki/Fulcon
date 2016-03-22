@@ -18,19 +18,13 @@ lsdir() {
 
 list1()
 {
-	i=$1
-	CNAME=`cat $SLOTOSDIR/slot/$i/fulcon`
-	LIST=`fulcon list $CNAME`
+	LIST=$1
+	CNAME=`echo $LIST | awk '{print $1}'`
 	STATUS=`echo $LIST | awk '{print $2}'`
 	IMAGE=`echo $LIST | awk '{print $3}' | awk -F / '{print $2}'`
-	if [ x"$STATUS" == x"" ]; then
-		STATUS="NONE"
-		IPADDR=""
-		cat /dev/null > $SLOTOSDIR/slot/$i/fulcon
-		CNAME='-'
-	else
-		IPADDR=`echo $LIST | cut -d ' ' -f 4-`
-	fi
+	IPADDR=`echo $LIST | awk '{for(i=4;i<=NF;i++)printf "%s ",$i}'`
+	i=`echo $CNAME | sed -e 's/slot//g'`
+	i=`expr $i + 0`
 
 	if [ -d $SLOTOSDIR/slot/$i ]; then
 		printf "%2d : %8s %s %3s%% %3s %s %3s %s " \
@@ -60,24 +54,31 @@ if [ x"$1" != x"list" ]; then
 		list1 $NUM
 		exit 0
 	else
-		printf "error: slot%02d is not exist\n" $NUM
+#		printf "error: slot%02d is not exist\n" $NUM
 		exit -1
 	fi
 fi
 
 
-if [ ! -x $SLOTOSDIR/slot -o ! -x $SLOTOSDIR/slot/0 ]; then
-	echo "error: there is no slot."
+if [ ! -d $SLOTOSDIR/slot -o ! -d $SLOTOSDIR/slot/0 ]; then
+#	echo "error: there is no slot."
 	exit -1
 fi
 
+SAVEIFS=IFS
+IFS='
+'
 if [ x"$1" == x"list" ]; then
-	for i in `lsdir $SLOTOSDIR/slot | sort`
+	for i in `fulcon list | egrep ^slot`
 	do
 		list1 $i
 	done
 else
-		list1 $1
+	if [ -d $SLOTOSDIR/slot/$NUM ]; then
+		CNAME=`cat $SLOTOSDIR/slot/$NUM/fulcon`
+		list1 `fulcon list $CNAME`
+	fi
 fi
+IFS=$SAVEIFS
 
 exit 0
