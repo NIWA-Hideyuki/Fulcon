@@ -21,24 +21,39 @@ if [ $# -eq 1 -a x"$1" == x"net-nic-del" ]; then
 fi
 
 NETDEV=$1
-# 
+
+FLG=0
 for i in `brctl show | egrep fulcon | awk '{print $1}'`
 do
 	if [ x"`brctl show $i | egrep $NETDEV`" != x"" ]; then
 		# reset MAC
-		MAC=`ip addr show $i | egrep link/ether | awk '{print $2}'`
-		ip link set $NETDEV address $MAC
+		#MAC=`ip addr show $i | egrep link/ether | awk '{print $2}'`
+		#ip link set $NETDEV address $MAC
 
 		# reset IP address
-		IP=`ip a show $i | egrep "inet " | awk '{print $2}'`
-		ip addr add $IP dev $NETDEV
+		#IP=`ip a show $i | egrep "inet " | awk '{print $2}'`
+		#ip addr add $IP dev $NETDEV
 
-		# delete br
-		ip link set $i down
-		brctl delbr $i
+		# delete nic
+		brctl delif $i $NETDEV >& /dev/null
+
+		brctl show | egrep $i | awk '{exit(NF)}'
+		if [ $? -lt 4 ]; then
+			# delete br
+			ip link set $i down
+			brctl delbr $i
+		fi
+
+		FLG=1
 	fi
 done
 
-rm -f $FULCONDIR/br/$NETDEV
+if [ $FLG -eq 0 ]; then
+	echo "error: $NETDEV is not found in bridges"
+	exit -1
+else
+	rm -f $FULCONDIR/br/$NETDEV
+fi
+
 
 exit 0
