@@ -52,7 +52,7 @@ fi
 LXCNAME=$1
 LXCBRIP=`net-ipv4 -g $2`
 if [ $? -ne 0 ]; then
-	echo $3 "must be IP_address/Mask format"
+	echo "error: specified parameter of $LXCNAME have to be IP_address/Mask format"
 	exit -1
 fi
 NUM=$3
