@@ -41,6 +41,10 @@ IP1=`ip a show $NETDEV | egrep "inet " | awk '{print $2}'`
 IP1G=`net-ipv4 -g $IP1`
 for i in `lsdir $FULCONDIR/br`
 do
+	if [ x"$NETDEV" == x"$i" ]; then
+		continue
+	fi
+
 	IP2=`ip a show $i | egrep "inet " | awk '{print $2}'`
 	IP2G=`net-ipv4 -g $IP2`
 	if [ x"$IP1G" == x"$IP2G" ]; then
@@ -105,5 +109,6 @@ ip link set $NETDEV promisc on
 mkdir -p $FULCONDIR/br
 echo "net-nic-add $NETDEV" > $FULCONDIR/br/$NETDEV
 
+echo "net-nic-add $NETDEV"
 
 exit 0

@@ -12,7 +12,7 @@ umask 022
 # function usage
 usage()
 {
-	echo "usage: net-add [ -d NETDEV ] [ -g GATEWAY ] [ -b BRIDGE_NUMBER ] CONTAINER_NAME IPADDR/MASK NIC_NUMBER [ MAC1 MAC2 ]"
+	echo "usage: net-add CONTAINER_NAME IPADDR/MASK NIC_NUMBER [ MAC1 MAC2 ]"
 }
 
 NETARGS=$@
@@ -22,15 +22,15 @@ FLG_D=0 ; NETDEV=""
 FLG_G=0 ; LXCGATEWAY=""
 FLG_B=0 ; LXCBR="0"
 
-while getopts d:g:b: OPT ; do
-  case $OPT in
-  d) FLG_D=1 ; NETDEV=$OPTARG ;;
-  g) FLG_G=1 ; LXCGATEWAY=$OPTARG ;;
-  b) FLG_B=1 ; LXCBR=$OPTARG ;;
-  \? ) usage; exit -1;;
-  esac
-done
-shift $((OPTIND - 1))
+#while getopts d:g:b: OPT ; do
+#  case $OPT in
+#  d) FLG_D=1 ; NETDEV=$OPTARG ;;
+#  g) FLG_G=1 ; LXCGATEWAY=$OPTARG ;;
+#  b) FLG_B=1 ; LXCBR=$OPTARG ;;
+#  \? ) usage; exit -1;;
+#  esac
+#done
+#shift $((OPTIND - 1))
 
 # check args
 if [ $# -ne 3 -a $# -ne 5 ]; then
@@ -56,6 +56,12 @@ if [ $? -ne 0 ]; then
 	exit -1
 fi
 NUM=$3
+
+# check ip address of bridge
+if [ x"`ip a show $NETDEV | egrep "inet " | awk '{print $2}'`" == x"" ]; then
+	echo "error: $NETDEV has not an IP address"
+	exit -1
+fi
 
 # check unnecessary bridges
 for i in `brctl show | egrep fulcon | awk '(NF==3){print $1}'`

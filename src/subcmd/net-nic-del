@@ -49,11 +49,13 @@ do
 done
 
 if [ $FLG -eq 0 ]; then
+	rm -f $FULCONDIR/br/$NETDEV
 	echo "error: $NETDEV is not found in bridges"
 	exit -1
 else
 	rm -f $FULCONDIR/br/$NETDEV
 fi
 
+echo "net-nic-del $NETDEV"
 
 exit 0

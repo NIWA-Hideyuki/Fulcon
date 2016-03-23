@@ -7,10 +7,17 @@ FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 FULCONDIR=/var/lib/fulcon
 
-
 lsdir() {
   ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
 }
+
+# auto start fulcon container
+for i in `lsdir $FULCONDIR/container`
+do
+	if [ -f $FULCONDIR/container/$i/autostart ]; then
+		fulcon start $i
+	fi
+done
 
 # auto setup fulcon bridge
 mkdir -p $FULCONDIR/br
@@ -18,14 +25,6 @@ for i in `lsdir $FULCONDIR/br`
 do
 	if [ -f $FULCONDIR/br/$i ]; then
 		fulcon net-nic-add $i
-	fi
-done
-
-# auto start fulcon container
-for i in `lsdir $FULCONDIR/container`
-do
-	if [ -f $FULCONDIR/container/$i/autostart ]; then
-		fulcon start $i
 	fi
 done
 

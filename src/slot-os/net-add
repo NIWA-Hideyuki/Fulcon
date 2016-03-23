@@ -12,7 +12,7 @@ umask 022
 # function usage
 usage()
 {
-	echo "usage: net-add [ -d NETDEV ] [ -g GATEWAY ] [ -b BRIDGE_NUMBER ] SLOT_NUMBER IPADDR/MASK NIC_NUMBER "
+	echo "usage: net-add SLOT_NUMBER IPADDR/MASK NIC_NUMBER "
 }
 
 lsdir() {
@@ -24,15 +24,15 @@ FLG_D=0 ; NETDEV=""
 FLG_G=0 ; LXCGATEWAY=""
 FLG_B=0 ; LXCBR="0"
 
-while getopts d:g:b: OPT ; do
-  case $OPT in
-  d) FLG_D=1 ; NETDEV=$OPTARG ;;
-  g) FLG_G=1 ; LXCGATEWAY=$OPTARG ;;
-  b) FLG_B=1 ; LXCBR=$OPTARG ;;
-  \? ) usage; exit -1;;
-  esac
-done
-shift $((OPTIND - 1))
+#while getopts d:g:b: OPT ; do
+#  case $OPT in
+#  d) FLG_D=1 ; NETDEV=$OPTARG ;;
+#  g) FLG_G=1 ; LXCGATEWAY=$OPTARG ;;
+#  b) FLG_B=1 ; LXCBR=$OPTARG ;;
+#  \? ) usage; exit -1;;
+#  esac
+#done
+#shift $((OPTIND - 1))
 
 # check args
 if [ $# -ne 3 ]; then

@@ -86,7 +86,7 @@ ls-image
 ls-ocf  
      The list of the OCF image is displayed.  
   
-net-add [-d NIC_DEVICE] [-g GATEWAY] [-b BRIDGE_NUMBER ] CONTAINER_NAME IP_ADDR/MASK VETH_NUMBER
+net-add CONTAINER_NAME IP_ADDR/MASK VETH_NUMBER
      NIC is added to the container.   
      -d NIC_DEVICE  
           The device to connect it to an external network is specified.   

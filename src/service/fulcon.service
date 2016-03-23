@@ -1,6 +1,6 @@
 [Unit]
 Description=Fulcon/Slot-OS Platform
-After=network.target docker.service
+After=network.target NetworkManager.service docker.service
 
 [Service]
 ExecStart=/usr/lib/fulcon/sbin/fulcon-start
