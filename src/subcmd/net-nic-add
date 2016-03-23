@@ -11,6 +11,11 @@ usage()
 	echo "usage: net-nic-add NET_DEVICE"
 }
 
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
+
+
 if [ $# -ne 1 ]; then
 	usage
 	exit -1
@@ -26,6 +31,24 @@ if [ $? -ne 0 ]; then
 	echo "error: can't" $NETDEV "does not exist"
 	exit -1
 fi
+
+if [ x"`brctl show | egrep $NETDEV | awk '{print $NF}'`" == x"$NETDEV" ]; then
+	echo "error: $NETDEV has already been allocated in the bridge. "
+	exit -1
+fi
+
+IP1=`ip a show $NETDEV | egrep "inet " | awk '{print $2}'`
+IP1G=`net-ipv4 -g $IP1`
+for i in `lsdir $FULCONDIR/br`
+do
+	IP2=`ip a show $i | egrep "inet " | awk '{print $2}'`
+	IP2G=`net-ipv4 -g $IP2`
+	if [ x"$IP1G" == x"$IP2G" ]; then
+		IP2N=`echo $IP2G | sed -e 's/.1$/.0/'`
+		echo "error: $IP2N network has already been added."
+		exit -1
+	fi
+done
 
 BRNO="-1"
 IPMASK=`ip a show $NETDEV | egrep "inet " | awk '{print $2}'`
