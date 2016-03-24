@@ -26,7 +26,7 @@ list1()
 	i=`echo $CNAME | sed -e 's/slot//g'`
 	i=`expr $i + 0`
 
-	if [ x"`slot-os autostart $i`" == x"on" ]; then
+	if [ -f $SLOTOSDIR/slot/$i/autostart ]; then
 		AUTOSTART="A"
 	else
 		AUTOSTART="-"

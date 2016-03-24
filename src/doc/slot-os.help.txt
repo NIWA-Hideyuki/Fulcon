@@ -32,7 +32,8 @@ build NUMBER
 
 list [ NAME ]
      The list of the made slot is displayed.  
-
+     Display term is as follows.
+       NUM, Status, Container name, CPU%, CPUS, Memory, Autostart(A or -), Image name, IP address
 
 deploy SRC_FILE DEST_PATH 
      SRC_FILE on the HOST is copied in DEST_PATH of all slot.  
