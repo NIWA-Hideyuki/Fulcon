@@ -27,7 +27,7 @@ RCODE=0
 
 SNUMS=$*
 if [ x"$1" == x"all" ]; then
-	SNUMS=`ls $SLOTOSDIR/slot`
+	SNUMS=`ls $SLOTOSDIR/slot | sort -n`
 fi
 
 for SNUM in $SNUMS
@@ -46,7 +46,7 @@ do
 	fi
 
 	fulcon stop $NAME >& /dev/null &
-
+	echo stop $NAME
 done
 
 wait

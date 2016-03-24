@@ -28,7 +28,7 @@ RCODE=0
 
 SNUMS=$*
 if [ x"$1" == x"all" ]; then
-	SNUMS=`ls $SLOTOSDIR/slot`
+	SNUMS=`ls $SLOTOSDIR/slot | sort -n`
 fi
 
 for SNUM in $SNUMS
@@ -46,10 +46,12 @@ do
 		continue
 	fi
 
-	fulcon start $NAME >& /dev/null
-
 	rm -rf $SLOTOSDIR/slot/$SNUM/net
 	cp -pr $FULCONDIR/container/$NAME/net $SLOTOSDIR/slot/$SNUM/
+
+	fulcon start $NAME >& /dev/null &
+
+	echo start $NAME
 done
 
 exit $RCODE
