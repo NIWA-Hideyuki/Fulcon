@@ -14,3 +14,5 @@ elif [ x"$STAT" == x"exited" ]; then
 else
 	echo STOPPED
 fi
+
+exit 0

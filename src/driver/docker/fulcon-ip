@@ -5,7 +5,4 @@
 exec docker inspect $1 | egrep '"IPAddress"' | head -n 1 | \
 	sed -e 's/"//g' -e 's/,//' | awk '{print $2}'
 
-
-
-
-
+exit 0
