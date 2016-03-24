@@ -5,7 +5,7 @@
 PATH=/usr/lib/fulcon/lib/:$PATH
 
 # BASE dir
-CONTAINER_DIR=/var/lib/fulcon/container
+CONTAINER_DIR=/var/lib/fulcon/setup
 
 # check root
 if [ ${EUID:-$UID} -ne 0 ] ; then

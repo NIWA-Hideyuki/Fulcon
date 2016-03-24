@@ -9,14 +9,13 @@ SLOTOS=slot-os
 
 usage()
 {
-	cd $DOCKERFILEDIR
 	echo "usage: setup2"
 } 
 
 
 setup_slot_image() 
 {
-	pushd  $FULCONDIR/container/$SLOTOS/rootfs >& /dev/null
+	pushd  $FULCONDIR/setup/$SLOTOS/rootfs >& /dev/null
 	echo "New OS image is generated from HOST."
 	echo "It takes long time for this processing."
 	echo "This processing must not interrupt or not turn off power."
@@ -33,6 +32,8 @@ setup_slot_image()
 	trap 0
 	echo "Generated new image : $SLOTOS"
 }
+
+mkdir -p  $FULCONDIR/setup/$SLOTOS/rootfs 
 
 setup_slot_image
 

@@ -72,6 +72,7 @@ do
 		slot-sysgen $SLOTNAME
 	else
 		echo initialized $SLOTNAME
+		slot-sysgen $SLOTNAME >& /dev/null
 	fi
 done
 
