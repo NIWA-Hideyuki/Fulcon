@@ -8,44 +8,50 @@ FULCONDIR=/var/lib/fulcon
 
 usage()
 {
-	echo "usage: auotstart NAME [ on | off ]"
+	echo "usage: auotstart [ on | off ] NAME ... "
 }
-
-if [ $# -ne 2 -a $# -ne 1 ]; then
-	usage
-	exit -1
-fi
 
 if [ $# -eq 1 -a x"$1" == x"autostart" ]; then
 	usage
 	exit -1
 fi
 
-NAME=$1
-
-if [ $# -eq 1 ]; then
-	if [ -f $FULCONDIR/container/$NAME/autostart ]; then
-		echo on
-	else
-		echo off
+if [ x"$1" == x"on" ]; then
+	if [ $# -ge 2 ]; then
+		ONOFF="on"
+		shift
 	fi
-	exit 0
+elif [ x"$1" == x"off" ]; then
+	if [ $# -ge 2 ]; then
+		ONOFF="off"
+		shift
+	fi
 fi
 
-ONOFF=$2
-
-if [ ! -d $FULCONDIR/container/$NAME ]; then
-	echo "error: $NAME is not exist"
+NAMES=$*
+if [ x"$NAMES" == x"" ]; then
+	usage
 	exit -1
 fi
 
-if [ x"$ONOFF" == x"on" ]; then
-	touch $FULCONDIR/container/$NAME/autostart
-elif [ x"$ONOFF" == x"off" ]; then
-	rm -f $FULCONDIR/container/$NAME/autostart
-else
-	echo "error: besides on/off"
-	exit -1
-fi
+for NAME in $NAMES
+do
+	if [ ! -d $FULCONDIR/container/$NAME ]; then
+		echo "error: $NAME is not exist"
+		continue
+	fi
+
+	if [ x"$ONOFF" == x"on" ]; then
+		touch $FULCONDIR/container/$NAME/autostart
+	elif [ x"$ONOFF" == x"off" ]; then
+		rm -f $FULCONDIR/container/$NAME/autostart
+	fi
+
+	if [ -f $FULCONDIR/container/$NAME/autostart ]; then
+		echo auotstart on $NAME 
+	else
+		echo autostart off $NAME 
+	fi
+done
 
 exit 0
