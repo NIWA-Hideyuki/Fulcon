@@ -71,30 +71,24 @@ if [ $? -ne 0 ] ; then
 fi
 
 # make a slot
-if [ -f $SLOTOSDIR/slot/$NUM/lastname ]; then
-	OLDNAME=`cat $SLOTOSDIR/slot/$NUM/lastname`
-else
-	OLDNAME=$NAME
-fi
 echo $NAME > $SLOTOSDIR/slot/$NUM/fulcon
-echo $OLDNAME > $SLOTOSDIR/slot/$NUM/lastname
 
-#fulcon resource  \
-#	-c `cat $SLOTOSDIR/slot/$NUM/cpu` \
-#	-n `cat $SLOTOSDIR/slot/$NUM/cpuset` \
-#	-m `cat $SLOTOSDIR/slot/$NUM/memory` \
-#	$NAME
+fulcon resource  \
+	-c `cat $SLOTOSDIR/slot/$NUM/cpu` \
+	-n `cat $SLOTOSDIR/slot/$NUM/cpuset` \
+	-m `cat $SLOTOSDIR/slot/$NUM/memory` \
+	$NAME >& /dev/null
 
 # start network
 OLDPATH=$PATH
 PATH=/usr/lib/fulcon/sbin:$PATH
-if [ -d $SLOTOSDIR/slot/$NUM/net ]; then
-	for i in `lsdir $SLOTOSDIR/slot/$NUM/net`
-	do
-		NEWFILE=`echo $i | sed -e "s/$OLDNAME/$NAME/"`
-		mv $SLOTOSDIR/slot/$NUM/net/$i $SLOTOSDIR/slot/$NUM/net/$NEWFILE >& /dev/null
-		bash $SLOTOSDIR/slot/$NUM/net/$NEWFILE $NAME
-	done
-fi
+mkdir -p $SLOTOSDIR/slot/$NUM/net
+for i in `lsdir $SLOTOSDIR/slot/$NUM/net`
+do
+	NEWFILE=`echo $i | sed -e "s/$OLDNAME/$NAME/"`
+	mv $SLOTOSDIR/slot/$NUM/net/$i $SLOTOSDIR/slot/$NUM/net/$NEWFILE >& /dev/null
+	bash $SLOTOSDIR/slot/$NUM/net/$NEWFILE $NAME
+done
+
 PATH=$OLDPATH
 

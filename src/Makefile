@@ -61,6 +61,8 @@ install-subcmd :
 	install -m 755 subcmd/deploy $(DESTDIR)$(libdir)/fulcon/sbin/deploy
 	install -m 755 subcmd/console $(DESTDIR)$(libdir)/fulcon/sbin/console
 	install -m 755 subcmd/autostart $(DESTDIR)$(libdir)/fulcon/sbin/autostart
+	install -m 755 subcmd/status $(DESTDIR)$(libdir)/fulcon/sbin/status
+	install -m 755 subcmd/ipaddr $(DESTDIR)$(libdir)/fulcon/sbin/ipaddr
 	install -m 755 subcmd/help $(DESTDIR)$(libdir)/fulcon/sbin/help
 
 install-lib:
@@ -154,6 +156,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/fulcon-setup $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-setup
 	install -m 755 driver/docker/fulcon-setup2 $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-setup2
 	install -m 755 driver/docker/fulcon-ip $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-ip
+	install -m 755 driver/docker/fulcon-status $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-status
 	install -m 755 driver/docker/find-id $(DESTDIR)$(libdir)/fulcon/driver/docker/find-id
 
 install-dockerfile :

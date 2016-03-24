@@ -49,7 +49,5 @@ do
 	echo stop $NAME
 done
 
-wait
-
 exit $RCODE
 

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+STAT=`docker inspect $1 | egrep '"Status"' | head -n 1 | \
+	sed -e 's/"//g' -e 's/,//' | awk '{print $2}'`
+
+if [ x"$STAT" == x"running" ]; then
+	echo RUNNING
+elif [ x"$STAT" == x"paused" ]; then
+	echo SUSPENDED
+elif [ x"$STAT" == x"exited" ]; then
+	echo STOPPED
+else
+	echo STOPPED
+fi

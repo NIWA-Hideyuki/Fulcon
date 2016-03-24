@@ -5,6 +5,7 @@
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/slot-os/lib:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
+FULCONDIR=/var/lib/fulcon
 SLOTOSDIR=/var/lib/slot-os
 
 usage()
@@ -18,14 +19,24 @@ lsdir() {
 
 list1()
 {
-	LIST=$1
-	CNAME=`echo $LIST | awk '{print $1}'`
-	STATUS=`echo $LIST | awk '{print $2}'`
-	IMAGE=`echo $LIST | awk '{print $3}' | awk -F / '{print $2}'`
-	IPADDR=`echo $LIST | awk '{for(i=4;i<=NF;i++)printf "%s ",$i}'`
-	i=`echo $CNAME | sed -e 's/slot//g'`
-	i=`expr $i + 0`
+	i=$1
+	CNAME=`printf "slot%02d" $i`
+	STATUS=`fulcon-status $CNAME`
+	IMAGE=`sed -e 's%fulcon/%%' $FULCONDIR/container/$CNAME/imagename`
 
+	# network information
+	IPADDR=""
+	if [ x"$STATUS" == x"RUNNING" ]; then
+		IPADDR=`fulcon-ip $CNAME`
+	fi
+	mkdir -p $SLOTOSDIR/slot/$i/net
+	for k in `lsdir $SLOTOSDIR/slot/$i/net`
+	do
+		IP1=`awk '{printf "%s ",$3}' $SLOTOSDIR/slot/$i/net/$k`
+		IPADDR="$IPADDR $IP1"
+	done
+
+	# autostart information
 	if [ -f $SLOTOSDIR/slot/$i/autostart ]; then
 		AUTOSTART="A"
 	else
@@ -60,31 +71,26 @@ if [ x"$1" != x"list" ]; then
 		list1 $NUM
 		exit 0
 	else
-#		printf "error: slot%02d is not exist\n" $NUM
 		exit -1
 	fi
 fi
 
-
 if [ ! -d $SLOTOSDIR/slot -o ! -d $SLOTOSDIR/slot/0 ]; then
-#	echo "error: there is no slot."
 	exit -1
 fi
 
-SAVEIFS=IFS
-IFS='
-'
+ALLCONT=`lsdir $SLOTOSDIR/slot | sort -n`
+
 if [ x"$1" == x"list" ]; then
-	for i in `fulcon list | egrep ^slot`
+	for i in $ALLCONT
 	do
 		list1 $i
-	done
+	done | sort -n
 else
 	if [ -d $SLOTOSDIR/slot/$NUM ]; then
 		CNAME=`cat $SLOTOSDIR/slot/$NUM/fulcon`
-		list1 `fulcon list $CNAME`
+		list1 $NUM
 	fi
 fi
-IFS=$SAVEIFS
 
 exit 0

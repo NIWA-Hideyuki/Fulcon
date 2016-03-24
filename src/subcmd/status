@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
+if [ $# -ne 1 -o x"$1" == x"status" ]; then
+	echo usage: status NAME
+	exit -1
+fi
+
+. fulcon-status $@
+
+exit 0
