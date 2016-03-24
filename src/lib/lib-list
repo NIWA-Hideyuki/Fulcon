@@ -25,6 +25,7 @@ ALLCONT=`fulcon-list-all | awk '{printf "%s ",$1}'`
 list1()
 {
 	NAME=$1
+	mkdir -p $FULCONDIR/slot/$NAME/net
 	if [ -f /var/lib/fulcon/container/$NAME/imagename ]; then
 		IMAGE=`cat /var/lib/fulcon/container/$NAME/imagename`
 		echo $RUNNING | egrep -w $NAME >& /dev/null
@@ -37,7 +38,6 @@ list1()
 			printf "%s\t\tRUNNING\t\t%s $IPADDR\n" $NAME $IMAGE
 		else
 			# network information
-			mkdir -p $FULCONDIR/slot/$NAME/net
 			IPADDR=""
 			for k in `lsdir $FULCONDIR/container/$NAME/net`
 			do
