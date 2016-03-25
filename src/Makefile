@@ -18,10 +18,10 @@ install-cmd :
 	mkdir -p $(DESTDIR)$(sbindir)/sbin
 	install -m 755 cmd/fulcon $(DESTDIR)$(sbindir)/fulcon
 	install -m 755 cmd/slot-os $(DESTDIR)$(sbindir)/slot-os
-	install -m 755 cmd/fulcon-start $(DESTDIR)$(libdir)/fulcon/sbin/fulcon-start
 
 install-subcmd : 
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/sbin
+	install -m 755 cmd/fulcond $(DESTDIR)$(libdir)/fulcon/sbin/fulcond
 	install -m 755 subcmd/default-image $(DESTDIR)$(libdir)/fulcon/sbin/default-image
 	install -m 755 subcmd/driver-name $(DESTDIR)$(libdir)/fulcon/sbin/driver-name
 	install -m 755 subcmd/list $(DESTDIR)$(libdir)/fulcon/sbin/list
