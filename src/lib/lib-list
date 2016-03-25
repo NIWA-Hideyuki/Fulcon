@@ -19,6 +19,7 @@ list1()
 {
 	NAME=$1
 	mkdir -p $FULCONDIR/slot/$NAME/net
+	mkdir -p $FULCONDIR/container/$NAME/net
 	if [ -f /var/lib/fulcon/container/$NAME/imagename ]; then
 		IMAGE=`cat /var/lib/fulcon/container/$NAME/imagename`
 		IPADDR=""

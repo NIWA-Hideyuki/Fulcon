@@ -47,6 +47,7 @@ do
 	fi
 
 	rm -rf $SLOTOSDIR/slot/$SNUM/net
+	mkdir -p $FULCONDIR/container/$NAME/net
 	cp -pr $FULCONDIR/container/$NAME/net $SLOTOSDIR/slot/$SNUM/
 
 	fulcon start $NAME >& /dev/null &
