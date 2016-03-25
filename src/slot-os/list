@@ -10,7 +10,7 @@ SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: list [ SLOT_NUMBER ]"
+	echo "usage: list [ SLOT_NUMBER ...]"
 }
 
 lsdir() {
@@ -57,23 +57,7 @@ list1()
 }
 
 
-if [ $# -ne 1 ]; then
-	usage
-	exit -1
-fi
-
-if [ x"$1" != x"list" ]; then
-	NUM=$1
-	NUM=`echo $NUM | sed -e 's/slot//'` 
-	NUM=`expr $NUM + 0`
-
-	if [ -d $SLOTOSDIR/slot/$NUM ]; then
-		list1 $NUM
-		exit 0
-	else
-		exit -1
-	fi
-fi
+NUMS=$*
 
 if [ ! -d $SLOTOSDIR/slot -o ! -d $SLOTOSDIR/slot/0 ]; then
 	exit -1
@@ -87,10 +71,25 @@ if [ x"$1" == x"list" ]; then
 		list1 $i
 	done | sort -n
 else
-	if [ -d $SLOTOSDIR/slot/$NUM ]; then
-		CNAME=`cat $SLOTOSDIR/slot/$NUM/fulcon`
-		list1 $NUM
-	fi
+	for i in $NUMS
+	do
+		NUM=$i
+		NUM=`echo $NUM | sed -e 's/slot//'` 
+		NUM=`expr $NUM + 1`
+		if [ $? -ne 0 ]; then
+			echo "error: slot $i is not exist"
+			continue
+		else
+			NUM=`expr $NUM - 1`
+		fi
+
+		if [ -d $SLOTOSDIR/slot/$NUM ]; then
+			CNAME=`cat $SLOTOSDIR/slot/$NUM/fulcon`
+			list1 $NUM
+		else
+			echo "error: slot $NUM is not exist"
+		fi
+	done
 fi
 
 exit 0

@@ -3,7 +3,7 @@ Description=Fulcon/Slot-OS Platform
 After=network.target NetworkManager.service docker.service
 
 [Service]
-ExecStart=/usr/lib/fulcon/sbin/fulcon-start
+ExecStart=/usr/lib/fulcon/sbin/fulcond
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
 Restart=on-failure

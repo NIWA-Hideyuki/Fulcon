@@ -39,28 +39,15 @@ fi
 CNAME=$1
 
 if [ $FLG_C -eq 1 ]; then
-	fulcon-cpu $CNAME $CPU
+	fulcon-cpu $CNAME $CPU &
 fi
 
 if [ $FLG_N -eq 1 ]; then
-	fulcon-cpuset $CNAME $CPUSET
+	fulcon-cpuset $CNAME $CPUSET &
 fi
 
 if [ $FLG_M -eq 1 ]; then
-	fulcon-mem $CNAME $MEM
-fi
-
-fulcon-cpu $CNAME
-if [ $? -ne 0 ]; then
-	exit -1
-fi
-fulcon-cpuset $CNAME
-if [ $? -ne 0 ]; then
-	exit -1
-fi
-fulcon-mem $CNAME
-if [ $? -ne 0 ]; then
-	exit -1
+	fulcon-mem $CNAME $MEM &
 fi
 
 exit 0

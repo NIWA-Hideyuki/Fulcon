@@ -22,6 +22,6 @@ if [ x"$STAT" != x"RUNNING" ]; then
 	exit -1
 fi
 
-fulcon-suspend $NAME
+fulcon-suspend $NAME >& /dev/null
 
 exit 0
