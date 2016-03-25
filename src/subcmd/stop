@@ -37,6 +37,7 @@ if [ $FLG_N -eq 1 ]; then
 			N=`printf "%04d" $i`
 			lib-stop $NAME$N
 		done;
+		echo stop $NAME$N
 		exit 0
 	else
 		echo "REPEAT_NUMBER must be [1...999]"
@@ -60,6 +61,7 @@ fi
 for i in $NAMES
 do
 	lib-stop $OPT_FLG $i
+	echo stop $i
 done
 
 exit 0

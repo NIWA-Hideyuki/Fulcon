@@ -30,6 +30,7 @@ install-subcmd :
 	install -m 755 subcmd/erase $(DESTDIR)$(libdir)/fulcon/sbin/erase
 	install -m 755 subcmd/start $(DESTDIR)$(libdir)/fulcon/sbin/start
 	install -m 755 subcmd/stop $(DESTDIR)$(libdir)/fulcon/sbin/stop
+	install -m 755 subcmd/restart $(DESTDIR)$(libdir)/fulcon/sbin/restart
 	install -m 755 subcmd/suspend $(DESTDIR)$(libdir)/fulcon/sbin/suspend
 	install -m 755 subcmd/resume $(DESTDIR)$(libdir)/fulcon/sbin/resume
 	install -m 755 subcmd/rename $(DESTDIR)$(libdir)/fulcon/sbin/rename
@@ -101,6 +102,7 @@ install-slot-os:
 	install -m 755 slot-os/list $(DESTDIR)$(libdir)/slot-os/sbin/list
 	install -m 755 slot-os/start $(DESTDIR)$(libdir)/slot-os/sbin/start
 	install -m 755 slot-os/stop $(DESTDIR)$(libdir)/slot-os/sbin/stop
+	install -m 755 slot-os/restart $(DESTDIR)$(libdir)/slot-os/sbin/restart
 	install -m 755 slot-os/suspend $(DESTDIR)$(libdir)/slot-os/sbin/suspend
 	install -m 755 slot-os/resume $(DESTDIR)$(libdir)/slot-os/sbin/resume
 	install -m 755 slot-os/update-prog $(DESTDIR)$(libdir)/slot-os/sbin/update-prog

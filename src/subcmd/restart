@@ -1,0 +1,107 @@
+#!/bin/bash
+
+# Copyright (C) 2015-2016 NIWA Hideyuki
+
+FULCONDRIVER=`fulcon driver-name`
+PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
+usage()
+{
+	echo "usage: restart NAME NAME ..."
+	echo "       restart [-n REPEAT_NUMBER] NAME  ..."
+}
+
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
+}
+
+# check options
+OPT_FLG=""
+FLG_N=0
+RNUM=0
+
+while getopts n: OPT
+do
+  case $OPT in
+    "n" ) FLG_N=1 ; RNUM=$OPTARG ;;
+    \?  ) usage; exit -1;;
+  esac
+done
+
+shift `expr $OPTIND - 1`
+
+if [ $FLG_N -eq 1 ]; then
+	if [ $# -ne 1 ]; then
+		usage
+		exit -1
+	fi
+	NAME=$1
+	NAME=`echo $NAME | sed -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g'`
+	if [ $RNUM -gt 0 -a $RNUM -lt 1000 ]; then
+		for i in `seq $RNUM`
+		do
+			N=`printf "%04d" $i`
+			if [ x"`fulcon-status $NAME$N`" == x"RUNNING" ]; then
+				lib-stop $NAME$N
+			fi
+			lib-start $OPT_FLG $NAME$N
+			if [ $? -ne 0 ]; then
+				continue
+			fi
+
+			NETDIR=$FULCONDIR/container/$NAME$N/net
+			ls $NETDIR/* >& /dev/null
+			if [ $? -eq 0 ]; then
+				for j in `lsdir $NETDIR`
+				do
+					sed -i -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g' $NETDIR/$j >& /dev/null
+					net-add $NAME$N `cut -d ' ' -f 3- $NETDIR/$j`
+				done
+			fi
+		done;
+		exit 0
+	else
+		echo "REPEAT_NUMBER must be [1...999]"
+		exit -1
+	fi
+
+fi
+
+if [ $# -ge 1 ]; then
+	NAMES=$@
+else
+	usage
+	exit -1
+fi
+
+if [ x"$NAMES" == x"start" ]; then
+	usage
+	exit -1
+fi
+
+NAMES=`echo $NAMES | sed -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g'`
+for i in $NAMES
+do
+	if [ x"`fulcon-status $i`" == x"RUNNING" ]; then
+		lib-stop $i
+	fi
+	lib-start $OPT_FLG $i
+	if [ $? -ne 0 ]; then
+		continue
+	fi
+
+	NETDIR=$FULCONDIR/container/$i/net/
+	ls $NETDIR/* >& /dev/null
+	if [ $? -eq 0 ]; then
+		for j in `lsdir $NETDIR`
+		do
+			sed -i -e 's/\$//g' -e 's/`//g' -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g' $NETDIR/$j >& /dev/null
+			fulcon net-add $i `cut -d ' ' -f 3- $NETDIR/$j`
+			fulcon net-info $i >& /dev/null
+		done
+	fi
+done
+
+exit 0
+
+

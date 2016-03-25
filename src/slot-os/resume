@@ -10,6 +10,7 @@ SLOTOSDIR=/var/lib/slot-os
 usage()
 {
 	echo "usage: resume NUMBER ..."
+	echo "usage: resume all"
 }
 
 lsdir() {
@@ -25,6 +26,10 @@ fi
 RCODE=0
 
 SNUMS=$*
+if [ x"$1" == x"all" ]; then
+	SNUMS=`ls $SLOTOSDIR/slot | sort -n`
+fi
+
 for SNUM in $SNUMS
 do
 	if [ ! -x $SLOTOSDIR/slot/$SNUM ]; then

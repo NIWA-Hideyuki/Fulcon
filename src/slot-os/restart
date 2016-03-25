@@ -5,12 +5,13 @@
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/slot-os/lib:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
+FULCONDIR=/var/lib/fulcon
 SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: suspend NUMBER ..."
-	echo "usage: suspend all"
+	echo "usage: restart NUMBER ..."
+	echo "usage: restart all"
 }
 
 lsdir() {
@@ -45,7 +46,11 @@ do
 		continue
 	fi
 
-	fulcon suspend $NAME
+	rm -rf $SLOTOSDIR/slot/$SNUM/net
+	mkdir -p $FULCONDIR/container/$NAME/net
+	cp -pr $FULCONDIR/container/$NAME/net $SLOTOSDIR/slot/$SNUM/
+
+	fulcon restart $NAME
 
 done
 

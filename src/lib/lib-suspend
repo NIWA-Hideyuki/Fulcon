@@ -18,7 +18,7 @@ fi
 
 STAT=`fulcon list | awk '($1=="'$NAME'"){print $2}'`
 if [ x"$STAT" != x"RUNNING" ]; then
-	echo "error: not RUNNING" 
+	echo "error: not RUNNING $NAME" 
 	exit -1
 fi
 

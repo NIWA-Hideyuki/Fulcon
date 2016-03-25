@@ -1,23 +1,73 @@
 #!/bin/bash
 
-# Copyright (C) 2015-2016 NIWA Hideyuki
+# Copyright (C) 2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 usage()
 {
-	echo "usage: suspend NAME"
+	echo "usage: suspend [-n REPEAT_NUMBER] NAME  ..."
 }
 
-if [ $# -eq 1 ]; then
+# check options
+OPT_FLG=""
+FLG_N=0
+RNUM=0
+
+while getopts n: OPT
+do
+  case $OPT in
+    "n" ) FLG_N=1; RNUM=$OPTARG;;
+    \?  ) usage; exit -1;;
+  esac
+done
+
+shift `expr $OPTIND - 1`
+
+if [ $FLG_N -eq 1 ]; then
+	if [ $# -ne 1 ]; then
+		usage
+		exit -1
+	fi
+	NAME=$1
+	if [ $RNUM -gt 0 -a $RNUM -lt 1000 ]; then
+		for i in `seq $RNUM`
+		do
+			N=`printf "%04d" $i`
+			lib-suspend $NAME$N
+			if [ $? -eq 0 ]; then
+				echo suspend $NAME$N
+			fi
+		done;
+		exit 0
+	else
+		echo "REPEAT_NUMBER must be [1...999]"
+		exit -1
+	fi
+
+fi
+
+if [ $# -ge 1 ]; then
 	NAMES=$@
 else
 	usage
 	exit -1
 fi
 
-. lib-suspend $NAMES
+if [ x"$NAMES" == x"suspend" ]; then
+	usage
+	exit -1
+fi
+
+for i in $NAMES
+do
+	lib-suspend $OPT_FLG $i
+	if [ $? -eq 0 ]; then
+		echo suspend $i
+	fi
+done
 
 exit 0
+
 
