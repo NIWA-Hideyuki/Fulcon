@@ -2,17 +2,11 @@
 
 # Copyright (C) 2016 NIWA Hideyuki
 
-STAT=`docker inspect $1 | egrep '"Status"' | head -n 1 | \
-	sed -e 's/"//g' -e 's/,//' | awk '{print $2}'`
+docker inspect $1 | \
+  awk 'BEGIN{f=0} \
+       {if(($1=="\"Running\":")&&($2=="true,")){f=1; \
+        }else if(($1=="\"Paused\":")&&($2=="true,")){f=2;exit(0);}} \
+       END{if(f==0)print"STOPPED"; \
+           else if(f==2)print"PAUSED"; \
+           else print"RUNNING"; }'
 
-if [ x"$STAT" == x"running" ]; then
-	echo RUNNING
-elif [ x"$STAT" == x"paused" ]; then
-	echo SUSPENDED
-elif [ x"$STAT" == x"exited" ]; then
-	echo STOPPED
-else
-	echo STOPPED
-fi
-
-exit 0
