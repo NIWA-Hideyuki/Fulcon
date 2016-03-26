@@ -45,7 +45,8 @@ do
 		continue
 	fi
 
-	fulcon stop $NAME >& /dev/null &
+	fulcon stop $NAME >& /dev/null 
+
 	echo stop $NAME
 done
 

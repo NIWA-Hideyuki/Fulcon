@@ -10,18 +10,33 @@ SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: list [ SLOT_NUMBER ...]"
+	echo "usage: list [ -c ] [ SLOT_NUMBER ...]"
 }
 
 lsdir() {
   ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
 }
 
+# check options
+FLG_C=0
+
+while getopts c OPT
+do
+  case $OPT in
+  "c" ) FLG_C=1 ;;
+  \?  ) usage; exit -1;;
+  esac
+done
+shift `expr $OPTIND - 1`
+
 list1()
 {
 	i=$1
 	CNAME=`printf "slot%02d" $i`
 	STATUS=`fulcon-status $CNAME`
+	if [ !  -f $FULCONDIR/container/$CNAME/imagename ]; then
+		return
+	fi
 	IMAGE=`sed -e 's%fulcon/%%' $FULCONDIR/container/$CNAME/imagename`
 
 	# network information
@@ -29,12 +44,14 @@ list1()
 	if [ x"$STATUS" == x"RUNNING" ]; then
 		IPADDR=`fulcon-ip $CNAME`
 	fi
-	mkdir -p $SLOTOSDIR/slot/$i/net
-	for k in `lsdir $SLOTOSDIR/slot/$i/net`
-	do
-		IP1=`awk '{printf "%s ",$3}' $SLOTOSDIR/slot/$i/net/$k`
-		IPADDR="$IPADDR $IP1"
-	done
+
+	if [ -d $SLOTOSDIR/slot/$i/net ]; then
+		for k in `lsdir $SLOTOSDIR/slot/$i/net`
+		do
+			IP1=`awk '{printf "%s ",$3}' $SLOTOSDIR/slot/$i/net/$k`
+			IPADDR="$IPADDR $IP1"
+		done
+	fi
 
 	# autostart information
 	if [ -f $SLOTOSDIR/slot/$i/autostart ]; then
@@ -57,20 +74,8 @@ list1()
 }
 
 
-NUMS=$*
-
-if [ ! -d $SLOTOSDIR/slot -o ! -d $SLOTOSDIR/slot/0 ]; then
-	exit -1
-fi
-
-ALLCONT=`lsdir $SLOTOSDIR/slot | sort -n`
-
-if [ x"$1" == x"list" ]; then
-	for i in $ALLCONT
-	do
-		list1 $i
-	done | sort -n
-else
+display_list()
+{
 	for i in $NUMS
 	do
 		NUM=$i
@@ -89,6 +94,36 @@ else
 		else
 			echo "error: slot $NUM is not exist"
 		fi
+	done
+}
+
+if [ ! -d $SLOTOSDIR/slot -o ! -d $SLOTOSDIR/slot/0 ]; then
+	exit -1
+fi
+
+NUMS=$*
+
+FLG=0
+if [ $# -eq 0 -o x"$1" == x"list" ]; then
+	NUMS=`lsdir $SLOTOSDIR/slot | sort -n`
+	FLG=1
+fi
+
+
+if [ $FLG_C -eq 0 ]; then
+	display_list
+else
+	tput clear
+
+	while : 
+	do
+		if [ $FLG -eq 1 ]; then
+			NUMS=`lsdir $SLOTOSDIR/slot | sort -n`
+		fi
+
+		display_list
+		sleep 1
+		tput clear
 	done
 fi
 

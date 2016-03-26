@@ -50,7 +50,7 @@ do
 	mkdir -p $FULCONDIR/container/$NAME/net
 	cp -pr $FULCONDIR/container/$NAME/net $SLOTOSDIR/slot/$SNUM/
 
-	fulcon start $NAME >& /dev/null &
+	fulcon start $NAME >& /dev/null 
 
 	echo start $NAME
 done
