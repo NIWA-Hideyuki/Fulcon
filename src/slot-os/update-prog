@@ -9,12 +9,13 @@ SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: update-prog COMMAND"
+	echo "usage: update-prog ( all | NUMBER ... ) : COMMAND "
 }
 
 lsdir() {
   ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
 }
+
 
 if [ $# -lt 1 ]; then
 	usage
@@ -26,6 +27,33 @@ if [ x"$1" == x"update-prog" ]; then
 	exit -1
 fi
 
-fulcon update-prog $*
+ARGS=$*
+
+NUMS=`echo $ARGS | cut -d ':' -f 1`
+CMD=`echo $ARGS | cut -d ':' -f 2`
+
+if [ x"$NUMS" == x"$CMD" -o x"$NUMS" == x"" -o x"" == x"$CMD" ]; then
+	usage
+	exit -1
+fi
+
+
+for i in $NUMS
+do
+	if [ x"$i" == x"all" ]; then
+		for j in `slot-os list | awk '{print $4}'`
+		do
+			fulcon update-prog -c $j $CMD
+		done
+		exit 0
+	fi
+
+	if [ -f $SLOTOSDIR/slot/$i/fulcon ]; then
+		NAME=`cat $SLOTOSDIR/slot/$i/fulcon`
+		fulcon update-prog -c $NAME $CMD
+	else
+		echo $i is not exist
+	fi
+done
 
 

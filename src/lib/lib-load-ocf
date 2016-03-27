@@ -10,7 +10,6 @@ usage()
 }
 
 if [ $# -ne 1 ]; then
-echo debug $#
 	usage
 	exit -1
 fi

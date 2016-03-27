@@ -4,21 +4,28 @@
 
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+FULCONDIR=/var/lib/fulcon
 
-usage() {
-	echo "usage: update"
+lsdir() {
+  ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
 }
 
-if [ $# -ne 1 ]; then
+usage() {
+	echo "usage: update NAME ... "
+}
+
+if [ $# -lt 1 ]; then
 	usage
 	exit -1
 fi
 
-if [ x"$1" != x"update" ]; then
+if [ x"$1" == x"update" ]; then
 	usage
 	exit -1
 fi
 
-. lib-update $@
+LISTNAME=$*
+
+. lib-update $LISTNAME
 
 exit 0

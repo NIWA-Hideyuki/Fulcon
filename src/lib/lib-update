@@ -3,7 +3,7 @@
 # Copyright (C) 2015-2016 NIWA Hideyuki
 
 usage() {
-	echo "usage: lib-update "
+	echo "usage: lib-update NUMBER ..."
 }
 
 update_ubuntu() {
@@ -40,7 +40,19 @@ update_centos() {
 	fi
 }
 
-for i in `fulcon list | awk '{printf "%s:%s:%s\n",$1,$2,$3}'`
+if [ $# -lt 1 ]; then
+	usage
+	exit -1
+fi
+
+if [ x"$1" == x"update" ]; then
+	usage
+	exit -1
+fi
+
+LISTNAME=$*
+
+for i in `fulcon list $LISTNAME | awk '{printf "%s:%s:%s\n",$1,$2,$3}'`
 do
 	NAME=`echo $i | awk -F ":" '{print $1}'`
 	STATUS=`echo $i | awk -F ":" '{print $2}'`

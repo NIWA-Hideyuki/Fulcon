@@ -6,7 +6,7 @@ FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 usage() {
-	echo "usage: update-prog [ -c IMAGE ] COMMAND "
+	echo "usage: update-prog [ -c NAME ] COMMAND "
 }
 
 # check options
@@ -29,8 +29,7 @@ CMD=$*
 if [ x"$IMAGENAME" == x"" ]; then
 	IMAGES=`fulcon list | awk '{printf "%s;%s\n",$1,$2}'`
 else
-	IMG=`echo $IMAGENAME | sed -e "s%fulcon/%%g"`
-	IMAGES=`fulcon list | awk '($3~/'$IMG'/){printf "%s;%s\n",$1,$2}'`
+	IMAGES=`fulcon list $IMAGENAME | awk '{printf "%s;%s\n",$1,$2}'`
 fi
 
 for i in $IMAGES

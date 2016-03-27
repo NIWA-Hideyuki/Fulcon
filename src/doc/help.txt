@@ -178,9 +178,14 @@ sysgen -n REPEAT_NUMBER  [ -c IMAGE ] NAME
           the name that NAME and the figure combined.  
           ex) "AB" and 3 : AB0001, AB0002, AB0003  
   
-update  
-     All containers are renewed.   
+update NAME
+     containers are renewed.   
      "Yum update" is done in centos. In ubuntu,   
      "Apt-get update" and "Apt-get upgrade" are done.   
   
 
+update-prog  -c NAME COMMAND
+     A program for update is executed in NAME.
+
+deploy [ -c IMAGE ] SRC_FILE DEST_PATH
+     A file is copied in NAME.

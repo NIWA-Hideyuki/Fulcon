@@ -56,7 +56,7 @@ do
 done
 
 cd  $SLOTOSDIR/slot/
-for i in `ls -1`
+for i in `ls -1 | sort -n`
 do
 	if [ ! $i -le $NUM ]; then
 		slot-erase $i 

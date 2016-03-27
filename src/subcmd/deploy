@@ -7,17 +7,17 @@ PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 usage()
 {
-	echo "usage: deploy [ -c IMAGE ] SRC_FILE DEST_PATH "
+	echo "usage: deploy [ -c NAME ] SRC_FILE DEST_PATH "
 }
 
 # check options
 OPT_FLG=""
-FLG_C=0; IMAGENAME=""
+FLG_C=0; CNAME=""
 
 while getopts c: OPT
 do
   case $OPT in
-    "c" ) FLG_C=1; IMAGENAME=$OPTARG;;
+    "c" ) FLG_C=1; CNAME=$OPTARG;;
     \?  ) usage; exit -1;;
   esac
 done
@@ -32,14 +32,9 @@ fi
 SRC_FILE=$1
 DEST_PATH=$2
 
-if [ x"$IMAGENAME" == x"" ]; then
-	IMAGES=`fulcon list | awk '{printf "%s;%s\n",$1,$2}'`
-else
-	IMG=`echo $IMAGENAME | sed -e "s%fulcon/%%g"`
-	IMAGES=`fulcon list | awk '($3~/'$IMG'/){printf "%s;%s\n",$1,$2}'`
-fi
+STATS=`fulcon list $CNAME | awk '{printf "%s;%s\n",$1,$2}'`
 
-for i in $IMAGES
+for i in $STATS
 do
 	NAME=`echo $i | awk '{split($1,a,";");print a[1]}'`
 	STATE=`echo $i | awk '{split($1,a,";");print a[2]}'`

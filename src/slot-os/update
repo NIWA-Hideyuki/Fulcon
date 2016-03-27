@@ -9,7 +9,7 @@ SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: update"
+	echo "usage: update ( all | NAME ...) "
 }
 
 lsdir() {
@@ -22,6 +22,20 @@ if [ $# -lt 1 ]; then
 	exit -1
 fi
 
-fulcon update
+if [ x"$1" == x"update" ]; then
+	usage
+	exit -1
+fi
 
+if [ x"$1" == x"all" ]; then
+	for i in `slot-os list | awk '{print $4}'`
+	do
+		fulcon update $i
+	done
+else
+	for i in `slot-os list $* | awk '{print $4}'`
+	do
+		fulcon update $i
+	done
+fi
 
