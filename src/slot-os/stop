@@ -38,11 +38,9 @@ do
 		continue
 	fi
 
-	NAME=`cat $SLOTOSDIR/slot/$SNUM/fulcon`
-	if [ x"$NAME" == x"-" -o x"$NAME" == x"" ]; then
-		printf "error: slot%2d has not a container\n" $SNUM
-		RCODE=-1
-		continue
+	NAME=`printf "slot%02d" $SNUM`
+	if [ x"`fulcon status $NAME`" == x"PAUSED" ]; then
+		fulcon resume $NAME
 	fi
 
 	fulcon stop $NAME >& /dev/null 

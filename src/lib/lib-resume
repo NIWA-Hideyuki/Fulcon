@@ -16,7 +16,7 @@ else
 	exit -1
 fi
 
-STAT=`fulcon list | awk '($1=="'$NAME'"){print $2}'`
+STAT=`fulcon status $NAME`
 if [ x"$STAT" != x"PAUSED" ]; then
 	echo "error: not PAUSED $NAME" 
 	exit -1
