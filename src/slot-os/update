@@ -9,7 +9,7 @@ SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: update ( all | NAME ...) "
+	echo "usage: update ( all | NUMBER ...) "
 }
 
 lsdir() {

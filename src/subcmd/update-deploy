@@ -7,7 +7,7 @@ PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 usage()
 {
-	echo "usage: deploy [ -c NAME ] SRC_FILE DEST_PATH "
+	echo "usage: update-deploy [ -c NAME ] SRC_FILE DEST_PATH "
 }
 
 # check options

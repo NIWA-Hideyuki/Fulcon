@@ -37,9 +37,6 @@ list [ -c ] [ NAME ]
      -c 
           It always keeps indicating list. When stopping, ^c is pushed.
 
-deploy SRC_FILE DEST_PATH 
-     SRC_FILE on the HOST is copied in DEST_PATH of all slot.  
-
 help
      Help is displayed.  
 
@@ -90,14 +87,17 @@ suspend ( all | NUMBER ... )
      The NUMBER of the specified NUMBER is suspended.  
 
 
-update
+update ( all | NUMBER ...)
      All slot os packages are updated.   
      "Yum update" is done in centos. In ubuntu,   
      "Apt-get update" and "Apt-get upgrade" are done.   
 
 
-update-prog COMMAND
-     The command is carried out in all slot.
+update-prog ( all | NUMBER ... ) : COMMAND
+     A COMMAND program for update is executed in NUMBER of slot.
 
+
+update-deploy NUMBER ... : SRC_FILE DEST_PATH
+     SRC_FILE on the HOST is copied in DEST_PATH of NUMBER of slot.  
 
 

@@ -9,7 +9,7 @@ SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: deploy NUMBER ... : SRC_FILE DEST_PATH"
+	echo "usage: update-deploy NUMBER ... : SRC_FILE DEST_PATH"
 }
 
 lsdir() {
@@ -21,7 +21,7 @@ if [ $# -lt 1 ]; then
 	exit -1
 fi
 
-if [ x"$1" == x"deploy" ]; then
+if [ x"$1" == x"update-deploy" ]; then
 	usage
 	exit -1
 fi
@@ -41,22 +41,22 @@ if [ `echo $FILES | awk '{print NF}'` -ne 2 ]; then
 	exit -1
 fi
 
-SRC=`echo $FILES | cut -d ' ' -f 1
-DIST=`echo $FILES | cut -d ' ' -f 2
+SRC=`echo $FILES | cut -d ' ' -f 1`
+DIST=`echo $FILES | cut -d ' ' -f 2`
 
 for i in $NUMS
 do
 	if [ x"$i" == x"all" ]; then
 		for j in `slot-os list | awk '{print $4}'`
 		do
-			fulcon deploy -c $j $SRC $DIST
+			fulcon update-deploy -c $j $SRC $DIST
 		done
 		exit 0
 	fi
 
 	if [ -f $SLOTOSDIR/slot/$i/fulcon ]; then
 		NAME=`cat $SLOTOSDIR/slot/$i/fulcon`
-		fulcon deploy -c $j $NAME $DIST
+		fulcon update-deploy -c $j $NAME $DIST
 	else
 		echo $i is not exist
 	fi

@@ -59,7 +59,7 @@ install-subcmd :
 	install -m 755 subcmd/set-default-image $(DESTDIR)$(libdir)/fulcon/sbin/set-default-image
 	install -m 755 subcmd/update-prog $(DESTDIR)$(libdir)/fulcon/sbin/update-prog
 	install -m 755 subcmd/update $(DESTDIR)$(libdir)/fulcon/sbin/update
-	install -m 755 subcmd/deploy $(DESTDIR)$(libdir)/fulcon/sbin/deploy
+	install -m 755 subcmd/update-deploy $(DESTDIR)$(libdir)/fulcon/sbin/update-deploy
 	install -m 755 subcmd/console $(DESTDIR)$(libdir)/fulcon/sbin/console
 	install -m 755 subcmd/autostart $(DESTDIR)$(libdir)/fulcon/sbin/autostart
 	install -m 755 subcmd/status $(DESTDIR)$(libdir)/fulcon/sbin/status
@@ -107,7 +107,7 @@ install-slot-os:
 	install -m 755 slot-os/resume $(DESTDIR)$(libdir)/slot-os/sbin/resume
 	install -m 755 slot-os/update-prog $(DESTDIR)$(libdir)/slot-os/sbin/update-prog
 	install -m 755 slot-os/update $(DESTDIR)$(libdir)/slot-os/sbin/update
-	install -m 755 slot-os/deploy $(DESTDIR)$(libdir)/slot-os/sbin/deploy
+	install -m 755 slot-os/update-deploy $(DESTDIR)$(libdir)/slot-os/sbin/update-deploy
 	install -m 755 slot-os/net-add $(DESTDIR)$(libdir)/slot-os/sbin/net-add
 	install -m 755 slot-os/net-del $(DESTDIR)$(libdir)/slot-os/sbin/net-del
 	install -m 755 slot-os/net-info $(DESTDIR)$(libdir)/slot-os/sbin/net-info
