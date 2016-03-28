@@ -12,10 +12,32 @@ usage()
 	echo "usage: make-base-image"
 }
 
+generate-image()
+{
+  echo "The slot-os image has not been generated yet. "
+  echo "The slot-os image is necessary as OS of slot. "
+  echo "Rootfs for slot is generated from rootfs of HOST. "
+  echo "It takes 50 minutes from ten minutes for generation. (Depend on the machine performance and the size of rootfs. )"
+  echo
+  echo -n "Do you generate it? [y/n] "
+  read yn
+  case "$yn" in
+    y | yes ) flg=1  ;;
+    *       ) flg=0 ;;
+  esac
+  if [ $flg -eq 1 ]; then
+    echo
+  else
+    exit -1
+  fi
+}
+
 if [ $# -eq 1 -a x"$1" == x"make-build-image" ]; then
 	usage
 	exit -1
 fi
+
+generate-image
 
 fulcon setup2
 
