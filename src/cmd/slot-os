@@ -13,7 +13,33 @@ export PATH=/usr/lib/slot-os/sbin:/usr/lib/fulcon/sbin:$PATH
 export FULCONDIR=/var/lib/fulcon
 export SLOTOSDIR=/var/lib/slot-os
 
+generate-image()
+{
+  echo "The slot-os image has not been generated yet. "
+  echo "The slot-os image is necessary as OS of slot. "
+  echo "Rootfs for slot is generated from rootfs of HOST. "
+  echo "It takes 50 minutes from ten minutes for generation. (Depend on the machine performance and the size of rootfs. )"
+  echo
+  echo -n "Do you generate it? [y/n] "
+  read yn
+  case "$yn" in
+    y | yes ) flg=1  ;;
+    *       ) flg=0 ;;
+  esac
+  if [ $flg -eq 1 ]; then
+    echo
+    slot-os make-base-image
+    exit 0
+  else
+    exit -1
+  fi
+}
+
 mkdir -p /var/lib/slot-os
+
+if [ x"`fulcon ls-image | awk '$1=="fulcon/slot-os"{print $1}'`" != x"fulcon/slot-os" ]; then
+  generate-image
+fi
 
 FLG_H=0
 
