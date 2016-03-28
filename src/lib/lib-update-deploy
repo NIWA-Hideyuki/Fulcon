@@ -6,7 +6,7 @@ LIBDIR="/var/lib/fulcon/"
 
 usage()
 {
-	echo "usage: lib-deploy CONTAINER_NAME SRC_FILE DEST_PATH"
+	echo "usage: lib-update-deploy CONTAINER_NAME SRC_FILE DEST_PATH"
 }
 
 if [ $# -ne 3 ]; then
@@ -21,7 +21,7 @@ DEST_PATH=$3
 fulcon-cp-in $SRC_FILE $NAME $DEST_PATH
 
 if [ $? -eq 0 ]; then
-	echo "deployed file :  $NAME ${DEST_PATH}/${SRC_FILE}"
+	echo "deployed file :  $NAME ${DEST_PATH} $SRC_FILE}"
 fi
 
 

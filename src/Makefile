@@ -86,7 +86,7 @@ install-lib:
 	install -m 755 lib/lib-del-image $(DESTDIR)$(libdir)/fulcon/lib/lib-del-image
 	install -m 755 lib/lib-update-prog $(DESTDIR)$(libdir)/fulcon/lib/lib-update-prog
 	install -m 755 lib/lib-update $(DESTDIR)$(libdir)/fulcon/lib/lib-update
-	install -m 755 lib/lib-deploy $(DESTDIR)$(libdir)/fulcon/lib/lib-deploy
+	install -m 755 lib/lib-update-deploy $(DESTDIR)$(libdir)/fulcon/lib/lib-update-deploy
 	install -m 755 lib/lib-console $(DESTDIR)$(libdir)/fulcon/lib/lib-console
 	install -m 755 lib/net-ipv4 $(DESTDIR)$(libdir)/fulcon/lib/net-ipv4
 	install -m 755 lib/lib-image-catalog $(DESTDIR)$(libdir)/fulcon/lib/lib-image-catalog
