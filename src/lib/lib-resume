@@ -17,8 +17,8 @@ else
 fi
 
 STAT=`fulcon status $NAME`
-if [ x"$STAT" != x"PAUSED" ]; then
-	echo "error: not PAUSED $NAME" 
+if [ x"$STAT" != x"SUSPENDED" ]; then
+	echo "error: not SUSPENDED $NAME" 
 	exit -1
 fi
 

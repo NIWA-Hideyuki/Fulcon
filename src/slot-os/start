@@ -40,7 +40,7 @@ do
 	fi
 
 	NAME=`printf "slot%02d" $SNUM`
-	if [ x"`fulcon status $NAME`" == x"PAUSED" ]; then
+	if [ x"`fulcon status $NAME`" == x"SUSPENDED" ]; then
 		fulcon resume $NAME
 	fi
 

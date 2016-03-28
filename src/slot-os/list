@@ -61,7 +61,7 @@ list1()
 	fi
 
 	if [ -d $SLOTOSDIR/slot/$i ]; then
-		printf "%2d : %8s %s %3s%% %3s %s %1s %s " \
+		printf "%2d : %-9s %s %3s%% %3s %s %1s %s " \
 			$i $STATUS $CNAME \
 			`cat $SLOTOSDIR/slot/$i/cpu` \
 			`cat $SLOTOSDIR/slot/$i/cpuset` \

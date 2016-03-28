@@ -122,7 +122,7 @@ resource [-c CPU] [-n CPUSET] [-m MEM] NAME
           "M" and "G" can be used for the unit.  
   
 resume   NAME  
-     Resume does the container in the state of PAUSED by suspend.  
+     Resume does the container in the state of SUSPENDED by suspend.  
   
 save-ocf IMAGE_NAME  
      The OCF image is saved as an image used for the container.  

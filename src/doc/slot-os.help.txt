@@ -73,7 +73,7 @@ restore SLOT_NUMBER BACKUP_IMAGE
 
 
 resume ( all | NUMBER ... )
-     Resume does the slot in the state of PAUSED by suspend.  
+     Resume does the slot in the state of SUSPENDED by suspend.  
 
 start ( all | NUMBER ... )
      The slot of the specified NUMBER is started.  

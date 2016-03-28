@@ -37,7 +37,7 @@ do
 	NAME=`echo $i | awk '{split($1,a,";");print a[1]}'`
 	STATE=`echo $i | awk '{split($1,a,";");print a[2]}'`
 
-	if [ x"$STATE" == x"PAUSED" ]; then
+	if [ x"$STATE" == x"SUSPENDED" ]; then
 		fulcon resume $NAME
 	elif [ x"$STATE" == x"STOPPED" ]; then
 		fulcon start $NAME
@@ -45,7 +45,7 @@ do
 
 	lib-update-prog $NAME $CMD
 
-	if [ x"$STATE" == x"PAUSED" ]; then
+	if [ x"$STATE" == x"SUSPENDED" ]; then
 		fulcon suspend $NAME
 	elif [ x"$STATE" == x"STOPPED" ]; then
 		fulcon stop $NAME
