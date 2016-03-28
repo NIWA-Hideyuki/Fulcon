@@ -47,7 +47,7 @@ do
 
 	fulcon stop $NAME >& /dev/null 
 
-	echo stop $NAME
+	echo stopped $NAME
 done
 
 exit $RCODE

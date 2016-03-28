@@ -56,7 +56,7 @@ do
 
 	if [ -f $SLOTOSDIR/slot/$i/fulcon ]; then
 		NAME=`cat $SLOTOSDIR/slot/$i/fulcon`
-		fulcon update-deploy -c $j $NAME $DIST
+		fulcon update-deploy -c $NAME $SRC $DIST
 	else
 		echo $i is not exist
 	fi

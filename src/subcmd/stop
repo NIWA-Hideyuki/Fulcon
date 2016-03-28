@@ -60,8 +60,8 @@ fi
 
 for i in $NAMES
 do
-	lib-stop $OPT_FLG $i
-	echo stop $i
+	lib-stop $OPT_FLG $i >& /dev/null
+	echo stopped $i
 done
 
 exit 0

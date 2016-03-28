@@ -21,7 +21,7 @@ DEST_PATH=$3
 fulcon-cp-in $SRC_FILE $NAME $DEST_PATH
 
 if [ $? -eq 0 ]; then
-	echo "deployed file :  $NAME ${DEST_PATH} $SRC_FILE}"
+	echo "deployed file => $NAME : FILE: $SRC_FILE PATH: ${DEST_PATH}"
 fi
 
 
