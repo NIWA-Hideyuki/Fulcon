@@ -79,6 +79,7 @@ done
 
 # release /var
 rm -rf $rootfs/var/log
+rm -rf $rootfs/var/spool
 for i in `lsdir /var` ; do
 	if [ -L $rootfs/var/$i ] ; then
 		rm -f $rootfs/var/$i
