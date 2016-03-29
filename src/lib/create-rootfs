@@ -221,6 +221,9 @@ rm -f $rootfs/etc/systemd/system/multi-user.target.wants/*
 if [ -f /lib/systemd/system/sshd.service ]; then
 	ln -s /lib/systemd/system/sshd.service $rootfs/etc/systemd/system/multi-user.target.wants/sshd.service
 fi
+if [ -f /lib/systemd/system/ssh.service ]; then
+	ln -s /lib/systemd/system/ssh.service $rootfs/etc/systemd/system/multi-user.target.wants/ssh.service
+fi
 if [ -f /lib/systemd/system/cron.service ]; then
 	ln -s /lib/systemd/system/cron.service $rootfs/etc/systemd/system/multi-user.target.wants/cron.service
 fi
