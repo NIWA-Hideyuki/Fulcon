@@ -237,7 +237,7 @@ backup-restore SLOT_NUMBER BACKUP_IMAGE
 br-add BRIDGE_NUMBER ( IPADDR/MASK | NET_DEVICE ]
      The IP-address or the device is registered in the bridge.
   
-br-del BRIDGE_NUMBER ( IPADDR/MASK | NET_DEVICE ]
+br-del BRIDGE_NUMBER
      The IP-address or the device is deleted in the bridge.
   
 br-info
