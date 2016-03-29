@@ -161,7 +161,7 @@ slot00.bkup1
 
 Restoration of backup
 
-$ sudo slot-os restore 0 slot00.bkkup1
+$ sudo slot-os backup-restore 0 slot00.bkkup1
 
 List of backup
 
@@ -169,7 +169,7 @@ $ sudo slot-os backup-list
 
 The initialization of slot restores slot-os. 
 
-$ sudo slot-os restore 0 slot-os
+$ sudo slot-os backup-restore 0 slot-os
 
 #### 9. Dynamic addition and deletion of network (net-add and net-del subcommand)
 
@@ -231,6 +231,9 @@ backup-del IMAGE_NAME
 backup-list
      A list of backups is indicated.
 
+backup-restore SLOT_NUMBER BACKUP_IMAGE
+     backup image is restored in slot.
+
 br-add BRIDGE_NUMBER ( IPADDR/MASK | NET_DEVICE ]
      The IP-address or the device is registered in the bridge.
   
@@ -282,9 +285,6 @@ resource [-c CPU] [-n CPUSET] [-m MEM] ( all | NUMBER ... )
           The allocated memory size are specified.  
           "M" and "G" can be used for the unit.  
   
-
-restore SLOT_NUMBER BACKUP_IMAGE
-
 
 resume ( all | NUMBER ... )
      Resume does the slot in the state of SUSPENDED by suspend.  

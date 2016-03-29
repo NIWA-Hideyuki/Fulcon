@@ -17,6 +17,9 @@ backup-del IMAGE_NAME
 backup-list
      A list of backups is indicated.
 
+backup-restore SLOT_NUMBER BACKUP_IMAGE
+     backup image is restored in slot.
+
 br-add BRIDGE_NUMBER ( IPADDR/MASK | NET_DEVICE ]
      The IP-address or the device is registered in the bridge.
   
@@ -68,9 +71,6 @@ resource [-c CPU] [-n CPUSET] [-m MEM] ( all | NUMBER ... )
           The allocated memory size are specified.  
           "M" and "G" can be used for the unit.  
   
-
-restore SLOT_NUMBER BACKUP_IMAGE
-
 
 resume ( all | NUMBER ... )
      Resume does the slot in the state of SUSPENDED by suspend.  

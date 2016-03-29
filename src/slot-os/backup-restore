@@ -10,7 +10,7 @@ SLOTOSDIR=/var/lib/slot-os
 
 usage()
 {
-	echo "usage: restore SLOT_NUMBER BACKUP_IMAGE"
+	echo "usage: backup-restore SLOT_NUMBER BACKUP_IMAGE"
 }
 
 lsdir() {
