@@ -19,7 +19,7 @@ generate-image()
   echo "Rootfs for slot is generated from rootfs of HOST. "
   echo "It takes 50 minutes from 10 minutes for generation. (Depend on the machine performance and the size of rootfs. )"
   echo
-  echo -n "Do you generate it? [y/n] "
+  echo -n "Do you generate the slot-os image? [y/n] "
   read yn
   case "$yn" in
     y | yes ) flg=1  ;;
