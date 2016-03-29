@@ -26,6 +26,11 @@ fi
 
 RCODE=0
 
+if [ x"$1" == x"start" ]; then
+	usage
+	exit -1
+fi
+
 SNUMS=$*
 if [ x"$1" == x"all" ]; then
 	SNUMS=`ls $SLOTOSDIR/slot | sort -n`
