@@ -115,7 +115,7 @@ for i in `lsdir /var` ; do
 		mkdir -p $rootfs/var/$i
 		DIRATTR=`stat --format='%a' /var/$i`
 		chmod $DIRATTR $rootfs/var/$i
-		if [ x"$i" != x"log" -a x"$i" != x"lib" ]; then
+		if [ x"$i" != x"log" -a x"$i" != x"lib" -a x"$i" != x"spool" ]; then
 			umount $rootfs/var/$i >& /dev/null
 			mount --bind /var/$i $rootfs/var/$i
 		fi
@@ -137,6 +137,18 @@ for i in `lsdir /var/lib`; do
 		fi
 	fi
 done
+
+# make /var/spool
+cp -pr /var/spool $rootfs/var
+if [ -d $rootfs/var/spool/abrt ]; then
+	rm -rf $rootfs/var/spool/abrt/*
+fi
+if [ -d $rootfs/var/spool/abrt-upload ]; then
+	rm -rf $rootfs/var/spool/abrt-upload/*
+fi
+if [ -d $rootfs/var/spool/mail ]; then
+	rm -rf $rootfs/var/spool/mail/*
+fi
 
 # clear /var/log
 cp -pr /var/log $rootfs/var
@@ -232,6 +244,5 @@ rm -f $rootfs/etc/rc?.d/*kerneloops
 # setup multi-user.target
 rm -f $rootfs/etc/systemd/system/default.target
 ln -s /lib/systemd/system/multi-user.target $rootfs/etc/systemd/system/default.target
-
 
 exit 0
