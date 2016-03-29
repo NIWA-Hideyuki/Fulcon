@@ -39,7 +39,7 @@ fi
 CPUNUM=`cat /sys/fs/cgroup/cpuset/cpuset.cpus | awk -F - '{print $NF}' | awk -F , '{print $NF}'`
 CPUNUM=`expr $CPUNUM + 1`
 
-mkdir -p $SLOTOS/slot
+mkdir -p $SLOTOSDIR/slot
 for i in `seq 0 $NUM`
 do
 	mkdir -p $SLOTOSDIR/slot/$i
