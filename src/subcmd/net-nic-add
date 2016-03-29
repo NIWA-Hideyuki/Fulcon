@@ -85,10 +85,14 @@ if [ $BRNO -eq -1 ]; then
 fi
 
 # clear ip
-IP=`ip a show fulcon$BRNO | egrep "inet " | awk '{print $2}'`
-if [ x"$IP" != x"" ]; then
+while :
+do
+	IP=`ip a show fulcon$BRNO | egrep "inet " | awk '{print $2}'`
+	if [ x"$IP" == x"" ]; then
+		break
+	fi
 	ip addr del $IP dev fulcon$BRNO
-fi
+done
 
 # set ip address for bridge, add interface to net_device
 ip addr add $IPMASK dev fulcon$BRNO

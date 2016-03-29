@@ -7,10 +7,15 @@ PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 usage()
 {
-	echo "usage: br-del BRIDGE_NUMBER ( IPADDR/MASK | NET_DEVICE )"
+	echo "usage: br-del BRIDGE_NUMBER"
 }
 
-if [ $# -ne 2 ]; then
+if [ $# -ne 1 ]; then
+	usage
+	exit -1
+fi
+
+if [ x"$1" == x"br-del" ]; then
 	usage
 	exit -1
 fi
@@ -19,34 +24,6 @@ BRNO=$1
 echo $BRNO | egrep fulcon >& /dev/null
 if [ $? -ne 0 ]; then
 	BRNO=fulcon$BRNO
-fi
-
-net-ipv4 $2 >& /dev/null
-if [ $? -eq 0 ]; then
-	NETDEV=""
-	IPMASK=$2
-else
-	NETDEV=$2
-	ip a show $NETDEV >& /dev/null
-	if [ $? -ne 0 ]; then
-		echo "error:" $NETDEV "does not exist"
-		exit -1
-	fi
-	IPMASK=`ip a show $BRNO | awk 'NR==3{print $2}'`
-
-	FLG=0
-	for i in `brctl show $BRNO | awk 'NR>1{print $NF}'`
-	do
-		if [ x"$i" == x"$NETDEV" ]; then
-			FLG=1
-		fi
-	done
-	if [ $FLG -eq 0 ]; then
-		echo "error: Device is not target:" $NETDEV
-		exit -1
-	fi
-
-	ip addr add $IPMASK dev $NETDEV
 fi
 
 # delete all interface

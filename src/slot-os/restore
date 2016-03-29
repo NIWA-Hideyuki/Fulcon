@@ -54,9 +54,9 @@ if [ -d $SLOTOSDIR/slot/$NUM/net ]; then
 fi
 
 if [ -f $SLOTOSDIR/slot/$NUM/autostart ]; then
-	fulcon autostart $NAME on
+	fulcon autostart on  $NAME
 else
-	fulcon autostart $NAME off
+	fulcon autostart off $NAME
 fi
 
 exit 0
