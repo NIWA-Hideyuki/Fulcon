@@ -5,7 +5,7 @@
 
 # check root
 if [ ${EUID:-$UID} -ne 0 ] ; then
-  echo "error: Because you are not root, you cannot execute this command."
+  echo "error: not executing without superuser privileges."
   exit 1
 fi
 
