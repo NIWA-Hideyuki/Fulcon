@@ -17,7 +17,7 @@ generate-image()
   echo "The slot-os image has not been generated yet. "
   echo "The slot-os image is necessary as OS of slot. "
   echo "Rootfs for slot is generated from rootfs of HOST. "
-  echo "It takes 50 minutes from ten minutes for generation. (Depend on the machine performance and the size of rootfs. )"
+  echo "It takes 50 minutes from 10 minutes for generation. (Depend on the machine performance and the size of rootfs. )"
   echo
   echo -n "Do you generate it? [y/n] "
   read yn

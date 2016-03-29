@@ -206,9 +206,18 @@ ln -s /dev/null $rootfs/etc/systemd/system/systemd-udevd.service
 rm -f $rootfs/etc/systemd/system/basic.target.wants/*
 rm -f $rootfs/etc/systemd/system/default.target.wants/*
 rm -f $rootfs/etc/systemd/system/multi-user.target.wants/*
-ln -s /lib/systemd/system/sshd.service $rootfs/etc/systemd/system/multi-user.target.wants/sshd.service
-ln -s /lib/systemd/system/cron.service $rootfs/etc/systemd/system/multi-user.target.wants/cron.service
-ln -s /lib/systemd/system/rsyslog.service $rootfs/etc/systemd/system/multi-user.target.wants/rsyslog.service
+if [ -f /lib/systemd/system/sshd.service ]; then
+	ln -s /lib/systemd/system/sshd.service $rootfs/etc/systemd/system/multi-user.target.wants/sshd.service
+fi
+if [ -f /lib/systemd/system/cron.service ]; then
+	ln -s /lib/systemd/system/cron.service $rootfs/etc/systemd/system/multi-user.target.wants/cron.service
+fi
+if [ -f /lib/systemd/system/crond.service ]; then
+	ln -s /lib/systemd/system/crond.service $rootfs/etc/systemd/system/multi-user.target.wants/crond.service
+fi
+if [ -f /lib/systemd/system/rsyslog.service ]; then
+	ln -s /lib/systemd/system/rsyslog.service $rootfs/etc/systemd/system/multi-user.target.wants/rsyslog.service
+fi
 rm -f $rootfs/etc/systemd/system/graphical.target.wants/*
 
 rm -f $rootfs/etc/systemd/system/irqbalance.service
