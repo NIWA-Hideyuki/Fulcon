@@ -1,16 +1,25 @@
 Fulcon / Slot-OS Platform 0.3    Copyright (C) 2015-2016 NIWA Hideyuki
     Apache License Version 2.0
 
-`Fulcon/Slot-OS` is the system container platform.
+## What is Fulcon/Slot-OS?
 
-Slot-OS divides the HOST machine into two or more software partitions (slot). Each partition can be operated like another machine of the same composition. 
-- Slot is a virtual partition divided with software. 
-- CPU%, a number of CPU, MEMORY, and virtual NIC of each slot can be set dynamically in each slot. 
-- The image of OS of Slot is generated from HOST OS. Download is unnecessary. 
+- Slot-OS divides the HOST machine into two or more software partitions (slot). 
+- Each slot can be operated like another machine of the same composition. 
+- Root of the Fulcon/Slot-OS container has a strong root authority, and the same operation as root of HOST is possible. 
+- The slot can dynamically compose the network. (SDN function)
 
-Fulcon/ Root of the Slot-OS container has a strong root authority, and the same operation as root of HOST is possible. 
+## Function of Fulcon/Slot-OS
+- Function to divide machine into two or more slots
+- Function to generate image for slot from rootfs of HOST
+- Dynamic addition and deletion (SDN) function of two or more Internet Protocol addresses
+- Allocation of resource of each slot (CPU%, number of CPU, and memory size) and dynamic modification function
+- Console function of slot
+- Listing function of the entire slot
+- Suspension (temporary stop) and resume of slot
+- Automatic update-function of two or more slots
+- High-speed backup function
 
-Fulcon can handle CentOS 7 , Ubuntu 15.04, Fedora 23
+Fulcon can handle CentOS 7, Ubuntu 15.04, Fedora 23
 
 ### Install pacage
 

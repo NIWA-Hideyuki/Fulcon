@@ -98,8 +98,8 @@ done
 ip addr add $IPMASK dev fulcon$BRNO
 brctl addif fulcon$BRNO $NETDEV
 
-# set MAC
-#MAC=`ip addr show $NETDEV | egrep link/ether | awk '{print $2}'`
+# set BR MAC
+#MAC=`ip addr show fulcon$BRNO | egrep link/ether | awk '{print $2}' | awk -F : '{printf "52:54:00:%2s:%2s:%2s",$4,$5,$6}'`
 #ip link set fulcon$BRNO address $MAC
 
 # delete address of nic

@@ -134,6 +134,7 @@ setup_network()
 		ip link set ${LXCNAME}_${NUM} address $MAC1 
 	else
 		MAC1=`ip addr show ${LXCNAME}_${NUM} | egrep link/ether | awk '{print $2}'`
+#		MAC1=`echo $MAC1 | awk -F : '{printf "52:54:00:%2s:%2s:%2s",$4,$5,$6}'`
 	fi
 
 	ip link set ${LXCNAME}_${NUM} up
@@ -157,6 +158,7 @@ setup_network()
 		ip netns exec "${LXCNAME}_${NUM}" ip link set vg${LXCNAME}_${NUM} address $MAC2
 	else
 		MAC2=`ip netns exec "${LXCNAME}_${NUM}" ip addr show vg${LXCNAME}_${NUM} | egrep link/ether | awk '{print $2}'`
+#		MAC2=`echo $MAC2 | awk -F : '{printf "52:54:00:%2s:%2s:%2s",$4,$5,$6}'`
 	fi
 
 	# Setting of network in container
