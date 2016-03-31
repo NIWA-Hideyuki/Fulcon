@@ -21,7 +21,7 @@ Fulcon / Slot-OS Platform 0.3    Copyright (C) 2015-2016 NIWA Hideyuki
 
 Fulcon can handle CentOS 7, Ubuntu 15.04, Fedora 23
 
-### Install pacage
+### Install package
 
 ubuntu
 
