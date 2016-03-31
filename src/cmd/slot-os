@@ -1,7 +1,28 @@
-#!/bin/bash 
+#!/bin/bash -x
 
 # Fulcon/slot-os Virtual-Platform
 # Copyright (C) 2016 NIWA Hideyuki
+
+umask 022
+
+LOGFILE=/var/log/fulcon/slot-os.log
+
+print_log()
+{
+	EXLINE=$*
+	DATETIME=`date "+%Y%m%d%H%M%S"`
+	echo $DATETIME ":" slot-os $EXLINE  >> $LOGFILE
+
+	while read l
+	do
+		echo $l | egrep "^error:" >& /dev/null
+		if [ $? -eq 0 ]; then
+			DATETIME=`date "+%Y%m%d%H%M%S"`
+			echo $DATETIME ":" slot-os $EXLINE ":" $l >> $LOGFILE
+		fi
+	done
+
+}
 
 # check root
 if [ ${EUID:-$UID} -ne 0 ] ; then
@@ -14,6 +35,9 @@ export FULCONDIR=/var/lib/fulcon
 export SLOTOSDIR=/var/lib/slot-os
 
 mkdir -p /var/lib/slot-os
+
+mkdir -p `dirname $LOGFILE`
+touch $LOGFILE
 
 if [ x"`fulcon ls-image | awk '$1=="fulcon/slot-os"{print $1}'`" != x"fulcon/slot-os" ]; then
   slot-os make-base-image
@@ -34,7 +58,7 @@ if [ $# -eq 0 ] ; then
 else
   if [ -f /usr/lib/slot-os/sbin/$1 ]; then
     EXLINE=`echo /usr/lib/slot-os/sbin/$* | sed -e 's/\$//g' -e 's/\`//g' -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g'`
-    . $EXLINE
+    . $EXLINE 2>&1 | print_log $*
   else
     echo "error: unknown command:" $1
   fi
