@@ -56,7 +56,8 @@ if [ $# -eq 0 ] ; then
 else
   if [ -f /usr/lib/slot-os/sbin/$1 ]; then
     EXLINE=`echo /usr/lib/slot-os/sbin/$* | sed -e 's/\$//g' -e 's/\`//g' -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g'`
-    . $EXLINE |& print_log $*
+#    . $EXLINE |& print_log $*
+    . $EXLINE
   else
     echo "error: unknown command:" $1
   fi
