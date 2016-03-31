@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash 
 
 # Fulcon/slot-os Virtual-Platform
 # Copyright (C) 2016 NIWA Hideyuki
@@ -10,11 +10,9 @@ LOGFILE=/var/log/fulcon/slot-os.log
 print_log()
 {
 	EXLINE=$*
-	DATETIME=`date "+%Y%m%d%H%M%S"`
-	echo $DATETIME ":" slot-os $EXLINE  >> $LOGFILE
-
 	while read l
 	do
+		echo $l
 		echo $l | egrep "^error:" >& /dev/null
 		if [ $? -eq 0 ]; then
 			DATETIME=`date "+%Y%m%d%H%M%S"`
@@ -58,7 +56,7 @@ if [ $# -eq 0 ] ; then
 else
   if [ -f /usr/lib/slot-os/sbin/$1 ]; then
     EXLINE=`echo /usr/lib/slot-os/sbin/$* | sed -e 's/\$//g' -e 's/\`//g' -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g'`
-    . $EXLINE 2>&1 | print_log $*
+    . $EXLINE |& print_log $*
   else
     echo "error: unknown command:" $1
   fi
