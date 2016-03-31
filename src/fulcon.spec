@@ -3,7 +3,7 @@
 Summary:               Generate the full container and management it
 License:               Apache 2.0
 Name:                  fulcon
-Version:               0.3
+Version:               0.4
 Release:               1%{?dist}
 Source:                fulcon-%{?version}.tar.gz
 URL:                   https://github.com/NIWA-Hideyuki/Fulcon

@@ -1,4 +1,4 @@
-Fulcon / Slot-OS Platform 0.3    Copyright (C) 2015-2016 NIWA Hideyuki
+Fulcon / Slot-OS Platform 0.4    Copyright (C) 2015-2016 NIWA Hideyuki
     Apache License Version 2.0
 
 ## What is Fulcon/Slot-OS?
@@ -28,7 +28,7 @@ ubuntu
 $  sudo apt-get install docker.io python-ipy bridge-utils  
 $  sudo systemctl enable docker.service
 $  sudo systemctl start docker.service
-$  sudo dpkg -i fulcon_0.3_amd64.deb
+$  sudo dpkg -i fulcon_0.4_amd64.deb
 $  sudo systemctl enable fulcon.service
 $  sudo systemctl start fulcon.service
 
@@ -37,7 +37,7 @@ CentOS, Fedora
 $  sudo yum install docker-io python-IPy bridge-utils  
 $  sudo systemctl enable docker.service
 $  sudo systemctl start docker.service
-$  sudo rpm -ivh fulcon-0.3-1.el7.centos.x86_64.rpm
+$  sudo rpm -ivh fulcon-0.4-1.el7.centos.x86_64.rpm
 $  sudo systemctl enable fulcon.service
 $  sudo systemctl start fulcon.service
  

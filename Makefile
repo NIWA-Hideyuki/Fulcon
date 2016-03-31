@@ -1,7 +1,7 @@
 # Fulcon
 # Copyright (C) 2015 NIWA Hideyuki
 
-VERSION=0.3
+VERSION=0.4
 
 
 fulcon :
