@@ -55,7 +55,7 @@ fi
 if [ x"$NETDEV" != x"" ]; then
 	ip a show $NETDEV >& /dev/null
 	if [ $? -ne 0 ]; then
-		echo "can't find a NET_DEVICE:" $NETDEV
+		echo "error: can't find a NET_DEVICE:" $NETDEV
 		exit -1
 	fi
 fi

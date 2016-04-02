@@ -35,7 +35,7 @@ if [ $FLG_N -eq 1 ]; then
 			N=`printf "%04d" $i`
 			ST=`fulcon list | awk '{if ($1 == "'$NAME$N'") {if ($2 == "RUNNING"){print 0} else {print 1}}}'`
 			if [ x"$ST" != x"0" ]; then
-				echo $NAME$N "is not running"
+				echo "error:" $NAME$N "is not running"
 			else	
 				gnome-terminal -e "lib-console $OPT_FLG $NAME$N" >& /dev/null
 				if [ $? -ne 0 ]; then
@@ -67,7 +67,7 @@ for i in $NAMES
 do
 	ST=`fulcon list | awk '{if ($1 == "'$i'") {if ($2 == "RUNNING"){print 0} else {print 1}}}'`
 	if [ x"$ST" != x"0" ]; then
-		echo $i "is not running"
+		echo "error:" $i "is not running"
 
 	else
 		lib-console $OPT_FLG $i

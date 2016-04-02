@@ -4,7 +4,7 @@
 
 ls /var/lib/fulcon/driver/dockerfile/* >& /dev/null
 if [ $? -ne 0 ]; then 
-	echo "there is not a image"
+	echo "error: there is not a image"
 	exit -1
 fi
 

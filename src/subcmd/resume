@@ -42,7 +42,7 @@ if [ $FLG_N -eq 1 ]; then
 		done;
 		exit 0
 	else
-		echo "REPEAT_NUMBER must be [1...999]"
+		echo "error: REPEAT_NUMBER must be [1...999]"
 		exit -1
 	fi
 
