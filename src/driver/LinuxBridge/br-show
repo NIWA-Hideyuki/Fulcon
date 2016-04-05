@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+brctl show $*
