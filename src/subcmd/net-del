@@ -3,7 +3,8 @@
 # Copyright (C) 2015-2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+BRIDGEDRIVER=`fulcon bridge-name`
+PATH=/usr/lib/fulcon/driver/$BRIDGEDRIVER:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 FULCONDIR=/var/lib/fulcon
 
@@ -36,14 +37,14 @@ network_delete()
 	rm -f $FULCONDIR/container/${LXCNAME}/net/${LXCNAME}_${NUM}
 
 	# check bridges
-	for i in `brctl show | egrep fulcon | awk '(NF==3){print $1}'`
+	for i in `br-show | egrep fulcon | awk '(NF==3){print $1}'`
 	do
 		ip link set $i down
-		brctl delbr $i
+		br-delbr $i
 	done
 }
 
-brctl show  |& egrep ${LXCNAME}_${NUM} >& /dev/null
+br-show  |& egrep ${LXCNAME}_${NUM} >& /dev/null
 if [ $? -eq 0 ]; then
 	network_delete
 fi

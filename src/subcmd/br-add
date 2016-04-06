@@ -3,7 +3,9 @@
 # Copyright (C) 2015-2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+BRIDGEDRIVER=`fulcon bridge-name`
+PATH=/usr/lib/fulcon/driver/$BRIDGEDRIVER:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
 
 usage()
 {
@@ -61,9 +63,9 @@ if [ x"$NETDEV" != x"" ]; then
 fi
 
 # check a exist bridge
-brctl show | grep fulcon${BRNO} >& /dev/null
+br-show | grep fulcon${BRNO} >& /dev/null
 if [ $? -eq 1 ]; then
-	brctl addbr fulcon$BRNO
+	br-addbr fulcon$BRNO
 	ip link set fulcon$BRNO up
 	echo "generated new BRIDGE : fulcon"$BRNO
 else
@@ -73,7 +75,7 @@ fi
 # set ip address for bridge, add interface to net_device
 ip addr add $IPMASK dev fulcon$BRNO
 if [ x"$NETDEV" != x"" ]; then
-	brctl addif fulcon$BRNO $NETDEV
+	br-addif fulcon$BRNO $NETDEV
 
 	# set promisc mode to net_device
 	ip addr del $IPMASK dev $NETDEV

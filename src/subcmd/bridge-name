@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Copyright (C) 2015 NIWA Hideyuki
+
+FULCONDIR=/var/lib/fulcon
+
+umask 022
+
+usage()
+{
+	echo "usage: bridge-name"
+}
+
+if [ $# -ne 1 -o x"$1" != x"bridge-name" ]; then
+	usage
+	exit -1
+fi
+
+head -n 1 $FULCONDIR/default-bridge
+

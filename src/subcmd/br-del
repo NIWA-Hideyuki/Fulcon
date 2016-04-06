@@ -3,7 +3,8 @@
 # Copyright (C) 2015-2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+BRIDGEDRIVER=`fulcon bridge-name`
+PATH=/usr/lib/fulcon/driver/$BRIDGEDRIVER:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 usage()
 {
@@ -27,13 +28,13 @@ if [ $? -ne 0 ]; then
 fi
 
 # delete all interface
-for i in `brctl show $BRNO | awk 'NR>1{print $NF}'`
+for i in `br-show $BRNO | awk 'NR>1{print $NF}'`
 do
-	brctl delif $BRNO $i
+	br-delif $BRNO $i
 done
 
 # delete bridge
 ip link set $BRNO down
-brctl delbr $BRNO
+br-delbr $BRNO
 
 

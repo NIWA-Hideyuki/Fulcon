@@ -3,7 +3,8 @@
 # Copyright (C) 2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+BRIDGEDRIVER=`fulcon bridge-name`
+PATH=/usr/lib/fulcon/driver/$BRIDGEDRIVER:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 FULCONDIR=/var/lib/fulcon
 
 usage()
@@ -23,9 +24,9 @@ fi
 NETDEV=$1
 
 FLG=0
-for i in `brctl show | egrep fulcon | awk '{print $1}'`
+for i in `br-show | egrep fulcon | awk '{print $1}'`
 do
-	if [ x"`brctl show $i | egrep $NETDEV`" != x"" ]; then
+	if [ x"`br-show $i | egrep $NETDEV`" != x"" ]; then
 		# reset MAC
 		#MAC=`ip addr show $i | egrep link/ether | awk '{print $2}'`
 		#ip link set $NETDEV address $MAC
@@ -35,13 +36,13 @@ do
 		#ip addr add $IP dev $NETDEV
 
 		# delete nic
-		brctl delif $i $NETDEV >& /dev/null
+		br-delif $i $NETDEV >& /dev/null
 
-		brctl show | egrep $i | awk '{exit(NF)}'
+		br-show | egrep $i | awk '{exit(NF)}'
 		if [ $? -lt 4 ]; then
 			# delete br
 			ip link set $i down
-			brctl delbr $i
+			br-delbr $i
 		fi
 
 		FLG=1

@@ -5,7 +5,8 @@
 FULCONDIR=/var/lib/fulcon
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+BRIDGEDRIVER=`fulcon bridge-name`
+PATH=/usr/lib/fulcon/driver/$BRIDGEDRIVER:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 
 umask 022
 
@@ -64,16 +65,16 @@ if [ x"`ip a show $NETDEV | egrep "inet " | awk '{print $2}'`" == x"" ]; then
 fi
 
 # check unnecessary bridges
-for i in `brctl show | egrep fulcon | awk '(NF==3){print $1}'`
+for i in `br-show | egrep fulcon | awk '(NF==3){print $1}'`
 do
 	ip link set $i down
-	brctl delbr $i
+	br-delbr $i
 done
 
 RBR=0
 BRNO=0
 BNO=0
-for i in `brctl show | egrep fulcon | awk '{print $1}'`
+for i in `br-show | egrep fulcon | awk '{print $1}'`
 do
 	BIP=`ip a show $i | awk '$1=="inet"{print $2}'`
 	BIP=`net-ipv4 -g $BIP`
@@ -139,15 +140,15 @@ setup_network()
 
 	ip link set ${LXCNAME}_${NUM} up
 
-	brctl show $LXCBR |& egrep 'No such device' >& /dev/null
+	br-show $LXCBR |& egrep 'No such device' >& /dev/null
 	if [ $? -eq 0 ]; then
-		brctl addbr $LXCBR
+		br-addbr $LXCBR
 		ip link set $LXCBR up
 		BR_BRCAST=`net-ipv4 -b ${LXCBRIP}/${LXCMASK}`
 		ip addr add ${LXCBRIP}/${LXCMASK} broadcast $BR_BRCAST dev $LXCBR
 		ip link set $LXCBR promisc on
 	fi
-	brctl addif $LXCBR ${LXCNAME}_${NUM} >& /dev/null
+	br-addif $LXCBR ${LXCNAME}_${NUM} >& /dev/null
 
 	# setting up of IP address
 	LXCFBROADCAST=`net-ipv4 -b "${LXCIP}/${LXCMASK}"`
@@ -197,9 +198,9 @@ setup_network()
 		ip addr add 0.0.0.0 dev $NETDEV >& /dev/null
 		ip link set $NETDEV promisc on
 
-		brctl show $LXCBR | egrep -w $NETDEV >& /dev/null
+		br-show $LXCBR | egrep -w $NETDEV >& /dev/null
 		if [ $? -ne 0 ]; then
-			brctl addif $LXCBR $NETDEV 
+			br-addif $LXCBR $NETDEV 
 		fi
 	fi
 

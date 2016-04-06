@@ -3,7 +3,8 @@
 # Copyright (C) 2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+BRIDGEDRIVER=`fulcon bridge-name`
+PATH=/usr/lib/fulcon/driver/$BRIDGEDRIVER:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 FULCONDIR=/var/lib/fulcon
 
 usage()
@@ -32,7 +33,7 @@ if [ $? -ne 0 ]; then
 	exit -1
 fi
 
-if [ x"`brctl show | egrep $NETDEV | awk '{print $NF}'`" == x"$NETDEV" ]; then
+if [ x"`br-show | egrep $NETDEV | awk '{print $NF}'`" == x"$NETDEV" ]; then
 	echo "error: $NETDEV has already been allocated in the bridge. "
 	exit -1
 fi
@@ -58,7 +59,7 @@ BRNO="-1"
 IPMASK=`ip a show $NETDEV | egrep "inet " | awk '{print $2}'`
 IPG=`net-ipv4 -g $IPMASK`
 # 
-for i in `brctl show | egrep fulcon | awk '{print $1}'`
+for i in `br-show | egrep fulcon | awk '{print $1}'`
 do
 	BIP=`ip a show $i | egrep "inet " | awk '{print $2}'`
 	BIPG=`net-ipv4 -g $BIP`
@@ -79,7 +80,7 @@ if [ $BRNO -eq -1 ]; then
 		fi
 		BRNO=`expr $BRNO + 1`
 	done
-	brctl addbr fulcon$BRNO
+	br-addbr fulcon$BRNO
 	ip link set fulcon$BRNO up
 	echo "generated new BRIDGE : fulcon"$BRNO
 fi
@@ -96,7 +97,7 @@ done
 
 # set ip address for bridge, add interface to net_device
 ip addr add $IPMASK dev fulcon$BRNO
-brctl addif fulcon$BRNO $NETDEV
+br-addif fulcon$BRNO $NETDEV
 
 # set BR MAC
 #MAC=`ip addr show fulcon$BRNO | egrep link/ether | awk '{print $2}' | awk -F : '{printf "52:54:00:%2s:%2s:%2s",$4,$5,$6}'`

@@ -24,6 +24,7 @@ install-subcmd :
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/sbin
 	install -m 755 cmd/fulcond $(DESTDIR)$(libdir)/fulcon/sbin/fulcond
 	install -m 755 subcmd/default-image $(DESTDIR)$(libdir)/fulcon/sbin/default-image
+	install -m 755 subcmd/bridge-name $(DESTDIR)$(libdir)/fulcon/sbin/bridge-name
 	install -m 755 subcmd/driver-name $(DESTDIR)$(libdir)/fulcon/sbin/driver-name
 	install -m 755 subcmd/list $(DESTDIR)$(libdir)/fulcon/sbin/list
 	install -m 755 subcmd/sysgen $(DESTDIR)$(libdir)/fulcon/sbin/sysgen
@@ -53,6 +54,7 @@ install-subcmd :
 	install -m 755 subcmd/add-user $(DESTDIR)$(libdir)/fulcon/sbin/add-user
 	install -m 755 subcmd/del-user $(DESTDIR)$(libdir)/fulcon/sbin/del-user
 	install -m 755 subcmd/set-passwd $(DESTDIR)$(libdir)/fulcon/sbin/set-passwd
+	install -m 755 subcmd/set-bridge $(DESTDIR)$(libdir)/fulcon/sbin/set-bridge
 	install -m 755 subcmd/set-driver $(DESTDIR)$(libdir)/fulcon/sbin/set-driver
 	install -m 755 subcmd/image-catalog $(DESTDIR)$(libdir)/fulcon/sbin/image-catalog
 	install -m 755 subcmd/ls-image $(DESTDIR)$(libdir)/fulcon/sbin/ls-image
@@ -161,6 +163,12 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/fulcon-ip $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-ip
 	install -m 755 driver/docker/fulcon-status $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-status
 	install -m 755 driver/docker/find-id $(DESTDIR)$(libdir)/fulcon/driver/docker/find-id
+	mkdir -p $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge
+	install -m 755 driver/LinuxBridge/br-addbr $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-addbr
+	install -m 755 driver/LinuxBridge/br-delbr $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-delbr
+	install -m 755 driver/LinuxBridge/br-addif $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-addif
+	install -m 755 driver/LinuxBridge/br-delif $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-delif
+	install -m 755 driver/LinuxBridge/br-show $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-show
 
 install-dockerfile :
 	mkdir -p $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile

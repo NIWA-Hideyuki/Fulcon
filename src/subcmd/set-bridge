@@ -1,0 +1,12 @@
+#!/bin/sh
+
+DRIVERNAME=$1
+
+if [ x"$DRIVERNAME" != x"LinuxBridge" -a x"$DRIVERNAME" != x"OpenvSwitch" ]; then
+	echo "error: unsupported bridge driver:" $DIRVERNAME
+	exit -1
+fi
+
+echo  $DRIVERNAME > /var/lib/fulcon/default-bridge
+echo "default bridge driver :" $DRIVERNAME
+
