@@ -185,6 +185,7 @@ install-doc :
 	install -m 644 doc/slot-os.help.txt $(DESTDIR)$(libdir)/slot-os/doc/help.txt
 	mkdir -p $(DESTDIR)$(localstatedir)/lib/fulcon
 	install -m 644 doc/default-driver $(DESTDIR)$(localstatedir)/lib/fulcon/default-driver
+	install -m 644 doc/default-bridge $(DESTDIR)$(localstatedir)/lib/fulcon/default-bridge
 
 
 uninstall : 
