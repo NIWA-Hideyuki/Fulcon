@@ -2,4 +2,5 @@
 
 # Copyright (C) 2016 NIWA Hideyuki
 
-brctl delbr $*
+ovs-vsctl add-port $*
+

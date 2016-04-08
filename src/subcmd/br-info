@@ -21,18 +21,6 @@ if [ $# -eq 1 -a x"$1" != x"br-info" ]; then
 	exit -1
 fi
 
-for i in `br-show | egrep fulcon | awk '{print $1}' `
-do
-	N=`br-show $i | awk '($1=="'$i'"){print NF}'`
-	if [ $N -eq 4 ]; then
-		ip a show $i
-		echo
-		br-show $i
-		echo
-	else
-		ip link set $i down
-		br-delbr $i
-	fi
-done
+br-brif-list
 
 exit 0

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+ovs-vsctl show | sed -e 's/"//g' | awk '{ \
+	if($1=="Bridge"){printf "\n%s ",$2;br=$2} \
+	else if($1=="Port"&& $2!=br){printf "%s ",$2} \
+	}' | awk '(NF==1){print $1}' | sort -n
+
+		
+
+

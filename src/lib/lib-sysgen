@@ -32,6 +32,8 @@ if [ $? -eq 0 ]; then
 fi
 
 fulcon-sysgen $NAME $IMAGE
+mkdir -p $LIBDIR/container/$NAME/net
+mkdir -p $LIBDIR/container/$NAME/resource
 
 exit 0
 

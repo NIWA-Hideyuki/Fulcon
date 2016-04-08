@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 # Copyright (C) 2015-2016 NIWA Hideyuki
 
@@ -65,28 +65,36 @@ if [ x"`ip a show $NETDEV | egrep "inet " | awk '{print $2}'`" == x"" ]; then
 fi
 
 # check unnecessary bridges
-for i in `br-show | egrep fulcon | awk '(NF==3){print $1}'`
-do
-	ip link set $i down
-	br-delbr $i
-done
+EMPTYBRLIST=`br-emptylist`
+if [ x"$EMPTYBRLIST" != x"" ]; then
+	for i in $EMPTYBRLIST
+	do
+		ip link set $i down
+		br-delbr $i
+	done
+fi
 
 RBR=0
 BRNO=0
 BNO=0
-for i in `br-show | egrep fulcon | awk '{print $1}'`
-do
-	BIP=`ip a show $i | awk '$1=="inet"{print $2}'`
-	BIP=`net-ipv4 -g $BIP`
-	BNO=`echo $i | sed -e "s/fulcon//"`
-	if [ x"$BIP" == x"$LXCBRIP" ]; then
-		RBR=1
-		break
-	fi
-	if [ $BNO -gt $BRNO ]; then
-		BRNO=$BNO
-	fi
-done
+
+BRLIST=`br-br-list`
+if [ x"$BRLIST" != x"" ]; then
+	for i in $BRLIST
+	do
+		BIP=`ip a show $i | awk '$1=="inet"{print $2}'`
+		BIP=`net-ipv4 -g $BIP`
+		BNO=`echo $i | sed -e "s/fulcon//"`
+		if [ x"$BIP" == x"$LXCBRIP" ]; then
+			RBR=1
+			break
+		fi
+		if [ $BNO -gt $BRNO ]; then
+			BRNO=$BNO
+		fi
+	done
+fi
+
 if [ $RBR -eq 0 ]; then
 	LXCBR=`expr $BRNO + 1`
 else
@@ -140,7 +148,7 @@ setup_network()
 
 	ip link set ${LXCNAME}_${NUM} up
 
-	br-show $LXCBR |& egrep 'No such device' >& /dev/null
+	br-check $LXCBR
 	if [ $? -eq 0 ]; then
 		br-addbr $LXCBR
 		ip link set $LXCBR up
@@ -198,7 +206,7 @@ setup_network()
 		ip addr add 0.0.0.0 dev $NETDEV >& /dev/null
 		ip link set $NETDEV promisc on
 
-		br-show $LXCBR | egrep -w $NETDEV >& /dev/null
+		br-if-list $LXCBR | egrep -w $NETDEV >& /dev/null
 		if [ $? -ne 0 ]; then
 			br-addif $LXCBR $NETDEV 
 		fi

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+print_list()
+{
+	ovs-vsctl show | sed -e 's/"//g' | \
+		awk 'BEGIN{f=0} \
+		{ \
+		if($1=="Bridge"){if(f==0){f=1}else{printf "\n"}printf "%s ",$2;br=$2} \
+		else if($1=="Port"&& $2!=br){printf "%s ",$2} \
+		}'
+	echo
+}
+
+print_list | sort -n
+
+

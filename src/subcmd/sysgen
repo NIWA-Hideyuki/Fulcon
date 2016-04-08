@@ -4,7 +4,6 @@
 
 FULCONDRIVER=`fulcon driver-name`
 PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
-
 RCODE=0
 
 usage()

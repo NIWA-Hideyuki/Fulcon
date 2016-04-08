@@ -12,13 +12,14 @@ fi
 export PATH=/usr/lib/fulcon/sbin:$PATH
 export FULCONDIR=/var/lib/fulcon
 
-mkdir -p $FULCONDIR
+mkdir -p $FULCONDIR/br
 if [ ! -f $FULCONDIR/default-driver ]; then
 	echo "docker" > $FULCONDIR/default-driver
 fi
 if [ ! -f $FULCONDIR/default-bridge ]; then
 	echo "LinuxBridge" > $FULCONDIR/default-bridge
 fi
+
 
 FLG_H=0
 

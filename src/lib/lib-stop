@@ -2,6 +2,10 @@
 
 # Copyright (C) 2015-2016 NIWA Hideyuki
 
+FULCONDRIVER=`fulcon driver-name`
+BRIDGEDRIVER=`fulcon bridge-name`
+PATH=/usr/lib/fulcon/driver/$BRIDGEDRIVER:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+
 usage()
 {
 	echo "usage: lib-stop [ -f ] NAME"
@@ -36,12 +40,12 @@ fi
 
 fulcon-stop $NAME >& /dev/null
 
-for i in `brctl show | egrep fulcon | awk '{print $1}' `
+for i in `br-show | egrep fulcon | awk '{print $1}' `
 do
-	N=`brctl show $i | awk '($1=="'$i'"){print NF}'`
+	N=`br-show $i | awk '($1=="'$i'"){print NF}'`
 	if [ $N -eq 3 ]; then
 		ip link set $i down
-		brctl delbr $i
+		br-delbr $i
 	fi
 done
 

@@ -28,12 +28,6 @@ else
 	exit -1
 fi
 
-fulcon-list-all | awk 'BEGIN{r=1}{if($1=="'$NAME'")r=0}END{exit(r)}'
-if [ $? -ne 0 ]; then
-	echo "error: can't find" $NAME
-	exit -1
-fi
-
 fulcon-stop $NAME >& /dev/null
 fulcon-erase $NAME >& /dev/null
 echo "erased" $NAME

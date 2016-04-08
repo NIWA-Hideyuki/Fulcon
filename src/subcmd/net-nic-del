@@ -24,9 +24,9 @@ fi
 NETDEV=$1
 
 FLG=0
-for i in `br-show | egrep fulcon | awk '{print $1}'`
+for i in `br-br-list`
 do
-	if [ x"`br-show $i | egrep $NETDEV`" != x"" ]; then
+	if [ x"`br-if-list $i | egrep -w $NETDEV`" != x"" ]; then
 		# reset MAC
 		#MAC=`ip addr show $i | egrep link/ether | awk '{print $2}'`
 		#ip link set $NETDEV address $MAC
@@ -38,11 +38,14 @@ do
 		# delete nic
 		br-delif $i $NETDEV >& /dev/null
 
-		br-show | egrep $i | awk '{exit(NF)}'
-		if [ $? -lt 4 ]; then
-			# delete br
-			ip link set $i down
-			br-delbr $i
+		EMPTYLIST=`br-emptylist`
+		if [ x"$EMPTYLIST" != x"" ]; then
+			for j in $EMPTYLIST
+			do
+				# delete br
+				ip link set $j down
+				br-delbr $j
+			done
 		fi
 
 		FLG=1

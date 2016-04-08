@@ -33,7 +33,7 @@ if [ $? -ne 0 ]; then
 	exit -1
 fi
 
-if [ x"`br-show | egrep $NETDEV | awk '{print $NF}'`" == x"$NETDEV" ]; then
+if [ `br-brif-list | egrep -w $NETDEV >& /dev/null` ]; then
 	echo "error: $NETDEV has already been allocated in the bridge. "
 	exit -1
 fi
@@ -59,7 +59,7 @@ BRNO="-1"
 IPMASK=`ip a show $NETDEV | egrep "inet " | awk '{print $2}'`
 IPG=`net-ipv4 -g $IPMASK`
 # 
-for i in `br-show | egrep fulcon | awk '{print $1}'`
+for i in `br-br-list`
 do
 	BIP=`ip a show $i | egrep "inet " | awk '{print $2}'`
 	BIPG=`net-ipv4 -g $BIP`

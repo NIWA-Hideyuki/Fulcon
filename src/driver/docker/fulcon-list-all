@@ -2,7 +2,7 @@
 
 # Copyright (C) 2016 NIWA Hideyuki
 
-exec docker ps --no-trunc -a | awk 'NR>1{printf "%s %s\n",$NF,$2}'
+exec docker ps --no-trunc -a | egrep fulcon | awk '{printf "%s %s\n",$NF,$2}' 
 
 
 

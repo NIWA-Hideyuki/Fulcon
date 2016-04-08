@@ -28,10 +28,13 @@ if [ $? -ne 0 ]; then
 fi
 
 # delete all interface
-for i in `br-show $BRNO | awk 'NR>1{print $NF}'`
-do
-	br-delif $BRNO $i
-done
+BRIFLIST=`br-if-list $BRNO`
+if [ x"$BRIFLIST" != x"" ]; then
+	for i in $BRIFLIST
+	do
+		br-delif $BRNO $i
+	done
+fi
 
 # delete bridge
 ip link set $BRNO down

@@ -19,7 +19,7 @@ Fulcon / Slot-OS Platform 0.4    Copyright (C) 2015-2016 NIWA Hideyuki
 - Automatic update-function of two or more slots
 - High-speed backup function
 
-Fulcon can handle CentOS 7, Ubuntu 15.04, Fedora 23
+Fulcon can handle CentOS 7, Ubuntu 15.04, 15.10, Fedora 23
 
 ### Install package
 

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+brctl show | egrep ^fulcon | awk '(NF==3){print $1}'

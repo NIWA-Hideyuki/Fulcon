@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+LXCBR=$1
+ovs-vsctl show | egrep -w $LXCBR >& /dev/null
+if [ $? -ne 0 ]; then
+	ovs-vsctl add-br $LXCBR
+	ip link set $LXCBR up
+fi
+

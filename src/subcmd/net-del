@@ -30,21 +30,24 @@ NUM=$2
 
 network_delete()
 {
-	ip link delete ${LXCNAME}_${NUM} type veth 
+	ip link delete ${LXCNAME}_${NUM} type veth >& /dev/null
 	echo "deleted" ${LXCNAME}_${NUM}
 
 	# delete a IP address for container
 	rm -f $FULCONDIR/container/${LXCNAME}/net/${LXCNAME}_${NUM}
 
 	# check bridges
-	for i in `br-show | egrep fulcon | awk '(NF==3){print $1}'`
-	do
-		ip link set $i down
-		br-delbr $i
-	done
+	EMPTYLIST=`br-emptylist`
+	if [ x"$EMPTYLIST" != x"" ]; then
+		for i in $EMPTYLIST
+		do
+			ip link set $i down
+			br-delbr $i
+		done
+	fi
 }
 
-br-show  |& egrep ${LXCNAME}_${NUM} >& /dev/null
+br-check ${LXCNAME}_${NUM}
 if [ $? -eq 0 ]; then
 	network_delete
 fi

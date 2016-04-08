@@ -63,7 +63,7 @@ if [ x"$NETDEV" != x"" ]; then
 fi
 
 # check a exist bridge
-br-show | grep fulcon${BRNO} >& /dev/null
+br-check
 if [ $? -eq 1 ]; then
 	br-addbr fulcon$BRNO
 	ip link set fulcon$BRNO up

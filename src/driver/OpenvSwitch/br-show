@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+print_data()
+{
+	echo "bridge name	X		X	interfaces"
+	ovs-vsctl show | egrep -v ovs_version | sed -e 's/\"//g' | \
+		awk '{ \
+		if($1=="Bridge"){if(f==1){printf "%s\t\tX\t\tX\n",br};br=$2;f=0} \
+		else if($1=="Port" && $2!=br){ \
+			if(f==0){printf "%s\t\tX\t\tX\t%s\n",br,$2; f=1} \
+			else {printf "\t\t\t\t\t%s\n",$2} \
+		}
+	}'
+}
+	
+print_data1()
+{
+	LXCBR=$1
+	BRIDGETEXT="Bridge \"$LXCBR\""
+	ovs-vsctl show | egrep "$BRIDGETEXT" # >& /dev/null
+	if [ $? -eq 1 ]; then
+		echo "No such device"
+		exit -1
+	fi
+
+	echo "bridge name	X		X	interfaces"
+	ovs-vsctl show | egrep -v ovs_version | sed -e 's/\"//g' | \
+		awk 'BEGIN{f=0} \
+		{ \
+		  if($1=="Bridge"&& $2=="'$LXCBR'"){printf "%s\t\t",$2;br=$2;f=0} \
+		  else if($1=="Port" && $2!=br){ \
+			if(f==0){printf "%s\t\tX\t\tX\t%s\n",br,$2; f=1} \
+			else {printf "\t\t\t\t\t%s\n",$2} \
+		  } \
+		}'
+	echo
+}
+
+	print_data1 $1
+exit
+if [ $# -eq 1 -a x"$1" != x"br-show" ]; then
+	LXCBR=$1
+	print_data1 $LXCBR 
+else
+	print_data
+fi

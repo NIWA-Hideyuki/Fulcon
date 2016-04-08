@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+ovs-vsctl show | sed -e 's/"//g' | \
+awk 'BEGIN{r=0}$1=="Bridge"{if($2=="'$1'")r=1}END{exit(r)}'
+
+

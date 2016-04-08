@@ -169,6 +169,22 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/LinuxBridge/br-addif $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-addif
 	install -m 755 driver/LinuxBridge/br-delif $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-delif
 	install -m 755 driver/LinuxBridge/br-show $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-show
+	install -m 755 driver/LinuxBridge/br-br-list $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-br-list
+	install -m 755 driver/LinuxBridge/br-brif-list $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-brif-list
+	install -m 755 driver/LinuxBridge/br-check $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-check
+	install -m 755 driver/LinuxBridge/br-emptylist $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-emptylist
+	install -m 755 driver/LinuxBridge/br-if-list $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-if-list
+	mkdir -p $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch
+	install -m 755 driver/OpenvSwitch/br-addbr $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-addbr
+	install -m 755 driver/OpenvSwitch/br-delbr $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-delbr
+	install -m 755 driver/OpenvSwitch/br-addif $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-addif
+	install -m 755 driver/OpenvSwitch/br-delif $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-delif
+	install -m 755 driver/OpenvSwitch/br-show $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-show
+	install -m 755 driver/OpenvSwitch/br-br-list $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-br-list
+	install -m 755 driver/OpenvSwitch/br-brif-list $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-brif-list
+	install -m 755 driver/OpenvSwitch/br-check $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-check
+	install -m 755 driver/OpenvSwitch/br-emptylist $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-emptylist
+	install -m 755 driver/OpenvSwitch/br-if-list $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-if-list
 
 install-dockerfile :
 	mkdir -p $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile
