@@ -64,6 +64,7 @@ else
   if [ -f /usr/lib/slot-os/sbin/$1 ]; then
     EXLINE=`echo /usr/lib/slot-os/sbin/$* | sed -e 's/\$//g' -e 's/\`//g' -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g'`
     case $1 in
+    "make-base-image" ) print_log1 $* ;;
     "start" ) print_log1 $* ;;
     "stop"  ) print_log1 $* ;;
     "restart" ) print_log1 $* ;;
@@ -78,6 +79,7 @@ else
     esac
 
     case $1 in
+    "make-base-image" ) . $EXLINE ;;
     "console" ) . $EXLINE ;;
     "list" ) . $EXLINE ;;
     "autostart" ) . $EXLINE ;;
