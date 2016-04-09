@@ -25,7 +25,7 @@ Fulcon can handle CentOS 7, Ubuntu 15.04, 15.10, Fedora 23
 
 ubuntu
 
-$  sudo apt-get install docker.io python-ipy bridge-utils openvswitch-swich
+$  sudo apt-get install docker.io python-ipy bridge-utils openvswitch-switch
 $  sudo systemctl enable docker.service
 $  sudo systemctl start docker.service
 $  sudo dpkg -i fulcon_0.4_amd64.deb
@@ -45,7 +45,7 @@ $  sudo systemctl start fulcon.service
 
 ubuntu
 
-$  sudo apt-get install docker.io python-ipy bridge-utils openvswitch-swich
+$  sudo apt-get install docker.io python-ipy bridge-utils openvswitch-switch
 $  sudo systemctl enable docker.service
 $  sudo systemctl start docker.service
 $  tar xzf fulcon.tgz  
