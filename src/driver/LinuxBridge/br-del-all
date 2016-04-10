@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+BR=`brctl show | sed -e 's/"//g' | \
+	awk '{ \
+		if((NF==3 || NF==4)&&($1~/^fulcon/))print $1 \
+	}'`
+
+if [ x"$BR" != x"" ]; then
+	for i in $BR
+	do
+		ip link set $i down
+		brctl delbr $i
+	done
+fi
+
+
+

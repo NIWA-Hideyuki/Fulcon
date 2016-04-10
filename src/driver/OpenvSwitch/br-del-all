@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Copyright (C) 2016 NIWA Hideyuki
+
+BR=`ovs-vsctl show | sed -e 's/"//g' | \
+	awk '{ \
+		if($1=="Bridge" && $2~/^fulcon/)print $2 \
+	}'`
+
+if [ x"$BR" != x"" ]; then
+	for i in $BR
+	do
+		ovs-vsctl del-br $i
+	done
+fi
+
+
+

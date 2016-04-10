@@ -3,7 +3,8 @@
 # Copyright (C) 2016 NIWA Hideyuki
 
 FULCONDRIVER=`fulcon driver-name`
-PATH=/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
+BRIDGEDRIVER=`fulcon bridge-name`
+PATH=/usr/lib/fulcon/driver/$BRIDGEDRIVER:/usr/lib/fulcon/driver/$FULCONDRIVER:/usr/lib/fulcon/lib:$PATH
 FULCONDIR=/var/lib/fulcon
 
 lsdir() {
@@ -19,6 +20,7 @@ do
 done
 
 # auto setup fulcon bridge
+br-del-all
 mkdir -p $FULCONDIR/br
 for i in `lsdir $FULCONDIR/br`
 do

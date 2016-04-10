@@ -174,6 +174,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/LinuxBridge/br-check $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-check
 	install -m 755 driver/LinuxBridge/br-emptylist $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-emptylist
 	install -m 755 driver/LinuxBridge/br-if-list $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-if-list
+	install -m 755 driver/LinuxBridge/br-del-all $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-del-all
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch
 	install -m 755 driver/OpenvSwitch/br-addbr $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-addbr
 	install -m 755 driver/OpenvSwitch/br-delbr $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-delbr
@@ -185,6 +186,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/OpenvSwitch/br-check $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-check
 	install -m 755 driver/OpenvSwitch/br-emptylist $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-emptylist
 	install -m 755 driver/OpenvSwitch/br-if-list $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-if-list
+	install -m 755 driver/OpenvSwitch/br-del-all $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-del-all
 
 install-dockerfile :
 	mkdir -p $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile
