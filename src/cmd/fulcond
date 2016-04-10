@@ -11,6 +11,9 @@ lsdir() {
   ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
 }
 
+# delete all bridge
+br-del-all
+
 # auto start fulcon container
 for i in `lsdir $FULCONDIR/container`
 do
@@ -20,7 +23,6 @@ do
 done
 
 # auto setup fulcon bridge
-br-del-all
 mkdir -p $FULCONDIR/br
 for i in `lsdir $FULCONDIR/br`
 do
