@@ -202,6 +202,7 @@ install-dockerfile :
 install-service :
 	mkdir -p $(DESTDIR)$(systemddir)/system
 	install -m 644 service/fulcon.service $(DESTDIR)$(systemddir)/system/fulcon.service
+	install -m 644 service/fulcon.service $(DESTDIR)/lib/systemd/system/fulcon.service
 
 install-doc :
 	mkdir -p $(DESTDIR)$(libdir)/fulcon/doc

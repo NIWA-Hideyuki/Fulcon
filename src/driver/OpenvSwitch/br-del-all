@@ -2,17 +2,19 @@
 
 # Copyright (C) 2016 NIWA Hideyuki
 
-BR=`ovs-vsctl show | sed -e 's/"//g' | \
-	awk '{ \
-		if($1=="Bridge" && $2~/^fulcon/)print $2 \
-	}'`
+br-brif-list | awk '{ \
+	for(i=2;i<=NF;i++){ \
+		system("ovs-vsctl del-port "$1" "$i); \
+	}}'
+
+BR=`br-br-list`
 
 if [ x"$BR" != x"" ]; then
 	for i in $BR
 	do
-		ovs-vsctl del-br $i
+		ip link set $i down
+		ovs-vsctl del-br $i >& /dev/null
 	done
 fi
 
-
-
+exit 0
