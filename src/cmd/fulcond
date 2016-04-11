@@ -11,25 +11,31 @@ lsdir() {
   ls -f --ind=none $1 | sed '/^\.\{1,2\}$/d'
 }
 
-# delete all bridge
-br-del-all
+if [ ! -d /var/run/fulcon ]; then
 
-# auto setup fulcon bridge
-mkdir -p $FULCONDIR/br
-for i in `lsdir $FULCONDIR/br`
-do
+  # delete all bridge
+  br-del-all
+
+  # auto setup fulcon bridge
+  mkdir -p $FULCONDIR/br
+  for i in `lsdir $FULCONDIR/br`
+  do
 	if [ -f $FULCONDIR/br/$i ]; then
 		fulcon net-nic-add $i
 	fi
-done
+  done
 
-# auto start fulcon container
-for i in `lsdir $FULCONDIR/container`
-do
+  # auto start fulcon container
+  for i in `lsdir $FULCONDIR/container`
+  do
 	if [ -f $FULCONDIR/container/$i/autostart ]; then
 		fulcon start $i
 	fi
-done
+  done
+
+  mkdir -p /var/run/fulcon
+
+fi
 
 while :
 do
