@@ -58,6 +58,12 @@ if [ $? -ne 0 ]; then
 fi
 NUM=$3
 
+# check overlap of nic
+if [ -f $FULCONDIR/container/$LXCNAME/net/${LXCNAME}_${NUM} ]; then
+	echo "error: ${LXCNAME}_$NUM exists already"
+	exit -1
+fi
+
 # check ip address of bridge
 if [ x"`ip a show $NETDEV | egrep "inet " | awk '{print $2}'`" == x"" ]; then
 	echo "error: $NETDEV has not an IP address"
