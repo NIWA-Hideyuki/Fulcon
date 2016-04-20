@@ -29,6 +29,13 @@ list1()
 			IPADDR="`fulcon-ip $NAME` "
 		fi
 
+		# autostart information
+		if [ -f $SLOTOSDIR/slot/$i/autostart ]; then
+			AUTOSTART="A"
+		else
+			AUTOSTART="-"
+		fi
+
 		# network information
 		for k in `lsdir $FULCONDIR/container/$NAME/net`
 		do
@@ -36,7 +43,12 @@ list1()
 			IPADDR="$IPADDR$IP1"
 		done
 
-		printf "%s\t\t%s\t\t%s $IPADDR\n" $NAME $STATUS $IMAGE
+		printf "%s\t%s\t%s %s %s %s %s $IPADDR\n" \
+			$NAME $STATUS \
+			`cat $FULCONDIR/container/$NAME/resource/cpu | awk '{printf "%3d",int($1/1000)}'` \
+			`cat $FULCONDIR/container/$NAME/resource/cpuset` \
+			`cat $FULCONDIR/container/$NAME/resource/mem` \
+			$AUTOSTART $IMAGE
 	fi
 }
 
