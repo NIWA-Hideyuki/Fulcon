@@ -52,7 +52,7 @@ if [ $FLG_N -eq 1 ]; then
 				for j in `lsdir $NETDIR`
 				do
 					sed -i -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g' $NETDIR/$j >& /dev/null
-					net-add $NAME$N `cut -d ' ' -f 3- $NETDIR/$j`
+					net-add -f $NAME$N `cut -d ' ' -f 3- $NETDIR/$j`
 				done
 			fi
 		done;
@@ -90,7 +90,7 @@ do
 		for j in `lsdir $NETDIR`
 		do
 			sed -i -e 's/\$//g' -e 's/`//g' -e "s/'//g" -e 's/\"//g' -e 's/;//g' -e 's/&//g' -e 's/|//g' $NETDIR/$j >& /dev/null
-			fulcon net-add $i `cut -d ' ' -f 3- $NETDIR/$j`
+			fulcon net-add -f $i `cut -d ' ' -f 3- $NETDIR/$j`
 			fulcon net-info $i >& /dev/null
 		done
 	fi
