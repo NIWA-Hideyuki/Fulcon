@@ -19,19 +19,15 @@ usage()
 NETARGS=$@
 
 # check options
-FLG_D=0 ; NETDEV=""
-FLG_G=0 ; LXCGATEWAY=""
-FLG_B=0 ; LXCBR="0"
+FLG_F=0
 
-#while getopts d:g:b: OPT ; do
-#  case $OPT in
-#  d) FLG_D=1 ; NETDEV=$OPTARG ;;
-#  g) FLG_G=1 ; LXCGATEWAY=$OPTARG ;;
-#  b) FLG_B=1 ; LXCBR=$OPTARG ;;
-#  \? ) usage; exit -1;;
-#  esac
-#done
-#shift $((OPTIND - 1))
+while getopts f OPT ; do
+  case $OPT in
+  f) FLG_F=1 ;;
+  \? ) usage; exit -1;;
+  esac
+done
+shift $((OPTIND - 1))
 
 # check args
 if [ $# -ne 3 -a $# -ne 5 ]; then
@@ -59,7 +55,7 @@ fi
 NUM=$3
 
 # check overlap of nic
-if [ -f $FULCONDIR/container/$LXCNAME/net/${LXCNAME}_${NUM} ]; then
+if [ $FLG_F -eq 0 -a -f $FULCONDIR/container/$LXCNAME/net/${LXCNAME}_${NUM} ]; then
 	echo "error: ${LXCNAME}_$NUM exists already"
 	exit -1
 fi
