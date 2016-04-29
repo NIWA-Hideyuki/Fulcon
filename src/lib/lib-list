@@ -47,7 +47,7 @@ list1()
 			$NAME $STATUS \
 			`cat $FULCONDIR/container/$NAME/resource/cpu | awk '{printf "%3d",int($1/1000)}'` \
 			`cat $FULCONDIR/container/$NAME/resource/cpuset` \
-			`cat $FULCONDIR/container/$NAME/resource/mem` \
+			`cat $FULCONDIR/container/$NAME/resource/mem | awk '{printf "%dm",int($1/1024/1024)}'` \
 			$AUTOSTART $IMAGE
 	fi
 }
