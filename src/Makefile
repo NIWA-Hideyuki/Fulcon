@@ -200,7 +200,7 @@ install-dockerfile :
 	install -m 755 driver/docker/dockerfile/ubuntu1510/80proxy $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/ubuntu1510/80proxy
 
 install-service :
-	mkdir -p $(DESTDIR)/lib/systemd/system/fulcon.service
+	mkdir -p $(DESTDIR)/lib/systemd/system
 	install -m 644 service/fulcon.service $(DESTDIR)/lib/systemd/system/fulcon.service
 
 install-doc :
