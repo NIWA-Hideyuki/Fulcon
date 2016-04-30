@@ -6,7 +6,7 @@ exec_prefix ?= ${prefix}
 datarootdir ?= ${prefix}/share
 sbindir ?= ${exec_prefix}/sbin
 libdir ?= ${exec_prefix}/lib
-systemddir ?= ${prefix}/lib/systemd
+systemddir ?= /lib/systemd
 localstatedir ?= /var
 mandir ?= ${prefix}/share/man
 docdir ?= ${datarootdir}/doc/fulcon-${VERSION}
@@ -16,12 +16,12 @@ fulcon :
 install : install-cmd install-subcmd install-lib install-slot-os install-driver install-service install-doc
 
 install-cmd :
-	mkdir -p $(DESTDIR)$(sbindir)/sbin
+	install -d -m 755 $(DESTDIR)$(sbindir)/sbin
 	install -m 755 cmd/fulcon $(DESTDIR)$(sbindir)/fulcon
 	install -m 755 cmd/slot-os $(DESTDIR)$(sbindir)/slot-os
 
 install-subcmd : 
-	mkdir -p $(DESTDIR)$(libdir)/fulcon/sbin
+	install -d -m 755 $(DESTDIR)$(libdir)/fulcon/sbin
 	install -m 755 cmd/fulcond $(DESTDIR)$(libdir)/fulcon/sbin/fulcond
 	install -m 755 subcmd/default-image $(DESTDIR)$(libdir)/fulcon/sbin/default-image
 	install -m 755 subcmd/bridge-name $(DESTDIR)$(libdir)/fulcon/sbin/bridge-name
@@ -70,7 +70,7 @@ install-subcmd :
 	install -m 755 subcmd/help $(DESTDIR)$(libdir)/fulcon/sbin/help
 
 install-lib:
-	mkdir -p $(DESTDIR)$(libdir)/fulcon/lib
+	install -d -m 755 $(DESTDIR)$(libdir)/fulcon/lib
 	install -m 755 lib/lib-erase $(DESTDIR)$(libdir)/fulcon/lib/lib-erase
 	install -m 755 lib/lib-list $(DESTDIR)$(libdir)/fulcon/lib/lib-list
 	install -m 755 lib/lib-start $(DESTDIR)$(libdir)/fulcon/lib/lib-start
@@ -98,8 +98,8 @@ install-lib:
 	install -m 755 lib/release-rootfs $(DESTDIR)$(libdir)/fulcon/lib/release-rootfs
 
 install-slot-os:
-	mkdir -p $(DESTDIR)$(libdir)/slot-os/sbin
-	mkdir -p $(DESTDIR)$(libdir)/slot-os/lib
+	install -d -m 755 $(DESTDIR)$(libdir)/slot-os/sbin
+	install -d -m 755 $(DESTDIR)$(libdir)/slot-os/lib
 	install -m 755 slot-os/console $(DESTDIR)$(libdir)/slot-os/sbin/console
 	install -m 755 slot-os/build $(DESTDIR)$(libdir)/slot-os/sbin/build
 	install -m 755 slot-os/list $(DESTDIR)$(libdir)/slot-os/sbin/list
@@ -133,7 +133,7 @@ install-slot-os:
 install-driver : install-driver-docker
 
 install-driver-docker : install-dockerfile
-	mkdir -p $(DESTDIR)$(libdir)/fulcon/driver/docker
+	install -d -m 755 $(DESTDIR)$(libdir)/fulcon/driver/docker
 	install -m 755 driver/docker/fulcon-cpu $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cpu
 	install -m 755 driver/docker/fulcon-cpuset $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-cpuset
 	install -m 755 driver/docker/fulcon-clone $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-clone
@@ -163,7 +163,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/docker/fulcon-ip $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-ip
 	install -m 755 driver/docker/fulcon-status $(DESTDIR)$(libdir)/fulcon/driver/docker/fulcon-status
 	install -m 755 driver/docker/find-id $(DESTDIR)$(libdir)/fulcon/driver/docker/find-id
-	mkdir -p $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge
+	install -d -m 755 $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge
 	install -m 755 driver/LinuxBridge/br-addbr $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-addbr
 	install -m 755 driver/LinuxBridge/br-delbr $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-delbr
 	install -m 755 driver/LinuxBridge/br-addif $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-addif
@@ -175,7 +175,7 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/LinuxBridge/br-emptylist $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-emptylist
 	install -m 755 driver/LinuxBridge/br-if-list $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-if-list
 	install -m 755 driver/LinuxBridge/br-del-all $(DESTDIR)$(libdir)/fulcon/driver/LinuxBridge/br-del-all
-	mkdir -p $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch
+	install -d -m 755 $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch
 	install -m 755 driver/OpenvSwitch/br-addbr $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-addbr
 	install -m 755 driver/OpenvSwitch/br-delbr $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-delbr
 	install -m 755 driver/OpenvSwitch/br-addif $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-addif
@@ -189,27 +189,27 @@ install-driver-docker : install-dockerfile
 	install -m 755 driver/OpenvSwitch/br-del-all $(DESTDIR)$(libdir)/fulcon/driver/OpenvSwitch/br-del-all
 
 install-dockerfile :
-	mkdir -p $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile
-	mkdir -p $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/centos7
+	install -d -m 755 $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile
+	install -d -m 755 $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/centos7
 	install -m 755 driver/docker/dockerfile/centos7/Dockerfile $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/centos7/Dockerfile
-	mkdir -p $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/ubuntu1504
+	install -d -m 755 $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/ubuntu1504
 	install -m 755 driver/docker/dockerfile/ubuntu1504/Dockerfile $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/ubuntu1504/Dockerfile
 	install -m 755 driver/docker/dockerfile/ubuntu1504/80proxy $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/ubuntu1504/80proxy
-	mkdir -p $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/ubuntu1510
+	install -d -m 755 $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/ubuntu1510
 	install -m 755 driver/docker/dockerfile/ubuntu1510/Dockerfile $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/ubuntu1510/Dockerfile
 	install -m 755 driver/docker/dockerfile/ubuntu1510/80proxy $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/ubuntu1510/80proxy
 
 install-service :
-	mkdir -p $(DESTDIR)/lib/systemd/system
-	install -m 644 service/fulcon.service $(DESTDIR)/lib/systemd/system/fulcon.service
+	install -d -m 755 $(DESTDIR)$(systemddir)/system
+	install -m 644 service/fulcon.service $(DESTDIR)$(systemddir)/system/fulcon.service
 
 install-doc :
-	mkdir -p $(DESTDIR)$(libdir)/fulcon/doc
+	install -d -m 755 $(DESTDIR)$(libdir)/fulcon/doc
 	install -m 644 doc/help.txt $(DESTDIR)$(libdir)/fulcon/doc/help.txt
 	install -m 644 README $(DESTDIR)$(libdir)/fulcon/doc/README
-	mkdir -p $(DESTDIR)$(libdir)/slot-os/doc
+	install -d -m 755 $(DESTDIR)$(libdir)/slot-os/doc
 	install -m 644 doc/slot-os.help.txt $(DESTDIR)$(libdir)/slot-os/doc/help.txt
-	mkdir -p $(DESTDIR)$(localstatedir)/lib/fulcon
+	install -d -m 755 $(DESTDIR)$(localstatedir)/lib/fulcon
 	install -m 644 doc/default-driver $(DESTDIR)$(localstatedir)/lib/fulcon/default-driver
 	install -m 644 doc/default-bridge $(DESTDIR)$(localstatedir)/lib/fulcon/default-bridge
 
