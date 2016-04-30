@@ -7,9 +7,11 @@ datarootdir ?= ${prefix}/share
 sbindir ?= ${exec_prefix}/sbin
 libdir ?= ${exec_prefix}/lib
 systemddir ?= /lib/systemd
+prefix_systemddir ?= ${prefix}/lib/systemd
 localstatedir ?= /var
 mandir ?= ${prefix}/share/man
 docdir ?= ${datarootdir}/doc/fulcon-${VERSION}
+
 
 fulcon :
 
@@ -203,8 +205,8 @@ install-dockerfile :
 	install -m 755 driver/docker/dockerfile/ubuntu1604/80proxy $(DESTDIR)/$(localstatedir)/lib/fulcon/driver/dockerfile/ubuntu1604/80proxy
 
 install-service :
-	install -d -m 755 $(DESTDIR)$(systemddir)/system
-	install -m 644 service/fulcon.service $(DESTDIR)$(systemddir)/system/fulcon.service
+	install -d -m 755 $(DESTDIR)/$(systemddir)/system
+	install -m 644 service/fulcon.service $(DESTDIR)/$(systemddir)/system/fulcon.service
 
 install-doc :
 	install -d -m 755 $(DESTDIR)$(libdir)/fulcon/doc

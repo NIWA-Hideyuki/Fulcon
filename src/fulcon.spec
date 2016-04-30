@@ -34,8 +34,8 @@ make install libdir=%{_prefix}/lib DESTDIR=$RPM_BUILD_ROOT
 %{_sbindir}/slot-os
 %{_prefix}/lib/fulcon
 %{_prefix}/lib/slot-os
+/lib/systemd/system
 %{_localstatedir}/lib/fulcon
-%{_unitdir}/fulcon.service
 
 %changelog
 * Wed Mar 30 2016 NIWA Hideyuki <niwa.niwa@nifty.ne.jp>
