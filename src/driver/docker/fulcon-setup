@@ -156,7 +156,7 @@ do
 	if [ x"$IMAGENAME" == x"$i" ]; then
 		MATCHFLG=1
 		if [ $FLG_N -eq 1 ]; then
-			setup_new_image $i
+			generate_new_image $i
 		else
 			download_new_image $i
 		fi
