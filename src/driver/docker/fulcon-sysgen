@@ -29,7 +29,7 @@ start_docker() {
 		echo $IMAGE >  $LIBDIR/container/$NAME/imagename
 		echo $CPUSET > $LIBDIR/container/$NAME/resource/cpuset
 		echo "100000" > $LIBDIR/container/$NAME/resource/cpu
-		echo "512m" > $LIBDIR/container/$NAME/resource/mem
+		echo "536870912" > $LIBDIR/container/$NAME/resource/mem
 	fi
 	return $RT
 }
